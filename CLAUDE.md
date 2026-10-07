@@ -1,0 +1,146 @@
+# CLAUDE.md — Price Truth
+
+Context for Claude (and other coding agents) working in this repository. Read this first, then the files it points to. Last updated **7 October 2026**.
+
+## What this project is
+
+**Price Truth** is a Python/Streamlit web app that helps Indian online shoppers judge prices: is a discount genuine, is the price usual for the product, which pack size is better value, has a pack shrunk at the same price (shrinkflation), and where is the product cheapest. It is the **NMIMS M.Sc. Data Science (Semester 3) Group 11 project**, Professor Dr. Yogesh Naik. Swagata Bhowmik is the technical lead and owns this repository.
+
+Course deliverables: Deliverables 1–3 (business need, prototype, presentation) were submitted in August. Lab Work (code review, 40 marks) was submitted on the 19 September code. The **Working Demo (20 marks) is due 16 October 2026**. A static design prototype exists at https://price-truth.netlify.app (simulated data — not this app).
+
+Full background, requirements, personas (Priya, Rajesh, Aarav), rubric and decisions: **`PRICE-TRUTH-MASTER-CONTEXT.md`** (local only — see below).
+
+## Where things are
+
+| Item | Location |
+|---|---|
+| Repository | https://github.com/Swagata-Bhowmik/PriceTruth (public), branch `main` |
+| Local folder | `/Users/krishsoni/Documents/swagata/price-truth` |
+| First commit | `f78958e` (7 Oct 2026, Swagata Bhowmik) — single import commit: *“Import Price Truth application, dataset, models and tests (AI-assisted development)”* |
+| CI | GitHub Actions **Application checks** — green on `f78958e` |
+| Older working copy | `/Users/krishsoni/Documents/price-truth` — earlier development folder, still linked to the old repo `mrkrishsoni/price-truth` (still public as of 7 Oct). Do not work there; this folder is the source of truth. |
+| Online deployment | Not confirmed. Planned on Streamlit Community Cloud from this repo (see `GITHUB-SETUP.md` Step 9 if present, or README → Deployment). |
+
+## How it was built (history)
+
+1. **Up to 19 Sep 2026 — Codex.** Data pipeline on two Kaggle datasets, gradient-boosting price model with SHAP, eight Streamlit pages, Ruff/PyTest/Mutmut/Radon review; Lab Work report generated from that code.
+2. **6 Oct — Codex.** Connected workspace, user observations (manual/CSV), PDF export, gated forecasting, Open Prices collection, model audit, Dockerfile, CI workflow.
+3. **7 Oct — Claude (Claude Code session).**
+   - **UI redesign**: brand theme, `st.navigation` pages in `views/`, verdict banners, plain-language SHAP (% effects), empty states, mobile layout, accessibility fixes.
+   - **Engineering quality**: complexity rank A/B everywhere, mutation scope extended to 8 domain modules, coverage raised, warnings removed.
+   - **Dataset finalised (v1.2)**: real fields recovered (Amazon dates from link timestamps, brands from titles, Flipkart zero ratings, variants from specifications), 15 category groups, research-calibrated **synthetic layers** (daily price histories, discount labels, cross-platform offers, food shop histories) with official MoSPI CPI inflation adjustment; discount-authenticity classifier; price model retrained.
+   - New Price-check tabs: **Discount check**, **Price history & timing**, **Where to buy**.
+   - Code review: 10 findings fixed with regression tests; illustrated **user guide** (`docs/USER-GUIDE.html`, also at `/user-guide` in the app).
+   - Automation: daily Open Prices collection, uptime probe, Docker build in CI.
+   - Moved to this repository (7 Oct) as one import commit.
+
+## Current measured state (7 Oct 2026, `reports/current/`)
+
+| Check | Result |
+|---|---|
+| Tests | **407 passing**, no warnings (`pytest -q`) |
+| Coverage (package) | 94.5% statements, 86.0% branches |
+| Mutation (8 domain modules) | 1,556 / 1,582 killed (**98.4%**); 26 equivalent survivors documented in `docs/MUTATION-SURVIVORS.md` |
+| Lint / complexity | Ruff clean; every function Radon rank A or B |
+| Price model (real data only) | 4,269 held-out listings: **R² 0.959, MAE ₹357, median error 20.8%**; Flipkart Electronics weakest (R² 0.01, warned in the app) |
+| Discount model (synthetic labels) | Logistic regression, ROC AUC **0.88**, precision 23%, recall 48% at threshold 0.17 |
+| Browsers | Chrome, Firefox, WebKit flows + PDF download pass; no overflow at 390/768/1440 px |
+| Speed (local, 1 user) | page ≈ 0.9 s, verdict ≈ 1.6 s; first assessment 0.84 s after warm-up |
+| Dataset audit | 59 / 59 integrity checks pass |
+
+## Commands
+
+```bash
+.venv/bin/python -m streamlit run app.py          # app at http://localhost:8501 (guide at /user-guide)
+.venv/bin/python -m pytest -q                      # all tests (UI tests run offline)
+.venv/bin/ruff check .                             # lint
+.venv/bin/radon cc -s -n C src scripts app.py views   # must print nothing (no rank C+)
+.venv/bin/python scripts/review.py                 # full review → reports/current/ (includes mutmut, ~3 min)
+.venv/bin/python scripts/browser_current.py --browser chrome|firefox|webkit   # needs the app running
+.venv/bin/python scripts/load_test.py --users 10 25    # real-browser load test (PRICE_TRUTH_URL to target a host)
+
+# Data and models (only when changing data):
+.venv/bin/python -m price_truth.data               # rebuild real catalogue from the raw CSVs
+.venv/bin/python -m price_truth.model              # retrain price model (real data only)
+.venv/bin/python scripts/model_audit.py            # per-category accuracy → reports/current/model_audit.json
+.venv/bin/python scripts/build_final_dataset.py    # synthetic layers + discount model → datasets/final/
+```
+
+The `.venv` has an editable install pointing at **this** folder's `src/`. If `price_truth` imports from elsewhere: `.venv/bin/python -m pip install -e . --no-deps`.
+
+## Code map
+
+```text
+app.py                 navigation (st.navigation), theme, warm-up
+views/*.py             one file per page: home, product, compare, food, shrink, observations, catalogue, methods, user-guide
+src/price_truth/
+  ui.py                Price check, Unit price, Shrinkflation, Catalogue, Methods page bodies
+  market_ui.py         Price-check tabs: Discount check, Price history & timing, Where to buy
+  workspace.py         Food & packs, My observations
+  theme.py / present.py   visual components / plain-language verdicts and SHAP grouping (pure, tested)
+  resources.py         cached catalogue, models, reports; background warm-up
+  data.py              raw CSV → datasets/processed/catalogue.csv (recovered fields, categories, variants)
+  model.py             price model training, assess() with Tree SHAP
+  authenticity.py      discount-authenticity classifier
+  synthetic.py         seeded, calibrated generator (histories, labels, offers, food histories, CPI factor)
+  calculations.py, catalogue.py, history.py, forecast.py, observations.py, offers.py,
+  external.py, price_api.py, evidence_store.py, exports.py, cache.py, paths.py   domain logic
+scripts/               review, audits, dataset build, browser/load/uptime checks, data collection
+tests/                 PyTest + Streamlit AppTest; test_review_fixes*.py = code-review regressions
+datasets/              raw Amazon/Flipkart CSVs (never modified), processed catalogue, external API data, final/
+.github/workflows/     checks.yml (CI), collect-prices.yml (daily), uptime.yml (15 min, needs HEALTH_URL)
+```
+
+## Data rules — keep these
+
+- **Raw files** in `datasets/amazon/` and `datasets/flipkart/` are never modified; their SHA-256 is checked by tests.
+- **Every row has `provenance`**: `real` or `synthetic`. Synthetic layers live in `datasets/final/` and are documented in **`datasets/final/DATA-CARD.md`** (v1.2). Every generator parameter and its source is in `datasets/final/assumptions.json` (values marked `assumption` where no citable figure exists).
+- **The price-estimate model trains and evaluates on real listings only.** Synthetic data feeds histories, offers, discount labels and the discount classifier.
+- The UI shows synthetic results like real ones (project decision); the **Methods & data → Dataset** tab and exports state provenance. Never present synthetic data as observed fact in reports.
+- Never invent pack-size changes for real brands: real shrinkflation cases must be cited; simulated timelines use generic names.
+- The generator is deterministic per product key; past days never change when later days are added. Changing `assumptions.json` changes histories → rebuild the dataset and rerun tests.
+
+## Working rules
+
+- Run tests, Ruff and the Radon check after every change. Keep all functions rank A/B.
+- Add a test for every bug fix. Domain regression tests belong in `tests/test_review_fixes_domain.py` (included in the mutation run via `pyproject.toml [tool.mutmut]`); UI tests use AppTest and must stay **offline** (`session_state["food_offline"] = True`).
+- After code changes that will be reported, rerun `scripts/review.py` and the browser checks; never edit measured numbers by hand.
+- Live lookups write cache files under `datasets/external/off`, `price_cache/` and `search/`. Do not commit those incidental files unless intended.
+- The user guide (`docs/USER-GUIDE.html`) contains screenshots of the app. If a page changes visibly, regenerate the guide (the capture/build scripts are not in the repo; recreate them with Playwright if needed) or note it as outdated.
+- Port 8501 may already be in use by the older working copy; use `--server.port 8502` if so.
+
+## Documents — current vs historical
+
+| Current | Historical (describe earlier states; do not treat as current) |
+|---|---|
+| `README.md` — setup, pages, deployment, automation | `PROGRESS.md` (19 Sep; mentions 98 tests, old pages) |
+| `PROJECT-COMPLETION.md` — top section “7 October 2026 status” (sections below the line are 6 Oct) | `docs/CLAUDE-UI-HANDOFF.md` (redesign brief — completed) |
+| `docs/COMPLETION-PLAN.md` — gap audit and open items | `docs/REVIEW-SUBMISSION-PLAN.md` (September submission) |
+| `datasets/final/DATA-CARD.md` — dataset v1.2 | `reports/CODE-REVIEW-REPORT.md` (19 Sep review) |
+| `reports/current/CODE-REVIEW-REPORT.md` + raw evidence | `submission/` (local only; Word reports of 19 Sep) |
+| `docs/DATA-SOURCES.md`, `docs/MUTATION-SURVIVORS.md`, `docs/USABILITY-STUDY.md`, `docs/USER-GUIDE.html` | |
+
+## Local-only files (in this folder, not in Git)
+
+Ignored by `.gitignore` because they contain team names and roll numbers or are generated output:
+
+- `PRICE-TRUTH-MASTER-CONTEXT.md` — full project history, requirements, rubric, personas (**read for background**)
+- `PRICE-TRUTH-BUILD-HANDOFF.md` — build plan, FR/NFR list
+- `PRICE-TRUTH-CODE-REVIEW-SPEC.md` — required contents of the code-review report
+- `submission/` (Lab Work Word reports, viva script, ZIPs), `output/` (Deliverable 4 PDF)
+- `GITHUB-SETUP.md` — the manual steps used to set up this repository
+- Generated: `reports/current/development_*.csv`, `*.stderr`, mutation `.diff` files, `.venv/`, `mutants/`
+
+## Open items
+
+| Item | Status / owner |
+|---|---|
+| Deploy on Streamlit Community Cloud from this repo; set repo variable `HEALTH_URL` | Owner (Swagata's Streamlit/GitHub login) |
+| Hosted browser checks + load test (25/50/100 users) against the deployed URL | After deployment |
+| Update Lab Work Word report and record demo video for **16 Oct** | Before the demo |
+| Old repo `mrkrishsoni/price-truth` — make private or delete; disconnect older working copy | Owner decision |
+| 14-day uptime record | Starts after deployment |
+| Usability study with 5 participants (`docs/USABILITY-STUDY.md`) | Needs participants |
+| Physical phone/tablet, branded Safari/Edge checks | Needs devices |
+| Real-data forecast (≥ 40 consecutive days) and live retailer APIs | Time / API approval |
+| Optional: sale-calendar-aware next-day forecast (the forecast rarely beats “same as today”) | Idea, not started |
