@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "Paper Boat",
+    "categories": "Waters, Coconut waters, Coconut Water Drink",
+    "code": "8906080604751",
+    "countries": "India",
+    "last_modified_t": 1740924520,
+    "product_name": "Swing Coconut Water Drink",
+    "product_quantity": "1200",
+    "product_quantity_unit": "ml",
+    "quantity": "1.2 l"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/8906080604751.json",
+  "fetched_at": "2026-09-19T07:10:29.907928+00:00",
+  "license": "ODbL"
+}

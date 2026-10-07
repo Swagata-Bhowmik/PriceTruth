@@ -1,0 +1,942 @@
+{
+  "version": "1.0",
+  "researched_on": "2026-10-07",
+  "note": "Calibration for the synthetic layers. 'source' gives a URL, or says 'assumption' where no citable figure exists.",
+  "dynamics": {
+    "anchor_date": "2025-06-01",
+    "annual_inflation": 0.043,
+    "annual_inflation_source": "India CPI 2023-2025 average (5.65, 4.95, 2.40): https://fred.stlouisfed.org/data/FPCPITOTLZGIND",
+    "daily_change_probability": 0.05,
+    "daily_change_sd": 0.01,
+    "daily_change_source": "assumption: 1-4 price changes per SKU per month, 0.5-2% mean change (Cavallo 2018 https://www.nber.org/papers/w25138 supports faster electronics changes)",
+    "inflation_lead_days": [
+      7,
+      28
+    ],
+    "pre_sale_markup": [
+      0.05,
+      0.15
+    ],
+    "pre_sale_source": "assumption: no citable Indian magnitude; DataWeave observed pre-sale rises to accentuate discounts: https://dataweave.com/blog/amazon-great-indian-festival-vs-big-billion-day-who-offered-better-discounts",
+    "inflated_mrp_markup": [
+      0.1,
+      0.3
+    ],
+    "inflator_real_discount_share": 0.1,
+    "inflator_source": "Very little extra discount vs pre-event prices (+0.1 to +0.5 pp): https://dataweave.com/blog/indias-black-friday-2025-decoded-discount-analysis-and-brand-performance-across-major-e-commerce-platforms"
+  },
+  "inflator_share_by_platform": {
+    "amazon": 0.16,
+    "flipkart": 0.06,
+    "default": 0.15,
+    "source": "Share of top-500 products whose price was RAISED during the 2020 festive sale: Amazon 16%, Flipkart 6% (https://dataweave.com/blog/amazon-great-indian-festival-vs-big-billion-day-who-offered-better-discounts); EU sweep found 30% of reductions non-compliant (https://commission.europa.eu/news-and-media/news/eu-check-reveals-misleading-sales-practices-online-2026-03-26_en)"
+  },
+  "labels": {
+    "threshold_pp": 5,
+    "min_real_saving_pct": 5,
+    "source": "EU Omnibus Directive 2019/2161 Art. 6a of 98/6/EC: prior price = lowest price in ≥30 days before the reduction (https://eur-lex.europa.eu/eli/dir/2019/2161/oj); confirmed by CJEU C-330/23 (https://globallitigationnews.bakermckenzie.com/2024/10/15/european-union-the-cjeu-confirms-that-a-price-reduction-must-be-calculated-based-on-the-lowest-price-in-the-last-30-days/). Thresholds are assumptions adapted to MRP-based listings."
+  },
+  "categories": {
+    "Electronics": {
+      "mean_days_between_revisions": 10,
+      "revision_sd": 0.04,
+      "sale_extra_discount": [
+        0.03,
+        0.15
+      ],
+      "inflator_weight": 1.0,
+      "promo_day_probability": 0.0,
+      "source": "Extra discount vs prior week 8.6% (smartphones 2.8%, earbuds 14.7%): https://dataweave.com/blog/amazon-prime-day-india-2024-key-insights-on-pricing-and-visibility-across-categories-and-brands"
+    },
+    "Computers": {
+      "mean_days_between_revisions": 12,
+      "revision_sd": 0.04,
+      "sale_extra_discount": [
+        0.05,
+        0.15
+      ],
+      "inflator_weight": 1.0,
+      "promo_day_probability": 0.0,
+      "source": "assumption, close to electronics (DataWeave tablets 25% off MRP pre-Black-Friday)"
+    },
+    "Clothing": {
+      "mean_days_between_revisions": 14,
+      "revision_sd": 0.05,
+      "sale_extra_discount": [
+        0.05,
+        0.25
+      ],
+      "inflator_weight": 1.2,
+      "promo_day_probability": 0.0,
+      "source": "Extra vs prior week 7.7% (Prime Day 2024) to 22-25% (Myntra year-end): https://dataweave.com/blog/amazon-prime-day-india-2024-key-insights-on-pricing-and-visibility-across-categories-and-brands; https://dataweave.com/blog/myntra-leads-end-of-year-promotions-in-fashion-7f76ec8ac3c8"
+    },
+    "Footwear": {
+      "mean_days_between_revisions": 14,
+      "revision_sd": 0.05,
+      "sale_extra_discount": [
+        0.1,
+        0.28
+      ],
+      "inflator_weight": 1.2,
+      "promo_day_probability": 0.0,
+      "source": "Extra 11.6-13.4% (Prime Day 2024), sports shoes 28% (Myntra year-end): https://dataweave.com/blog/amazon-prime-day-india-2024-key-insights-on-pricing-and-visibility-across-categories-and-brands; https://dataweave.com/blog/myntra-leads-end-of-year-promotions-in-fashion-7f76ec8ac3c8"
+    },
+    "Jewellery": {
+      "mean_days_between_revisions": 21,
+      "revision_sd": 0.05,
+      "sale_extra_discount": [
+        0.1,
+        0.3
+      ],
+      "inflator_weight": 1.2,
+      "promo_day_probability": 0.0,
+      "source": "assumption: fashion-like promotions"
+    },
+    "Home and kitchen": {
+      "mean_days_between_revisions": 21,
+      "revision_sd": 0.04,
+      "sale_extra_discount": [
+        0.05,
+        0.2
+      ],
+      "inflator_weight": 1.0,
+      "promo_day_probability": 0.0,
+      "source": "assumption"
+    },
+    "Personal care": {
+      "mean_days_between_revisions": 21,
+      "revision_sd": 0.03,
+      "sale_extra_discount": [
+        0.05,
+        0.14
+      ],
+      "inflator_weight": 1.0,
+      "promo_day_probability": 0.0,
+      "source": "Extra vs prior week 9.3% (Prime Day 2024): https://dataweave.com/blog/amazon-prime-day-india-2024-key-insights-on-pricing-and-visibility-across-categories-and-brands"
+    },
+    "Office supplies": {
+      "mean_days_between_revisions": 30,
+      "revision_sd": 0.03,
+      "sale_extra_discount": [
+        0.05,
+        0.15
+      ],
+      "inflator_weight": 0.8,
+      "promo_day_probability": 0.0,
+      "source": "assumption"
+    },
+    "Grocery": {
+      "mean_days_between_revisions": 45,
+      "revision_sd": 0.03,
+      "sale_extra_discount": [
+        0.05,
+        0.15
+      ],
+      "inflator_weight": 0.3,
+      "promo_day_probability": 0.05,
+      "source": "assumption: packaged FMCG sold near MRP; occasional promotions"
+    },
+    "Other": {
+      "mean_days_between_revisions": 21,
+      "revision_sd": 0.04,
+      "sale_extra_discount": [
+        0.05,
+        0.2
+      ],
+      "inflator_weight": 1.0,
+      "promo_day_probability": 0.0,
+      "source": "assumption"
+    },
+    "Automotive": {
+      "mean_days_between_revisions": 30,
+      "revision_sd": 0.03,
+      "sale_extra_discount": [
+        0.05,
+        0.15
+      ],
+      "inflator_weight": 0.8,
+      "promo_day_probability": 0.0,
+      "source": "assumption: accessories, similar to home & kitchen"
+    },
+    "Home decor and furniture": {
+      "mean_days_between_revisions": 21,
+      "revision_sd": 0.04,
+      "sale_extra_discount": [
+        0.05,
+        0.2
+      ],
+      "inflator_weight": 1.0,
+      "promo_day_probability": 0.0,
+      "source": "assumption: as Home and kitchen"
+    },
+    "Tools and home improvement": {
+      "mean_days_between_revisions": 30,
+      "revision_sd": 0.03,
+      "sale_extra_discount": [
+        0.05,
+        0.15
+      ],
+      "inflator_weight": 0.8,
+      "promo_day_probability": 0.0,
+      "source": "assumption"
+    },
+    "Fashion accessories": {
+      "mean_days_between_revisions": 14,
+      "revision_sd": 0.05,
+      "sale_extra_discount": [
+        0.05,
+        0.25
+      ],
+      "inflator_weight": 1.2,
+      "promo_day_probability": 0.0,
+      "source": "assumption: as Clothing (DataWeave fashion figures)"
+    },
+    "Baby and kids": {
+      "mean_days_between_revisions": 21,
+      "revision_sd": 0.04,
+      "sale_extra_discount": [
+        0.05,
+        0.2
+      ],
+      "inflator_weight": 1.0,
+      "promo_day_probability": 0.0,
+      "source": "assumption"
+    },
+    "Sports and fitness": {
+      "mean_days_between_revisions": 21,
+      "revision_sd": 0.04,
+      "sale_extra_discount": [
+        0.05,
+        0.2
+      ],
+      "inflator_weight": 1.0,
+      "promo_day_probability": 0.0,
+      "source": "assumption"
+    }
+  },
+  "sale_events": [
+    {
+      "name": "Great Republic Day Sale",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2024-01-13",
+      "end": "2024-01-18",
+      "source": "https://fithindi.thequint.com/amp/story/tech-and-auto/tech-news/amazon-great-republic-day-sale-2024-to-start-on-13-january-know-the-discounts-and-offers-details-here",
+      "note": "assumption: typical duration, end date not published"
+    },
+    {
+      "name": "Republic Day Sale",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2024-01-14",
+      "end": "2024-01-19",
+      "source": "https://www.thequint.com/amp/story/tech-and-auto/tech-news/flipkart-republic-day-sale-2024-amazing-discounts-on-pixel-7a-iphone-15-and-other-products"
+    },
+    {
+      "name": "End of Reason Sale",
+      "platforms": [
+        "myntra"
+      ],
+      "start": "2024-05-31",
+      "end": "2024-06-05",
+      "source": "https://www.indiaretailing.com/2024/05/30/myntra-expects-20-million-users-to-visit-platform-during-sale/",
+      "note": "assumption: typical duration, end date not published"
+    },
+    {
+      "name": "Prime Day",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2024-07-20",
+      "end": "2024-07-21",
+      "source": "https://www.indiaretailing.com/2024/07/16/amazon-india-announces-new-product-ranges-deals-for-prime-day-2024/"
+    },
+    {
+      "name": "Great Freedom Festival",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2024-08-06",
+      "end": "2024-08-11",
+      "source": "search summary (unverified)",
+      "note": "assumption: dates not verified"
+    },
+    {
+      "name": "Big Saving Days",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2024-08-06",
+      "end": "2024-08-11",
+      "source": "not found",
+      "note": "assumption: dates not found"
+    },
+    {
+      "name": "Big Billion Days",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2024-09-27",
+      "end": "2024-10-06",
+      "source": "https://www.thequint.com/amp/story/tech-and-auto/tech-news/flipkart-big-billion-days-2024-sale-date-bank-discounts-offers-and-more"
+    },
+    {
+      "name": "Great Indian Festival",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2024-09-27",
+      "end": "2024-10-29",
+      "source": "https://press.aboutamazon.com/in/2024/9/get-ready-for-the-festive-season-with-the-amazon-great-indian-festival-2024-starting-september-27",
+      "note": "end date from search summary"
+    },
+    {
+      "name": "Mega Blockbuster Sale",
+      "platforms": [
+        "meesho"
+      ],
+      "start": "2024-09-27",
+      "end": "2024-10-06",
+      "source": "https://www.indiaretailing.com/2024/10/07/meesho-records-145-crore-customer-visits-during-meesho-mega-blockbuster-sale-2024/"
+    },
+    {
+      "name": "End of Reason Sale",
+      "platforms": [
+        "myntra"
+      ],
+      "start": "2024-12-07",
+      "end": "2024-12-17",
+      "source": "https://www.latestly.com/technology/myntra-end-of-reason-sale-2024-goes-live-myntras-eors-will-run-until-december-17-check-bank-offers-and-other-details-6473794.html"
+    },
+    {
+      "name": "Great Republic Day Sale",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2025-01-13",
+      "end": "2025-01-19",
+      "source": "https://bwretailworld.com/sector/e-commerce-marketplaces/amazon-great-republic-day-sale-2025-starts-13th-jan"
+    },
+    {
+      "name": "Monumental Sale",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2025-01-14",
+      "end": "2025-01-19",
+      "source": "https://www.gizbot.com/deal-of-the-day/flipkart-republic-days-2025-sale-dates-announced-check-offers-deals-and-early-access-108005.html"
+    },
+    {
+      "name": "End of Reason Sale",
+      "platforms": [
+        "myntra"
+      ],
+      "start": "2025-05-31",
+      "end": "2025-06-05",
+      "source": "https://www.desidime.com/news/myntra-end-of-reason-sale-2025-dates-vip-pass-coupon-codes-discount-offers",
+      "note": "assumption: typical duration, end date not published"
+    },
+    {
+      "name": "Prime Day",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2025-07-12",
+      "end": "2025-07-14",
+      "source": "https://www.aboutamazon.in/news/retail/amazon-prime-day-2025-date"
+    },
+    {
+      "name": "Great Freedom Festival",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2025-07-31",
+      "end": "2025-08-05",
+      "source": "https://www.digit.in/news/general/amazon-great-freedom-festival-2025-date-time-and-top-smartphone-deals.html/amp/",
+      "note": "assumption: typical duration, end date not published"
+    },
+    {
+      "name": "Independence Day Sale",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2025-08-13",
+      "end": "2025-08-17",
+      "source": "https://www.digit.in/news/general/flipkart-independence-day-sale-2025-date-bank-discounts-and-top-smartphone-deals.html"
+    },
+    {
+      "name": "Mega Blockbuster Sale",
+      "platforms": [
+        "meesho"
+      ],
+      "start": "2025-09-19",
+      "end": "2025-09-28",
+      "source": "https://www.outlookbusiness.com/corporate/meesho-festive-sale-to-start-on-sept-19-days-before-amazon-flipkart"
+    },
+    {
+      "name": "Big Billion Days",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2025-09-23",
+      "end": "2025-09-30",
+      "source": "https://newsable.asianetnews.com/business/flipkart-big-billion-days-2025-kicks-off-september-23-big-deals-faster-delivery-articleshow-9m7g32g",
+      "note": "end date reported by secondary sites"
+    },
+    {
+      "name": "Great Indian Festival",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2025-09-23",
+      "end": "2025-10-20",
+      "source": "https://www.aboutamazon.in/news/retail/amazon-great-indian-festival-48-hours-data-38-crore-visits",
+      "note": "assumption: runs until Diwali (20 Oct 2025)"
+    },
+    {
+      "name": "End of Reason Sale",
+      "platforms": [
+        "myntra"
+      ],
+      "start": "2025-12-05",
+      "end": "2025-12-15",
+      "source": "https://www.desidime.com/news/myntra-end-of-reason-sale-2025-dates-vip-pass-coupon-codes-discount-offers",
+      "note": "end date expected"
+    },
+    {
+      "name": "Great Republic Day Sale",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2026-01-16",
+      "end": "2026-01-22",
+      "source": "https://www.aboutamazon.in/news/retail/amazon-great-republic-day-sale-2026",
+      "note": "end date reported"
+    },
+    {
+      "name": "Republic Day Sale",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2026-01-17",
+      "end": "2026-01-22",
+      "source": "https://www.mymobileindia.com/?p=290958",
+      "note": "assumption: typical duration, end date not published"
+    },
+    {
+      "name": "End of Reason Sale",
+      "platforms": [
+        "myntra"
+      ],
+      "start": "2026-05-30",
+      "end": "2026-06-04",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Prime Day",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2026-07-04",
+      "end": "2026-07-06",
+      "source": "https://www.fonearena.com/blog/485369/amazon-prime-day-2026-sale-date.html/amp"
+    },
+    {
+      "name": "Great Freedom Festival",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2026-08-05",
+      "end": "2026-08-10",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Independence Day Sale",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2026-08-10",
+      "end": "2026-08-14",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Mega Blockbuster Sale",
+      "platforms": [
+        "meesho"
+      ],
+      "start": "2026-10-02",
+      "end": "2026-10-11",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Great Indian Festival",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2026-10-08",
+      "end": "2026-11-08",
+      "source": "https://www.outlookbusiness.com/corporate/amazon-great-indian-festival-2026-to-begin-october-8-prime-members-to-get-up-to-10-extra",
+      "note": "assumption: runs until Diwali (8 Nov 2026)"
+    },
+    {
+      "name": "Big Billion Days",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2026-10-09",
+      "end": "2026-10-16",
+      "source": "https://www.digit.in/news/general/flipkart-big-billion-days-2026-date-offers-and-more-details.html",
+      "note": "assumption: typical duration, end date not published"
+    },
+    {
+      "name": "End of Reason Sale",
+      "platforms": [
+        "myntra"
+      ],
+      "start": "2026-12-05",
+      "end": "2026-12-15",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Great Republic Day Sale",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2027-01-15",
+      "end": "2027-01-21",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Republic Day Sale",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2027-01-16",
+      "end": "2027-01-21",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "End of Reason Sale",
+      "platforms": [
+        "myntra"
+      ],
+      "start": "2027-05-29",
+      "end": "2027-06-03",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Prime Day",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2027-07-10",
+      "end": "2027-07-12",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Great Freedom Festival",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2027-08-05",
+      "end": "2027-08-10",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Independence Day Sale",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2027-08-10",
+      "end": "2027-08-14",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Big Billion Days",
+      "platforms": [
+        "flipkart"
+      ],
+      "start": "2027-09-28",
+      "end": "2027-10-05",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Great Indian Festival",
+      "platforms": [
+        "amazon"
+      ],
+      "start": "2027-09-28",
+      "end": "2027-10-28",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "Mega Blockbuster Sale",
+      "platforms": [
+        "meesho"
+      ],
+      "start": "2027-09-24",
+      "end": "2027-10-03",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    },
+    {
+      "name": "End of Reason Sale",
+      "platforms": [
+        "myntra"
+      ],
+      "start": "2027-12-04",
+      "end": "2027-12-14",
+      "source": "n/a",
+      "note": "assumption: extrapolated from previous years"
+    }
+  ],
+  "platforms": {
+    "Amazon": {
+      "categories": [
+        "Automotive",
+        "Baby and kids",
+        "Clothing",
+        "Computers",
+        "Electronics",
+        "Fashion accessories",
+        "Footwear",
+        "Home and kitchen",
+        "Home decor and furniture",
+        "Jewellery",
+        "Office supplies",
+        "Other",
+        "Personal care",
+        "Sports and fitness",
+        "Tools and home improvement"
+      ],
+      "price_log_mean": 0.0,
+      "price_log_sd": 0.04,
+      "availability": 0.9,
+      "free_delivery_threshold": 499,
+      "delivery_fee": 40,
+      "platform_fee": 5,
+      "search_url": "https://www.amazon.in/s?k={q}",
+      "source": "Free delivery ≥ ₹499 else ₹40: https://www.aboutamazon.in/news/retail/how-to-get-free-delivery-on-amazon ; ₹5 marketplace fee: https://yourstory.com/2025/06/amazon-launches-marketplace-fee-excludes-q-com-offering ; cross-platform gap ±0-8% assumption"
+    },
+    "Flipkart": {
+      "categories": [
+        "Automotive",
+        "Baby and kids",
+        "Clothing",
+        "Computers",
+        "Electronics",
+        "Fashion accessories",
+        "Footwear",
+        "Home and kitchen",
+        "Home decor and furniture",
+        "Jewellery",
+        "Office supplies",
+        "Other",
+        "Personal care",
+        "Sports and fitness",
+        "Tools and home improvement"
+      ],
+      "price_log_mean": 0.0,
+      "price_log_sd": 0.04,
+      "availability": 0.9,
+      "free_delivery_threshold": 500,
+      "delivery_fee": 40,
+      "platform_fee": 3,
+      "search_url": "https://www.flipkart.com/search?q={q}",
+      "source": "Free ≥ ~₹500 else ₹40, ₹3 platform fee: https://trak.in/stories/flipkart-had-imposed-rs-3-platform-fees-as-early-as-august-13/"
+    },
+    "Myntra": {
+      "categories": [
+        "Clothing",
+        "Fashion accessories",
+        "Footwear",
+        "Jewellery",
+        "Personal care",
+        "Sports and fitness"
+      ],
+      "price_log_mean": 0.0,
+      "price_log_sd": 0.08,
+      "availability": 0.75,
+      "free_delivery_threshold": 1000,
+      "delivery_fee": 99,
+      "platform_fee": 0,
+      "search_url": "https://www.google.com/search?q=site%3Amyntra.com+{q}",
+      "source": "₹99 shipping below ₹1,000 (secondary): https://in.benzinga.com/content/32773418/shopping-splurge-tax-myntra-adds-10-convenience-fee-on-orders-above-1-000 ; price gap ±0-15% assumption"
+    },
+    "Ajio": {
+      "categories": [
+        "Clothing",
+        "Fashion accessories",
+        "Footwear",
+        "Jewellery"
+      ],
+      "price_log_mean": 0.0,
+      "price_log_sd": 0.08,
+      "availability": 0.6,
+      "free_delivery_threshold": 999,
+      "delivery_fee": 99,
+      "platform_fee": 0,
+      "search_url": "https://www.ajio.com/search/?text={q}",
+      "source": "assumption: fashion ±0-15%"
+    },
+    "Tata CLiQ": {
+      "categories": [
+        "Clothing",
+        "Computers",
+        "Electronics",
+        "Fashion accessories",
+        "Footwear"
+      ],
+      "price_log_mean": 0.03,
+      "price_log_sd": 0.06,
+      "availability": 0.5,
+      "free_delivery_threshold": 999,
+      "delivery_fee": 99,
+      "platform_fee": 0,
+      "search_url": "https://www.tatacliq.com/search/?searchCategory=all&text={q}",
+      "source": "assumption"
+    },
+    "Meesho": {
+      "categories": [
+        "Baby and kids",
+        "Clothing",
+        "Fashion accessories",
+        "Footwear",
+        "Home and kitchen",
+        "Home decor and furniture",
+        "Jewellery",
+        "Other"
+      ],
+      "price_log_mean": -0.1,
+      "price_log_sd": 0.1,
+      "availability": 0.45,
+      "free_delivery_threshold": 0,
+      "delivery_fee": 0,
+      "platform_fee": 0,
+      "search_url": "https://www.meesho.com/search?q={q}",
+      "source": "Value positioning, AOV ₹274 FY25: https://www.outlookbusiness.com/corporate/meesho-leads-indias-value-commerce-surge-as-fulfilment-costs-drop-cash-flow-turns-positive ; same-item gap assumption"
+    },
+    "Croma": {
+      "categories": [
+        "Computers",
+        "Electronics",
+        "Home and kitchen"
+      ],
+      "price_log_mean": 0.03,
+      "price_log_sd": 0.03,
+      "availability": 0.6,
+      "free_delivery_threshold": 0,
+      "delivery_fee": 0,
+      "platform_fee": 0,
+      "search_url": "https://www.google.com/search?q=site%3Acroma.com+{q}",
+      "source": "assumption: offline-chain sites 2-5% higher outside sales"
+    },
+    "Reliance Digital": {
+      "categories": [
+        "Electronics",
+        "Computers",
+        "Home and kitchen"
+      ],
+      "price_log_mean": 0.03,
+      "price_log_sd": 0.03,
+      "availability": 0.6,
+      "free_delivery_threshold": 0,
+      "delivery_fee": 0,
+      "platform_fee": 0,
+      "search_url": "https://www.reliancedigital.in/search?q={q}",
+      "source": "assumption: offline-chain sites 2-5% higher outside sales"
+    }
+  },
+  "context": {
+    "which_2024": "92% of UK Black Friday deals same or cheaper at other times: https://www.which.co.uk/policy-and-insight/article/nine-in-10-black-friday-deals-cheaper-or-same-price-at-other-times-of-the-year-which-finds-a4Z2J3u5lTI2",
+    "ccpa_dark_patterns_2023": "https://www.jsalaw.com/newsletters-and-updates/ccpa-issues-guidelines-for-prevention-and-regulation-of-dark-patterns-2023/",
+    "localcircles_2025": "97% of 290 platforms used at least one dark pattern: https://www.medianama.com/2025/10/223-localcircles-e-commerce-platforms-dark-patterns-hidden-fees/"
+  },
+  "price_level": {
+    "method": "Scale each listing's crawl-date price to the anchor month: General CPI(anchor) / General CPI(crawl month), times the category's CPI sub-group drift relative to the general index (May 2016 → May 2025), pro-rated by elapsed time.",
+    "anchor_month": "2025-05",
+    "general_index": {
+      "2015-01": 119.5,
+      "2015-02": 119.7,
+      "2015-03": 120.2,
+      "2015-04": 120.7,
+      "2015-05": 121.6,
+      "2015-06": 123.0,
+      "2015-07": 123.6,
+      "2015-08": 124.8,
+      "2015-09": 125.4,
+      "2015-10": 126.1,
+      "2015-11": 126.6,
+      "2015-12": 126.1,
+      "2016-01": 126.3,
+      "2016-02": 126.0,
+      "2016-03": 126.0,
+      "2016-04": 127.3,
+      "2016-05": 128.6,
+      "2016-06": 130.1,
+      "2016-07": 131.1,
+      "2016-08": 131.1,
+      "2016-09": 130.9,
+      "2016-10": 131.4,
+      "2016-11": 131.2,
+      "2016-12": 130.4,
+      "2017-01": 130.3,
+      "2017-02": 130.6,
+      "2017-03": 130.9,
+      "2017-04": 131.1,
+      "2017-05": 131.4,
+      "2017-06": 132.0,
+      "2017-07": 134.2,
+      "2017-08": 135.4,
+      "2017-09": 135.2,
+      "2017-10": 136.1,
+      "2017-11": 137.6,
+      "2017-12": 137.2,
+      "2018-01": 136.9,
+      "2018-02": 136.4,
+      "2018-03": 136.5,
+      "2018-04": 137.1,
+      "2018-05": 137.8,
+      "2018-06": 138.5,
+      "2018-07": 139.8,
+      "2018-08": 140.4,
+      "2018-09": 140.2,
+      "2018-10": 140.7,
+      "2018-11": 140.8,
+      "2018-12": 140.1,
+      "2019-01": 139.6,
+      "2019-02": 139.9,
+      "2019-03": 140.4,
+      "2019-04": 141.2,
+      "2019-05": 142.0,
+      "2019-06": 142.9,
+      "2019-07": 144.2,
+      "2019-08": 145.0,
+      "2019-09": 145.8,
+      "2019-10": 147.2,
+      "2019-11": 148.6,
+      "2019-12": 150.4,
+      "2020-01": 150.2,
+      "2020-02": 149.1,
+      "2020-03": 148.6,
+      "2020-04": 151.4,
+      "2020-05": 150.9,
+      "2020-06": 151.8,
+      "2020-07": 153.9,
+      "2020-08": 154.7,
+      "2020-09": 156.4,
+      "2020-10": 158.4,
+      "2020-11": 158.9,
+      "2020-12": 157.3,
+      "2021-01": 156.3,
+      "2021-02": 156.6,
+      "2021-03": 156.8,
+      "2021-04": 157.8,
+      "2021-05": 160.4,
+      "2021-06": 161.3,
+      "2021-07": 162.5,
+      "2021-08": 162.9,
+      "2021-09": 163.2,
+      "2021-10": 165.5,
+      "2021-11": 166.7,
+      "2021-12": 166.2,
+      "2022-01": 165.7,
+      "2022-02": 166.1,
+      "2022-03": 167.7,
+      "2022-04": 170.1,
+      "2022-05": 171.7,
+      "2022-06": 172.6,
+      "2022-07": 173.4,
+      "2022-08": 174.3,
+      "2022-09": 175.3,
+      "2022-10": 176.7,
+      "2022-11": 176.5,
+      "2022-12": 175.7,
+      "2023-01": 176.5,
+      "2023-02": 176.8,
+      "2023-03": 177.2,
+      "2023-04": 178.1,
+      "2023-05": 179.1,
+      "2023-06": 181.0,
+      "2023-07": 186.3,
+      "2023-08": 186.2,
+      "2023-09": 184.1,
+      "2023-10": 185.3,
+      "2023-11": 186.3,
+      "2023-12": 185.7,
+      "2024-01": 185.5,
+      "2024-02": 185.8,
+      "2024-03": 185.8,
+      "2024-04": 186.7,
+      "2024-05": 187.7,
+      "2024-06": 190.2,
+      "2024-07": 193.0,
+      "2024-08": 193.0,
+      "2024-09": 194.2,
+      "2024-10": 196.8,
+      "2024-11": 196.5,
+      "2024-12": 195.4,
+      "2025-01": 193.4,
+      "2025-02": 192.5,
+      "2025-03": 192.0,
+      "2025-04": 192.6,
+      "2025-05": 193.0
+    },
+    "general_index_source": "MoSPI CPI press release for May 2025, Annexure VI (All India General CPI, base 2012=100): https://mospi.gov.in/sites/default/files/press_release/CPI_PR_12Jun25.pdf",
+    "subgroups": {
+      "general": {
+        "may_2016": 128.6,
+        "may_2025": 193.0
+      },
+      "clothing": {
+        "may_2016": 132.2,
+        "may_2025": 198.0
+      },
+      "footwear": {
+        "may_2016": 126.7,
+        "may_2025": 187.6
+      },
+      "household_goods_services": {
+        "may_2016": 126.0,
+        "may_2025": 183.2
+      },
+      "recreation_amusement": {
+        "may_2016": 121.4,
+        "may_2025": 179.9
+      },
+      "transport_communication": {
+        "may_2016": 112.7,
+        "may_2025": 172.8
+      }
+    },
+    "subgroup_source": "All India Combined sub-group indices: May 2016 https://www.mospi.gov.in/sites/default/files/press_release/cpi_pr_13june16m.pdf (Annexure I); May 2025 https://mospi.gov.in/sites/default/files/press_release/CPI_PR_12Jun25.pdf (Annexure I)",
+    "category_subgroup": {
+      "Clothing": "clothing",
+      "Footwear": "footwear",
+      "Home and kitchen": "household_goods_services",
+      "Home decor and furniture": "household_goods_services",
+      "Tools and home improvement": "household_goods_services",
+      "Electronics": "recreation_amusement",
+      "Computers": "recreation_amusement",
+      "Baby and kids": "recreation_amusement",
+      "Sports and fitness": "recreation_amusement",
+      "Automotive": "transport_communication"
+    },
+    "category_subgroup_note": "Unlisted categories use the general index. Personal care & effects (226.3 vs 119.2) is excluded because it includes gold, which would overstate cosmetics and imitation jewellery."
+  }
+}

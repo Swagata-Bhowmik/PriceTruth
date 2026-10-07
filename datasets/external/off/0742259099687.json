@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "Tiggle",
+    "categories": "Cocoa and chocolate powders",
+    "code": "0742259099687",
+    "countries": "India",
+    "last_modified_t": 1781784420,
+    "product_name": "Iced Mocha",
+    "product_quantity": 25,
+    "product_quantity_unit": "g",
+    "quantity": "25 gm"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/0742259099687.json",
+  "fetched_at": "2026-10-07T07:17:56.250742+00:00",
+  "license": "ODbL"
+}

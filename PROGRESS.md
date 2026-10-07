@@ -1,0 +1,53 @@
+# Price Truth — implementation tracker
+
+Updated: 2026-09-19
+
+The user authorized the full functional project, real datasets only, with visual polish deferred. This file tracks implementation and evidence; unchecked items are not complete.
+
+| Stage | Status | Deliverable |
+|---|---|---|
+| 1. Research and data selection | Complete | Both supplied datasets; separate Open Prices/food caches; cited shrink cases |
+| 2. Data foundation | Complete | 21,267 cleaned listings; original hashes unchanged; exclusion audit |
+| 3. Modeling and explanations | Complete | Baseline/RF/boosting comparison; 4,269 held-out listings; real SHAP |
+| 4. Functional application | Individual modules work locally | Feature pages connected to their own logic; unified product-search dashboard remains pending |
+| 5. Verification | Local checks complete | 98 passing tests; desktop/mobile Chrome; 29 warm prediction + SHAP timings |
+| 6. Code review | Report complete | Actual Ruff, PyTest, scoped Mutmut, all four Radon metrics; raw evidence retained |
+| 7. Handoff | Complete for functional base | README, source decisions, reproducible review runner, measured limitations |
+
+## Final same-day submission
+
+The selected demonstration is historical price assessment (real data, model, SHAP and interface), with unit comparison as supporting functionality. Feature expansion and redesign are deferred. `submission/PRICE-TRUTH-FINAL-CODE-REVIEW.docx` is the finalized report; `submission/START-HERE.md` explains the package and demonstration. Tool outputs already exist and reviewed code hashes match. No new review-tool website or rerun is required for the unchanged source snapshot.
+
+## Decisions
+
+- Use both supplied Amazon and Flipkart datasets; retain platform, source, and observation dates.
+- Do not create synthetic training observations, price histories, or authenticity labels.
+- Keep the functional backend separate from the interface so later styling is straightforward.
+- A model may assess pricing unusualness; it cannot establish fraud without independent evidence.
+- Research additional real sources for pack lookup, historical observations, and documented shrinkflation.
+- No paid subscriptions, publication, or messages to third parties are needed for local implementation.
+- Existing Netlify prototype confirmed as the reference by the user.
+- INR Open Prices snapshot: 395 observations, 370 barcodes, insufficient within-store repeats for timing prediction. A separate EUR store history is available as a real international example; it is not merged into Indian training data.
+- Model selection: histogram gradient boosting won on validation log error. No synthetic classification labels or unnecessary ensemble added. Random forest and separate-platform models are recorded as comparisons.
+- Mutation testing found a missing multipack-ranking test, now added. Surviving mutants will be disclosed rather than hidden.
+
+## Review evidence and remaining work
+
+- [Code review report](reports/CODE-REVIEW-REPORT.md): table-first report, commands, code excerpts, actual mutation diffs, all nine NFR categories.
+- 98 tests passed, zero configured Ruff violations. Statement coverage 462/526 (87.83%); branch coverage 74/98 (75.51%) for the `price_truth` package.
+- Fresh scoped mutation run: 305/375 killed (81.33%), 70 survived. Scope is arithmetic, catalogue and history; survivors include message text and an untested default-unit call. This is not full-project mutation coverage.
+- Actual Chrome checks show working overview, price assessment with SHAP, and catalogue search/export controls; mobile viewport has no horizontal page overflow. Screenshots and timing JSON are in `reports/`.
+- First browser load took 3.044 seconds and missed the 3-second target; repeated load took 1.029 seconds. Prediction plus SHAP warm p95 is recorded in `reports/performance.json` and varies on rerun.
+- Remaining external/demonstration work: visual polish, hosted deployment, HTTPS verification, sustained uptime, 100-user load test, other browsers, tablet/physical-device checks, usability study and final recording. These have not been counted as achieved.
+- Historical snapshots do not establish present-day authenticity. Current evidence supports abstention from buying forecasts; adding a model cannot replace missing real observations.
+- Priority: the 40-mark Lab Work review covers the existing application now and must be regenerated after final code changes. See [submission plan](docs/REVIEW-SUBMISSION-PLAN.md).
+- [Claude interface handoff](docs/CLAUDE-UI-HANDOFF.md) is ready. Visual polish, the 10-product data feasibility pilot and a unified dashboard are pending; this handoff does not claim they are implemented.
+
+## Existing audit
+
+Amazon: 1,465 rows, 1,351 product IDs, no observation dates. Flipkart: 20,000 rows, 19,998 product IDs, observations dated 2015-12 to 2016-06. Neither supplies usable per-product price histories or verified genuine/fake labels. Source files are under `datasets/amazon/` and `datasets/flipkart/`.
+
+
+## 6 October 2026 — implementation resumed
+
+The canonical active record is now [PROJECT-COMPLETION.md](PROJECT-COMPLETION.md). Connected workspace, user observations, PDF export, gated forecasting, current data/model audits and a refactored review runner have been added. Current evidence lives in `reports/current/`; earlier entries and submission metrics remain historical. See the tracker for acceptance results and unresolved external requirements.

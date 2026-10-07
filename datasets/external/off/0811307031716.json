@@ -1,0 +1,13 @@
+{
+  "product": {
+    "brands": "GD NUTS",
+    "categories": "Peanut grilled salted",
+    "code": "0811307031716",
+    "countries": "India",
+    "last_modified_t": 1791024098,
+    "product_name": "peanuts"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/0811307031716.json",
+  "fetched_at": "2026-10-07T07:17:57.496022+00:00",
+  "license": "ODbL"
+}

@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "Kwality Wall's",
+    "categories": "Ice cream bars",
+    "code": "11928227",
+    "countries": "India",
+    "last_modified_t": 1763630053,
+    "product_name": "Chocolate Feast",
+    "product_quantity": 62,
+    "product_quantity_unit": "g",
+    "quantity": "62g"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/11928227.json",
+  "fetched_at": "2026-10-07T07:17:58.709973+00:00",
+  "license": "ODbL"
+}

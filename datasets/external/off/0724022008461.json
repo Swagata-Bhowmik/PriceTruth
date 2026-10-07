@@ -1,0 +1,14 @@
+{
+  "product": {
+    "brands": "Curryit",
+    "categories": "Tomato soups",
+    "code": "0724022008461",
+    "countries": "India",
+    "last_modified_t": 1790659456,
+    "product_name": "Tomato Soup",
+    "quantity": "55"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/0724022008461.json",
+  "fetched_at": "2026-10-07T07:17:55.858581+00:00",
+  "license": "ODbL"
+}

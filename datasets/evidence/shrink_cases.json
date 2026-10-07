@@ -1,0 +1,10 @@
+{
+  "source_url": "https://www.financialexpress.com/business/industry-shrinkflation-hits-indias-snacks-market-as-companies-cope-with-inflation-and-reduce-size-of-packaging-2523265/lite/",
+  "source_name": "Bloomberg reporting published by Financial Express",
+  "reported_on": "2022-05-13",
+  "evidence_type": "secondary reporting; retailer/distributor accounts, not independently inspected packs",
+  "cases": [
+    {"product": "Vim soap — reported ₹10 pack", "unit": "g", "currency": "INR", "old_quantity": 155, "new_quantity": 135, "old_price": 10, "new_price": 10, "old_period": "About three months before the May 2022 report", "new_period": "As reported in May 2022", "notes": "Exact observation dates and barcode are unavailable. Manufacturer did not respond to the report's request for comment."},
+    {"product": "Haldiram’s aloo bhujia — reported ₹10 pack", "unit": "g", "currency": "INR", "old_quantity": 55, "new_quantity": 42, "old_price": 10, "new_price": 10, "old_period": "Earlier pack; exact date unspecified", "new_period": "As reported in May 2022", "notes": "Retailer-reported change; exact dates and barcode are unavailable. Manufacturer did not respond to the report's request for comment."}
+  ]
+}

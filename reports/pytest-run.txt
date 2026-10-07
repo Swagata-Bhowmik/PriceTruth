@@ -1,0 +1,29 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.0, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/krishsoni/Documents/price-truth
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-7.1.0, anyio-4.12.1, asyncio-1.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 98 items
+
+tests/test_app.py ...........                                            [ 11%]
+tests/test_calculations.py ...........................................   [ 55%]
+tests/test_data.py ..........                                            [ 65%]
+tests/test_model.py .....                                                [ 70%]
+tests/test_search.py .....                                               [ 75%]
+tests/test_services.py ........................                          [100%]
+
+=============================== warnings summary ===============================
+tests/test_model.py::test_training_pipeline_on_real_data
+tests/test_model.py::test_training_pipeline_on_real_data
+  /opt/anaconda3/lib/python3.12/site-packages/sklearn/impute/_base.py:641: UserWarning: Skipping features without any observed values: ['log_rating_count']. At least one non-missing value is needed for imputation with strategy='median'.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/krishsoni/Documents/price-truth/reports/pytest.xml -
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.0-final-0 _______________
+
+Coverage JSON written to file reports/coverage.json
+======================= 98 passed, 2 warnings in 14.22s ========================

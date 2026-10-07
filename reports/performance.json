@@ -1,0 +1,9 @@
+{
+  "catalogue_and_model_load_seconds": 0.11087841598782688,
+  "first_assessment_including_shap_import_seconds": 0.9257335829897784,
+  "warm_calls": 29,
+  "warm_median_seconds": 0.02560800005448982,
+  "warm_p95_seconds": 0.03473612479865551,
+  "warm_max_seconds": 0.04104033298790455,
+  "scope": "Sequential local calls on real rows; includes SHAP; not concurrent load."
+}

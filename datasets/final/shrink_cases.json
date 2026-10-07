@@ -1,0 +1,290 @@
+{
+  "generated_at": "2026-10-07T07:36:09.557712+00:00",
+  "cases": [
+    {
+      "product": "Vim soap — reported ₹10 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 155,
+      "new_quantity": 135,
+      "old_price": 10,
+      "new_price": 10,
+      "old_period": "About three months before the May 2022 report",
+      "new_period": "As reported in May 2022",
+      "notes": "Exact observation dates and barcode are unavailable. Manufacturer did not respond to the report's request for comment.",
+      "provenance": "real",
+      "source_name": "Bloomberg reporting published by Financial Express",
+      "source_url": "https://www.financialexpress.com/business/industry-shrinkflation-hits-indias-snacks-market-as-companies-cope-with-inflation-and-reduce-size-of-packaging-2523265/lite/",
+      "reported_on": "2022-05-13"
+    },
+    {
+      "product": "Haldiram’s aloo bhujia — reported ₹10 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 55,
+      "new_quantity": 42,
+      "old_price": 10,
+      "new_price": 10,
+      "old_period": "Earlier pack; exact date unspecified",
+      "new_period": "As reported in May 2022",
+      "notes": "Retailer-reported change; exact dates and barcode are unavailable. Manufacturer did not respond to the report's request for comment.",
+      "provenance": "real",
+      "source_name": "Bloomberg reporting published by Financial Express",
+      "source_url": "https://www.financialexpress.com/business/industry-shrinkflation-hits-indias-snacks-market-as-companies-cope-with-inflation-and-reduce-size-of-packaging-2523265/lite/",
+      "reported_on": "2022-05-13"
+    },
+    {
+      "product": "Parle-G biscuits — ₹10 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 140,
+      "new_quantity": 110,
+      "old_price": 10,
+      "new_price": 10,
+      "old_period": "Before 2022",
+      "new_period": "Jan–Mar 2022",
+      "notes": "Reported by ThePrint citing the All India Consumer Products Distributors Federation; corroborated by DailyO.",
+      "source_name": "ThePrint",
+      "source_url": "https://theprint.in/feature/youre-not-imagining-it-maggi-to-vim-bar-fmcgs-are-getting-smaller-shrinkflation-is-here/965170/",
+      "reported_on": "2022-05-21",
+      "provenance": "real"
+    },
+    {
+      "product": "Maggi noodles — ₹7 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 35,
+      "new_quantity": 32,
+      "old_price": 7,
+      "new_price": 7,
+      "old_period": "Before mid-2026",
+      "new_period": "Mid-2026",
+      "notes": "Single-outlet report (Angel One); confirm with the manufacturer before relying on it.",
+      "source_name": "Angel One News",
+      "source_url": "https://www.angelone.in/news/stocks/nestl-india-cuts-maggi-pack-sizes-by-up-to-9-while-keeping-prices-unchanged",
+      "reported_on": "2026-07-01",
+      "provenance": "real"
+    },
+    {
+      "product": "Maggi noodles — ₹10 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 52,
+      "new_quantity": 48,
+      "old_price": 10,
+      "new_price": 10,
+      "old_period": "Before mid-2026",
+      "new_period": "Mid-2026",
+      "notes": "Single-outlet report (Angel One); confirm with the manufacturer before relying on it.",
+      "source_name": "Angel One News",
+      "source_url": "https://www.angelone.in/news/stocks/nestl-india-cuts-maggi-pack-sizes-by-up-to-9-while-keeping-prices-unchanged",
+      "reported_on": "2026-07-01",
+      "provenance": "real"
+    },
+    {
+      "product": "Maggi noodles — ₹15 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 75,
+      "new_quantity": 70,
+      "old_price": 15,
+      "new_price": 15,
+      "old_period": "Before mid-2026",
+      "new_period": "Mid-2026",
+      "notes": "Single-outlet report (Angel One); confirm with the manufacturer before relying on it.",
+      "source_name": "Angel One News",
+      "source_url": "https://www.angelone.in/news/stocks/nestl-india-cuts-maggi-pack-sizes-by-up-to-9-while-keeping-prices-unchanged",
+      "reported_on": "2026-07-01",
+      "provenance": "real"
+    },
+    {
+      "product": "Maggi noodles — ₹30 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 150,
+      "new_quantity": 140,
+      "old_price": 30,
+      "new_price": 30,
+      "old_period": "Before mid-2026",
+      "new_period": "Mid-2026",
+      "notes": "Single-outlet report (Angel One); confirm with the manufacturer before relying on it.",
+      "source_name": "Angel One News",
+      "source_url": "https://www.angelone.in/news/stocks/nestl-india-cuts-maggi-pack-sizes-by-up-to-9-while-keeping-prices-unchanged",
+      "reported_on": "2026-07-01",
+      "provenance": "real"
+    },
+    {
+      "product": "Maggi noodles — ₹60 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 300,
+      "new_quantity": 280,
+      "old_price": 60,
+      "new_price": 60,
+      "old_period": "Before mid-2026",
+      "new_period": "Mid-2026",
+      "notes": "Single-outlet report (Angel One); confirm with the manufacturer before relying on it.",
+      "source_name": "Angel One News",
+      "source_url": "https://www.angelone.in/news/stocks/nestl-india-cuts-maggi-pack-sizes-by-up-to-9-while-keeping-prices-unchanged",
+      "reported_on": "2026-07-01",
+      "provenance": "real"
+    },
+    {
+      "product": "Maggi noodles — ₹90 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 450,
+      "new_quantity": 420,
+      "old_price": 90,
+      "new_price": 90,
+      "old_period": "Before mid-2026",
+      "new_period": "Mid-2026",
+      "notes": "Single-outlet report (Angel One); confirm with the manufacturer before relying on it.",
+      "source_name": "Angel One News",
+      "source_url": "https://www.angelone.in/news/stocks/nestl-india-cuts-maggi-pack-sizes-by-up-to-9-while-keeping-prices-unchanged",
+      "reported_on": "2026-07-01",
+      "provenance": "real"
+    },
+    {
+      "product": "Maggi noodles — ₹120 pack",
+      "unit": "g",
+      "currency": "INR",
+      "old_quantity": 600,
+      "new_quantity": 560,
+      "old_price": 120,
+      "new_price": 120,
+      "old_period": "Before mid-2026",
+      "new_period": "Mid-2026",
+      "notes": "Single-outlet report (Angel One); confirm with the manufacturer before relying on it.",
+      "source_name": "Angel One News",
+      "source_url": "https://www.angelone.in/news/stocks/nestl-india-cuts-maggi-pack-sizes-by-up-to-9-while-keeping-prices-unchanged",
+      "reported_on": "2026-07-01",
+      "provenance": "real"
+    },
+    {
+      "product": "Cream biscuits — ₹30 pack",
+      "unit": "g",
+      "currency": "INR",
+      "timeline": [
+        {
+          "period": "Jan 2022",
+          "quantity": 150,
+          "price": 30
+        },
+        {
+          "period": "Oct 2022",
+          "quantity": 135,
+          "price": 30
+        },
+        {
+          "period": "Jun 2023",
+          "quantity": 120,
+          "price": 30
+        },
+        {
+          "period": "Mar 2025",
+          "quantity": 110,
+          "price": 30
+        }
+      ],
+      "notes": "Simulated: three reductions at an unchanged ₹30 price point.",
+      "provenance": "synthetic"
+    },
+    {
+      "product": "Potato chips — ₹20 pack",
+      "unit": "g",
+      "currency": "INR",
+      "timeline": [
+        {
+          "period": "Apr 2022",
+          "quantity": 52,
+          "price": 20
+        },
+        {
+          "period": "Feb 2023",
+          "quantity": 48,
+          "price": 20
+        },
+        {
+          "period": "Nov 2024",
+          "quantity": 45,
+          "price": 20
+        }
+      ],
+      "notes": "Simulated: small step-downs that are hard to notice on the shelf.",
+      "provenance": "synthetic"
+    },
+    {
+      "product": "Dishwash bar — ₹10 pack",
+      "unit": "g",
+      "currency": "INR",
+      "timeline": [
+        {
+          "period": "Jan 2022",
+          "quantity": 160,
+          "price": 10
+        },
+        {
+          "period": "Sep 2022",
+          "quantity": 140,
+          "price": 10
+        },
+        {
+          "period": "Jul 2024",
+          "quantity": 125,
+          "price": 10
+        }
+      ],
+      "notes": "Simulated: low-price-point products shrink instead of raising the price.",
+      "provenance": "synthetic"
+    },
+    {
+      "product": "Toothpaste tube",
+      "unit": "g",
+      "currency": "INR",
+      "timeline": [
+        {
+          "period": "Mar 2023",
+          "quantity": 200,
+          "price": 110
+        },
+        {
+          "period": "Mar 2024",
+          "quantity": 180,
+          "price": 112
+        },
+        {
+          "period": "Jan 2026",
+          "quantity": 170,
+          "price": 115
+        }
+      ],
+      "notes": "Simulated: price edged up while the tube got smaller, so the unit price rose faster than the label price.",
+      "provenance": "synthetic"
+    },
+    {
+      "product": "Detergent powder — 1 kg pack",
+      "unit": "g",
+      "currency": "INR",
+      "timeline": [
+        {
+          "period": "Jun 2022",
+          "quantity": 1000,
+          "price": 120
+        },
+        {
+          "period": "Jun 2023",
+          "quantity": 900,
+          "price": 120
+        },
+        {
+          "period": "Aug 2025",
+          "quantity": 850,
+          "price": 125
+        }
+      ],
+      "notes": "Simulated: a '1 kg' family pack that no longer weighs 1 kg.",
+      "provenance": "synthetic"
+    }
+  ]
+}

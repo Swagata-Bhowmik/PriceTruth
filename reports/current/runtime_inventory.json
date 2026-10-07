@@ -1,0 +1,26 @@
+{
+  "scope": "Runtime configuration, supplied datasets, snapshots and model artifacts; complements review_manifest.json source hashes.",
+  "sha256": {
+    ".dockerignore": "b18bd126a9e8783d73a9bbd3ec75d3a480b3ade5206a739e1304aa2a0cff65fa",
+    ".streamlit/config.toml": "bd8c5b0c0218d3482e8f59c080e34428aac13efb24b558c77139fb0a96a75d2c",
+    "Dockerfile": "0bf27ac9251cab0b3cd736d55959375d5e95010be7be91db5053a68fbf177672",
+    "artifacts/price_model.joblib": "4100dc5db6927da4c97c8d1d9dd414ecdf51fd144c6cab737236cf43fdd97a26",
+    "datasets/amazon/amazon.csv": "4ba126c4ba8edd35e62e94ce1c853073d832de380184ab4f5f97d1e314882c77",
+    "datasets/evidence/shrink_cases.json": "6d792281646e1529c576c698e4d137d310b7adaf47e2d3d46934dae1efdcb7dc",
+    "datasets/external/acquisition.json": "25ad2480fccb245b6b8ad9553e4623b70b9bf1221034b077cc64ee58fdb3a69b",
+    "datasets/external/current/open_prices_inr.json": "fc1d1de36d32bfb019d7aaf8b573fb8431e12a5a8c74e18f2dbaddd5a1f3c254",
+    "datasets/external/off/00001292.json": "1d4a024d31b01c676d010a2d3be40d92c9bd9bf18f1ce86342adbef4d4dad675",
+    "datasets/external/off/6291100212606.json": "9f994839439b7a298c10dacf43ba22265578ace732e9a63695b6803c04518c9b",
+    "datasets/external/off/8904043551548.json": "1be7dca3a72c8ec482ad2bb80c4640a99e9e3a206dccd277e7b7988e2e78849b",
+    "datasets/external/off/8906080604751.json": "67b9cc300dab0c83670d357d641dccd83e27f1d86a3d5a0e3bc833dc2f084500",
+    "datasets/external/open_prices_example.json": "ff542ad92d6bfd9470e44681a718dfa39fd69971dd553eede488b0c780cce847",
+    "datasets/external/open_prices_inr.json": "35a95e9b319ad7992740687e64469a3cb0f98b0f3afa716e7ffc5060be345061",
+    "datasets/external/search/62e09dce1b452dd5732c042f8bc00aa504850513ff24aea097f3dab849337567.json": "6c0d797d4610a6516d8e00b1e55a8ec661711b49cd45178da719378a6bc873c5",
+    "datasets/flipkart/flipkart_com-ecommerce_sample.csv": "56f8f699c9e847356666c2eab3c3ab1244340f6a98ad08e39ea2199ebe993ad1",
+    "datasets/processed/catalogue.csv": "d3dcaeaf6fb928353db93c36af37341e75d7ef636b9d36a4c6fdb27ed2a2bfa6",
+    "datasets/processed/excluded.csv": "0b50bf35efd2e3f685581021544aee65fda1f5b78871f935f333cbc8035b8b88",
+    "pyproject.toml": "b603142b1180dc806864ad051fc1e47c567b4718d8e29b7aa1364e799f91ca44",
+    "requirements-dev.txt": "0780b418870c06c0a60b71624a72130cb82b1e4ba7f9e69852eab859d2169634",
+    "requirements.txt": "c3531166b8f594335a0c6fce9068aa74ca619784840f834890abb5973fc62d35"
+  }
+}

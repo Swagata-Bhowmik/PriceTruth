@@ -1,0 +1,11 @@
+-e .
+numpy==2.3.5
+pandas==2.3.3
+scipy==1.16.3
+scikit-learn==1.8.0
+shap==0.52.0
+joblib==1.5.3
+streamlit==1.57.0
+plotly==6.6.0
+requests==2.33.1
+reportlab==5.0.0

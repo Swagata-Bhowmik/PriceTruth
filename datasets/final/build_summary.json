@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-10-07T07:36:12.024122+00:00",
+  "end_date": "2026-10-07",
+  "real_listings": 21267,
+  "price_history": {
+    "products": 758,
+    "rows": 766338,
+    "first_date": "2024-01-01",
+    "last_date": "2026-10-07"
+  },
+  "discount_training": {
+    "products": 2816,
+    "rows": 42118,
+    "inflated_share": 0.05185431406999383
+  },
+  "offers": {
+    "products": 758,
+    "rows": 3040
+  },
+  "food_prices": {
+    "synthetic": 60660,
+    "real": 407
+  },
+  "shrink_cases": {
+    "real": 10,
+    "synthetic": 5
+  },
+  "discount_model_test": {
+    "n": 8439,
+    "positive_rate": 0.048109965635738834,
+    "roc_auc": 0.8838843036023202,
+    "average_precision": 0.22382909403214246,
+    "precision": 0.22897196261682243,
+    "recall": 0.4827586206896552,
+    "f1": 0.31061806656101426,
+    "brier": 0.040392055590244155
+  }
+}

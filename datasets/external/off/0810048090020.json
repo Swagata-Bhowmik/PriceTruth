@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "Maharana",
+    "categories": "Plant-based foods, Snacks",
+    "code": "0810048090020",
+    "countries": "United Kingdom",
+    "last_modified_t": 1787566848,
+    "product_name": "Patra",
+    "product_quantity": 200,
+    "product_quantity_unit": "g",
+    "quantity": "200g"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/0810048090020.json",
+  "fetched_at": "2026-10-07T07:17:57.105736+00:00",
+  "license": "ODbL"
+}

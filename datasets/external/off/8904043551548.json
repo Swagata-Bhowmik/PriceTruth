@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "Modern",
+    "categories": "Wholemeal sliced breads",
+    "code": "8904043551548",
+    "countries": "India",
+    "last_modified_t": 1776509280,
+    "product_name": "Modern 100% Whole Wheat Bread",
+    "product_quantity": 400,
+    "product_quantity_unit": "g",
+    "quantity": "400 g"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/8904043551548.json",
+  "fetched_at": "2026-09-19T07:10:29.081832+00:00",
+  "license": "ODbL"
+}

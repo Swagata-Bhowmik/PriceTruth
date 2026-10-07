@@ -1,0 +1,89 @@
+{
+  "query": "Maggi",
+  "products": [
+    {
+      "code": "8901058823844",
+      "product_name": "Maggie",
+      "brands": [
+        "Maggi",
+        "Nestle"
+      ],
+      "quantity": null
+    },
+    {
+      "code": "9556070129741",
+      "product_name": "maggi",
+      "brands": [
+        "maggi"
+      ],
+      "quantity": "6x79g"
+    },
+    {
+      "code": "7613287740410",
+      "product_name": "Maggi",
+      "brands": [
+        "Maggi"
+      ],
+      "quantity": "202 ml"
+    },
+    {
+      "code": "0028000873264",
+      "product_name": "Maggi",
+      "brands": [
+        "Maggi"
+      ],
+      "quantity": null
+    },
+    {
+      "code": "7460123456208",
+      "product_name": "Maggi",
+      "brands": [
+        "Maggi"
+      ],
+      "quantity": null
+    },
+    {
+      "code": "12269131",
+      "product_name": "Maggi",
+      "brands": [
+        "Maggi"
+      ],
+      "quantity": null
+    },
+    {
+      "code": "6221007004479",
+      "product_name": "Maggi",
+      "brands": [
+        "Maggi"
+      ],
+      "quantity": null
+    },
+    {
+      "code": "8901058005608",
+      "product_name": "Maggi",
+      "brands": [
+        "Maggi"
+      ],
+      "quantity": "may/24/jan/25-D"
+    },
+    {
+      "code": "8901058002904",
+      "product_name": "maggi",
+      "brands": [
+        "Maggi"
+      ],
+      "quantity": null
+    },
+    {
+      "code": "40052694",
+      "product_name": "maggi",
+      "brands": [
+        "Maggi"
+      ],
+      "quantity": null
+    }
+  ],
+  "source_url": "https://search.openfoodfacts.org/search",
+  "fetched_at": "2026-09-19T07:18:23.920714+00:00",
+  "license": "ODbL"
+}

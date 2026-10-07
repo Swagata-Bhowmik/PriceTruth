@@ -1,0 +1,25 @@
+{
+  "note": "Simulated multi-step pack timelines with generic product names. They illustrate the pattern; they do not describe any real brand.",
+  "cases": [
+    {"product": "Cream biscuits — ₹30 pack", "unit": "g", "currency": "INR",
+     "timeline": [{"period": "Jan 2022", "quantity": 150, "price": 30}, {"period": "Oct 2022", "quantity": 135, "price": 30},
+                  {"period": "Jun 2023", "quantity": 120, "price": 30}, {"period": "Mar 2025", "quantity": 110, "price": 30}],
+     "notes": "Simulated: three reductions at an unchanged ₹30 price point."},
+    {"product": "Potato chips — ₹20 pack", "unit": "g", "currency": "INR",
+     "timeline": [{"period": "Apr 2022", "quantity": 52, "price": 20}, {"period": "Feb 2023", "quantity": 48, "price": 20},
+                  {"period": "Nov 2024", "quantity": 45, "price": 20}],
+     "notes": "Simulated: small step-downs that are hard to notice on the shelf."},
+    {"product": "Dishwash bar — ₹10 pack", "unit": "g", "currency": "INR",
+     "timeline": [{"period": "Jan 2022", "quantity": 160, "price": 10}, {"period": "Sep 2022", "quantity": 140, "price": 10},
+                  {"period": "Jul 2024", "quantity": 125, "price": 10}],
+     "notes": "Simulated: low-price-point products shrink instead of raising the price."},
+    {"product": "Toothpaste tube", "unit": "g", "currency": "INR",
+     "timeline": [{"period": "Mar 2023", "quantity": 200, "price": 110}, {"period": "Mar 2024", "quantity": 180, "price": 112},
+                  {"period": "Jan 2026", "quantity": 170, "price": 115}],
+     "notes": "Simulated: price edged up while the tube got smaller, so the unit price rose faster than the label price."},
+    {"product": "Detergent powder — 1 kg pack", "unit": "g", "currency": "INR",
+     "timeline": [{"period": "Jun 2022", "quantity": 1000, "price": 120}, {"period": "Jun 2023", "quantity": 900, "price": 120},
+                  {"period": "Aug 2025", "quantity": 850, "price": 125}],
+     "notes": "Simulated: a '1 kg' family pack that no longer weighs 1 kg."}
+  ]
+}

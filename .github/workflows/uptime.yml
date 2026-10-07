@@ -1,0 +1,15 @@
+name: Uptime probe
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    if: vars.HEALTH_URL != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check the deployed health endpoint
+        run: curl --fail --silent --show-error --max-time 30 --retry 2 --retry-all-errors --retry-delay 10 "${{ vars.HEALTH_URL }}"

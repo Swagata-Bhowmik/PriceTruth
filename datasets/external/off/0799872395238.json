@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "SRS",
+    "categories": "Sesame oils",
+    "code": "0799872395238",
+    "countries": "India",
+    "last_modified_t": 1780935490,
+    "product_name": "Chekku Gingelly Oil",
+    "product_quantity": 910,
+    "product_quantity_unit": "g",
+    "quantity": "910 g"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/0799872395238.json",
+  "fetched_at": "2026-10-07T07:17:56.668632+00:00",
+  "license": "ODbL"
+}

@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest==9.0.3
+pytest-cov==7.1.0
+ruff==0.16.8
+radon==6.0.1
+mutmut==3.8.0
+playwright==1.63.0

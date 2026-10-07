@@ -1,0 +1,410 @@
+{
+  "generated_at": "2026-10-06T15:37:59.796282+00:00",
+  "concurrent_requests": 100,
+  "successful": 100,
+  "wall_seconds": 1.950543375016423,
+  "p95_seconds": 1.8567698850907617,
+  "scope": "100 synchronized in-process warm model+SHAP calls with native thread pools limited to one. Not 100 browser users, external APIs or hosted capacity.",
+  "results": [
+    {
+      "seconds": 0.7338322499999776,
+      "ok": true
+    },
+    {
+      "seconds": 0.8879497919988353,
+      "ok": true
+    },
+    {
+      "seconds": 1.773149166983785,
+      "ok": true
+    },
+    {
+      "seconds": 1.788872207980603,
+      "ok": true
+    },
+    {
+      "seconds": 1.1278597920027096,
+      "ok": true
+    },
+    {
+      "seconds": 1.7198371670092456,
+      "ok": true
+    },
+    {
+      "seconds": 1.659981583012268,
+      "ok": true
+    },
+    {
+      "seconds": 0.7473236249934416,
+      "ok": true
+    },
+    {
+      "seconds": 1.0267827920033596,
+      "ok": true
+    },
+    {
+      "seconds": 1.5456233749864623,
+      "ok": true
+    },
+    {
+      "seconds": 0.6895170829957351,
+      "ok": true
+    },
+    {
+      "seconds": 0.7085988330072723,
+      "ok": true
+    },
+    {
+      "seconds": 1.4991598750057165,
+      "ok": true
+    },
+    {
+      "seconds": 0.8830223330005538,
+      "ok": true
+    },
+    {
+      "seconds": 1.6021518749766983,
+      "ok": true
+    },
+    {
+      "seconds": 1.6809237919806037,
+      "ok": true
+    },
+    {
+      "seconds": 1.8827141670044512,
+      "ok": true
+    },
+    {
+      "seconds": 1.388151499995729,
+      "ok": true
+    },
+    {
+      "seconds": 1.3630510829971172,
+      "ok": true
+    },
+    {
+      "seconds": 0.8204589580127504,
+      "ok": true
+    },
+    {
+      "seconds": 0.7691287499910686,
+      "ok": true
+    },
+    {
+      "seconds": 1.704531166004017,
+      "ok": true
+    },
+    {
+      "seconds": 0.8543872080044821,
+      "ok": true
+    },
+    {
+      "seconds": 1.9203551250102464,
+      "ok": true
+    },
+    {
+      "seconds": 0.8016092500183731,
+      "ok": true
+    },
+    {
+      "seconds": 1.589039667014731,
+      "ok": true
+    },
+    {
+      "seconds": 1.4415967919921968,
+      "ok": true
+    },
+    {
+      "seconds": 0.9650515000103042,
+      "ok": true
+    },
+    {
+      "seconds": 1.7811572920181789,
+      "ok": true
+    },
+    {
+      "seconds": 0.9417595000122674,
+      "ok": true
+    },
+    {
+      "seconds": 0.9697440000018105,
+      "ok": true
+    },
+    {
+      "seconds": 1.7042215000255965,
+      "ok": true
+    },
+    {
+      "seconds": 1.539824999985285,
+      "ok": true
+    },
+    {
+      "seconds": 0.7383673340082169,
+      "ok": true
+    },
+    {
+      "seconds": 1.1086092499899678,
+      "ok": true
+    },
+    {
+      "seconds": 0.9613254170108121,
+      "ok": true
+    },
+    {
+      "seconds": 1.339030457980698,
+      "ok": true
+    },
+    {
+      "seconds": 1.4569520000077318,
+      "ok": true
+    },
+    {
+      "seconds": 1.118899416003842,
+      "ok": true
+    },
+    {
+      "seconds": 0.7507607919978909,
+      "ok": true
+    },
+    {
+      "seconds": 1.6395304589823354,
+      "ok": true
+    },
+    {
+      "seconds": 1.916547333006747,
+      "ok": true
+    },
+    {
+      "seconds": 1.8539402080059517,
+      "ok": true
+    },
+    {
+      "seconds": 1.0459281659859698,
+      "ok": true
+    },
+    {
+      "seconds": 1.8848672500171233,
+      "ok": true
+    },
+    {
+      "seconds": 1.4939112499996554,
+      "ok": true
+    },
+    {
+      "seconds": 0.6683877909963485,
+      "ok": true
+    },
+    {
+      "seconds": 0.8502922919869889,
+      "ok": true
+    },
+    {
+      "seconds": 1.2855897910194471,
+      "ok": true
+    },
+    {
+      "seconds": 1.7762651249940973,
+      "ok": true
+    },
+    {
+      "seconds": 1.1176770419988316,
+      "ok": true
+    },
+    {
+      "seconds": 1.272194582998054,
+      "ok": true
+    },
+    {
+      "seconds": 1.5790377500234172,
+      "ok": true
+    },
+    {
+      "seconds": 1.6651614159927703,
+      "ok": true
+    },
+    {
+      "seconds": 1.027506166981766,
+      "ok": true
+    },
+    {
+      "seconds": 1.4917485420010053,
+      "ok": true
+    },
+    {
+      "seconds": 1.2752094169845805,
+      "ok": true
+    },
+    {
+      "seconds": 1.8557307079900056,
+      "ok": true
+    },
+    {
+      "seconds": 0.7412893750006333,
+      "ok": true
+    },
+    {
+      "seconds": 1.4348434999992605,
+      "ok": true
+    },
+    {
+      "seconds": 1.6421756249910686,
+      "ok": true
+    },
+    {
+      "seconds": 1.161216249980498,
+      "ok": true
+    },
+    {
+      "seconds": 1.5288737080118153,
+      "ok": true
+    },
+    {
+      "seconds": 1.810238833015319,
+      "ok": true
+    },
+    {
+      "seconds": 1.8113555840100162,
+      "ok": true
+    },
+    {
+      "seconds": 1.8192670840071514,
+      "ok": true
+    },
+    {
+      "seconds": 1.6652882079943083,
+      "ok": true
+    },
+    {
+      "seconds": 0.729335167008685,
+      "ok": true
+    },
+    {
+      "seconds": 1.826678457990056,
+      "ok": true
+    },
+    {
+      "seconds": 1.2248834579950199,
+      "ok": true
+    },
+    {
+      "seconds": 0.9552291670115665,
+      "ok": true
+    },
+    {
+      "seconds": 1.7776017499854788,
+      "ok": true
+    },
+    {
+      "seconds": 1.771025666006608,
+      "ok": true
+    },
+    {
+      "seconds": 1.7964380829944275,
+      "ok": true
+    },
+    {
+      "seconds": 0.8402159590041265,
+      "ok": true
+    },
+    {
+      "seconds": 1.3403800000087358,
+      "ok": true
+    },
+    {
+      "seconds": 1.8487459580064751,
+      "ok": true
+    },
+    {
+      "seconds": 1.3288504999945872,
+      "ok": true
+    },
+    {
+      "seconds": 1.1709495420218445,
+      "ok": true
+    },
+    {
+      "seconds": 1.6048017090070061,
+      "ok": true
+    },
+    {
+      "seconds": 1.5817584170144983,
+      "ok": true
+    },
+    {
+      "seconds": 1.7436543330259155,
+      "ok": true
+    },
+    {
+      "seconds": 1.8127247089869343,
+      "ok": true
+    },
+    {
+      "seconds": 1.155801374989096,
+      "ok": true
+    },
+    {
+      "seconds": 0.8402251250226982,
+      "ok": true
+    },
+    {
+      "seconds": 0.4663319590035826,
+      "ok": true
+    },
+    {
+      "seconds": 1.2740155840001535,
+      "ok": true
+    },
+    {
+      "seconds": 1.761903042002814,
+      "ok": true
+    },
+    {
+      "seconds": 1.7232824999955483,
+      "ok": true
+    },
+    {
+      "seconds": 1.2846869169734418,
+      "ok": true
+    },
+    {
+      "seconds": 1.0389920829911716,
+      "ok": true
+    },
+    {
+      "seconds": 1.562983334006276,
+      "ok": true
+    },
+    {
+      "seconds": 1.0266846669837832,
+      "ok": true
+    },
+    {
+      "seconds": 0.9945419580035377,
+      "ok": true
+    },
+    {
+      "seconds": 1.8765142500051297,
+      "ok": true
+    },
+    {
+      "seconds": 1.6846505419816822,
+      "ok": true
+    },
+    {
+      "seconds": 1.7381622079992667,
+      "ok": true
+    },
+    {
+      "seconds": 0.7922039999975823,
+      "ok": true
+    },
+    {
+      "seconds": 0.9063280409900472,
+      "ok": true
+    },
+    {
+      "seconds": 1.4753747079812456,
+      "ok": true
+    }
+  ]
+}

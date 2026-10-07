@@ -1,0 +1,42 @@
+name: Application checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated review dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install -r requirements-dev.txt
+          .venv/bin/python -m pip check
+      - name: Review actual checked-out source
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+        run: .venv/bin/python scripts/review.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: engineering-evidence
+          path: reports/current/
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the application image
+        run: docker build -t price-truth-check .
+      - name: Start and verify health
+        run: |
+          docker run -d --name price-truth-check -p 8501:8501 price-truth-check
+          curl --fail --retry 30 --retry-all-errors --retry-delay 3 http://127.0.0.1:8501/_stcore/health
+      - name: Retain container diagnostics
+        if: always()
+        run: docker logs price-truth-check

@@ -1,0 +1,198 @@
+{
+  "generated_at": "2026-10-07T07:36:12.016207+00:00",
+  "selected_model": "logistic_regression",
+  "selection_criterion": "Highest validation average precision",
+  "label_rule": "Inflated when the advertised discount is at least 5 points above the product's 90-day median discount while the price is less than 5% below its lowest price in the 30 days before the promotion.",
+  "data": "Synthetic labelled offers (provenance='synthetic'); products are group-split.",
+  "rows": {
+    "fit": 33679,
+    "test": 8439,
+    "products": 2816
+  },
+  "threshold": 0.171,
+  "threshold_rule": "Maximises F1 on the validation products",
+  "validation": {
+    "logistic_regression": {
+      "n": 8419,
+      "positive_rate": 0.06069604466088609,
+      "roc_auc": 0.8834881469581202,
+      "average_precision": 0.2671879534000751,
+      "precision": 0.27364864864864863,
+      "recall": 0.4755381604696673,
+      "f1": 0.34739099356683345,
+      "brier": 0.04887565159071013
+    },
+    "hist_gradient_boosting": {
+      "n": 8419,
+      "positive_rate": 0.06069604466088609,
+      "roc_auc": 0.8737119486620598,
+      "average_precision": 0.22690614025705394,
+      "precision": 0.2521489971346705,
+      "recall": 0.5166340508806262,
+      "f1": 0.33889602053915274,
+      "brier": 0.053650188889803545
+    }
+  },
+  "test": {
+    "n": 8439,
+    "positive_rate": 0.048109965635738834,
+    "roc_auc": 0.8838843036023202,
+    "average_precision": 0.22382909403214246,
+    "precision": 0.22897196261682243,
+    "recall": 0.4827586206896552,
+    "f1": 0.31061806656101426,
+    "brier": 0.040392055590244155
+  },
+  "test_by_category": {
+    "Automotive": {
+      "n": 539,
+      "positive_rate": 0.00927643784786642,
+      "roc_auc": 0.9164794007490636,
+      "average_precision": 0.14776367068566557,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "brier": 0.008982630031278206
+    },
+    "Baby and kids": {
+      "n": 465,
+      "positive_rate": 0.04086021505376344,
+      "roc_auc": 0.8817559594052395,
+      "average_precision": 0.34831006849183294,
+      "precision": 0.375,
+      "recall": 0.47368421052631576,
+      "f1": 0.4186046511627907,
+      "brier": 0.034603816154689146
+    },
+    "Clothing": {
+      "n": 479,
+      "positive_rate": 0.04384133611691023,
+      "roc_auc": 0.8980037429819089,
+      "average_precision": 0.26069319323439083,
+      "precision": 0.23333333333333334,
+      "recall": 0.6666666666666666,
+      "f1": 0.345679012345679,
+      "brier": 0.037015840000061785
+    },
+    "Computers": {
+      "n": 939,
+      "positive_rate": 0.0670926517571885,
+      "roc_auc": 0.8877473363774735,
+      "average_precision": 0.3263048271055408,
+      "precision": 0.23783783783783785,
+      "recall": 0.6984126984126984,
+      "f1": 0.3548387096774194,
+      "brier": 0.052030842739340596
+    },
+    "Electronics": {
+      "n": 944,
+      "positive_rate": 0.07627118644067797,
+      "roc_auc": 0.8718861493374108,
+      "average_precision": 0.2878173753721084,
+      "precision": 0.2708333333333333,
+      "recall": 0.5416666666666666,
+      "f1": 0.3611111111111111,
+      "brier": 0.06062520322285997
+    },
+    "Fashion accessories": {
+      "n": 418,
+      "positive_rate": 0.03588516746411483,
+      "roc_auc": 0.9133167907361455,
+      "average_precision": 0.31407521117750525,
+      "precision": 0.16666666666666666,
+      "recall": 0.4,
+      "f1": 0.23529411764705882,
+      "brier": 0.030307014516353436
+    },
+    "Footwear": {
+      "n": 494,
+      "positive_rate": 0.018218623481781375,
+      "roc_auc": 0.8778923253150057,
+      "average_precision": 0.17895865534170435,
+      "precision": 1.0,
+      "recall": 0.1111111111111111,
+      "f1": 0.2,
+      "brier": 0.01793168447230411
+    },
+    "Home and kitchen": {
+      "n": 1125,
+      "positive_rate": 0.064,
+      "roc_auc": 0.8677983539094651,
+      "average_precision": 0.23173755842108842,
+      "precision": 0.21397379912663755,
+      "recall": 0.6805555555555556,
+      "f1": 0.32558139534883723,
+      "brier": 0.053983502783234924
+    },
+    "Home decor and furniture": {
+      "n": 479,
+      "positive_rate": 0.029227557411273485,
+      "roc_auc": 0.8961597542242704,
+      "average_precision": 0.17053525486786808,
+      "precision": 0.15,
+      "recall": 0.42857142857142855,
+      "f1": 0.2222222222222222,
+      "brier": 0.02713964041129488
+    },
+    "Jewellery": {
+      "n": 435,
+      "positive_rate": 0.03908045977011494,
+      "roc_auc": 0.8658879819870532,
+      "average_precision": 0.1417644838938101,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "brier": 0.03519256372792952
+    },
+    "Office supplies": {
+      "n": 614,
+      "positive_rate": 0.057003257328990226,
+      "roc_auc": 0.8432272390821614,
+      "average_precision": 0.3586959751168311,
+      "precision": 0.5789473684210527,
+      "recall": 0.3142857142857143,
+      "f1": 0.4074074074074074,
+      "brier": 0.04805740693747255
+    },
+    "Other": {
+      "n": 105,
+      "positive_rate": 0.02857142857142857,
+      "roc_auc": 0.8725490196078431,
+      "average_precision": 0.1327639751552795,
+      "precision": 0.1,
+      "recall": 0.3333333333333333,
+      "f1": 0.15384615384615385,
+      "brier": 0.026737868916031634
+    },
+    "Personal care": {
+      "n": 493,
+      "positive_rate": 0.02636916835699797,
+      "roc_auc": 0.9008814102564102,
+      "average_precision": 0.30544759459569387,
+      "precision": 0.11627906976744186,
+      "recall": 0.7692307692307693,
+      "f1": 0.20202020202020202,
+      "brier": 0.026340902938815323
+    },
+    "Sports and fitness": {
+      "n": 508,
+      "positive_rate": 0.05905511811023622,
+      "roc_auc": 0.8996861924686193,
+      "average_precision": 0.36044805707744026,
+      "precision": 0.375,
+      "recall": 0.2,
+      "f1": 0.2608695652173913,
+      "brier": 0.048021463807845575
+    },
+    "Tools and home improvement": {
+      "n": 402,
+      "positive_rate": 0.04477611940298507,
+      "roc_auc": 0.8846932870370371,
+      "average_precision": 0.1638140888388011,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "brier": 0.03944287021558455
+    }
+  }
+}

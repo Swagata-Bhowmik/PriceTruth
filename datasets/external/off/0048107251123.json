@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "GNC, Guardian Healthcare Services Pvt. Ltd.",
+    "categories": "Protein powders",
+    "code": "0048107251123",
+    "countries": "India",
+    "last_modified_t": 1762928913,
+    "product_name": "100% Whey Protein Pro Performance",
+    "product_quantity": 907,
+    "product_quantity_unit": "g",
+    "quantity": "907g"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/0048107251123.json",
+  "fetched_at": "2026-10-07T07:17:54.653386+00:00",
+  "license": "ODbL"
+}

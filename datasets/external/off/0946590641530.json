@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "Amul",
+    "categories": "Energy drink with sugar",
+    "code": "0946590641530",
+    "countries": "India",
+    "last_modified_t": 1788419360,
+    "product_name": "ENERDOZE power up",
+    "product_quantity": 250,
+    "product_quantity_unit": "ml",
+    "quantity": "250ml"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/0946590641530.json",
+  "fetched_at": "2026-10-07T07:17:57.907409+00:00",
+  "license": "ODbL"
+}

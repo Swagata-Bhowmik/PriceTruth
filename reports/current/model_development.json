@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-10-06T15:31:27.116606+00:00",
+  "deployed_model_sha256": "4100dc5db6927da4c97c8d1d9dd414ecdf51fd144c6cab737236cf43fdd97a26",
+  "training_rows": 8502,
+  "development_validation_rows": 2275,
+  "reserved_rows_not_used": 10490,
+  "results": {
+    "established_features": {
+      "n": 2275,
+      "mae_inr": 334.2659837124551,
+      "median_absolute_percentage_error": 19.40055351150348,
+      "mean_absolute_log_error": 0.263131598578739,
+      "r2": 0.9679465541765482,
+      "reference_plus_25pct_median_prediction_change_pct": 22.880601182327954
+    },
+    "title_augmented": {
+      "n": 2275,
+      "mae_inr": 320.5531044917825,
+      "median_absolute_percentage_error": 19.968611043780058,
+      "mean_absolute_log_error": 0.2617504641064011,
+      "r2": 0.9754489223611152,
+      "reference_plus_25pct_median_prediction_change_pct": 22.37606888333619
+    },
+    "reference_price_free": {
+      "n": 2275,
+      "mae_inr": 796.1380550594566,
+      "median_absolute_percentage_error": 32.43494723542705,
+      "mean_absolute_log_error": 0.44661014772759167,
+      "r2": 0.7529610349363105,
+      "reference_plus_25pct_median_prediction_change_pct": 0.0
+    }
+  },
+  "lowest_development_log_error": "title_augmented",
+  "title_minus_established_log_mae_group_bootstrap_95pct_interval": [
+    -0.012479430668646058,
+    0.011207575203430352
+  ],
+  "deployment_decision": "Preserve existing model; candidate results are development evidence only.",
+  "limitations": [
+    "All records are historical; this does not establish present-day performance.",
+    "No new unseen market test set or fraud labels were introduced.",
+    "Do not compare these errors directly with the old test errors: different rows."
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "Date Crown",
+    "categories": "Dates",
+    "code": "6291100212606",
+    "countries": "India",
+    "last_modified_t": 1740332894,
+    "product_name": "Date Crown Bumaan",
+    "product_quantity": "500",
+    "product_quantity_unit": "g",
+    "quantity": "500g"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/6291100212606.json",
+  "fetched_at": "2026-10-07T06:19:49.994281+00:00",
+  "license": "ODbL"
+}

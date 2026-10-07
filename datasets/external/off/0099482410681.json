@@ -1,0 +1,14 @@
+{
+  "product": {
+    "brands": "365 Whole Foods Market",
+    "categories": "Bee products, Ketchup, Groceries",
+    "code": "0099482410681",
+    "countries": "France, United States",
+    "last_modified_t": 1773865087,
+    "product_name": "Organic Tomato Ketchup",
+    "quantity": "4000"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/0099482410681.json",
+  "fetched_at": "2026-10-07T07:17:55.039561+00:00",
+  "license": "ODbL"
+}

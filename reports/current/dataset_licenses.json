@@ -1,0 +1,16 @@
+[
+  {
+    "source": "https://www.kaggle.com/api/v1/datasets/view/karkavelrajaj/amazon-sales-dataset",
+    "http_status": 200,
+    "licenseName": "CC BY-NC-SA 4.0",
+    "title": "Amazon Sales Dataset",
+    "subtitle": "This dataset is having the data of 1K+ Amazon Product's Ratings and Reviews"
+  },
+  {
+    "source": "https://www.kaggle.com/api/v1/datasets/view/PromptCloudHQ/flipkart-products",
+    "http_status": 200,
+    "licenseName": "CC BY-SA 4.0",
+    "title": "Flipkart Products",
+    "subtitle": "20,000 products on Flipkart"
+  }
+]

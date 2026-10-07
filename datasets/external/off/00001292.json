@@ -1,0 +1,13 @@
+{
+  "product": {
+    "brands": "",
+    "code": "00001292",
+    "countries": "France",
+    "last_modified_t": 1728042477,
+    "product_name": "",
+    "quantity": ""
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/00001292.json",
+  "fetched_at": "2026-09-19T07:10:30.309101+00:00",
+  "license": "ODbL"
+}

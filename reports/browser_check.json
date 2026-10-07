@@ -1,0 +1,20 @@
+{
+  "browser": "153.0.8010.52",
+  "desktop_viewport": [
+    1440,
+    1000
+  ],
+  "mobile_viewport": [
+    390,
+    844
+  ],
+  "initial_visible_load_seconds": 1.028876250027679,
+  "javascript_errors": [],
+  "mobile_horizontal_page_overflow": false,
+  "flows": [
+    "overview rendered",
+    "discount + SHAP rendered",
+    "catalogue search + export visible"
+  ],
+  "scope": "Local Chrome only; mobile viewport emulation, not a physical-device or cross-browser certification."
+}

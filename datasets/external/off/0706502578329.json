@@ -1,0 +1,16 @@
+{
+  "product": {
+    "brands": "Eat Easy",
+    "categories": "Microwave meals, Ready to eat combination meals",
+    "code": "0706502578329",
+    "countries": "India",
+    "last_modified_t": 1764976187,
+    "product_name": "Jain Misal",
+    "product_quantity": 85,
+    "product_quantity_unit": "g",
+    "quantity": "85g"
+  },
+  "source_url": "https://world.openfoodfacts.org/api/v2/product/0706502578329.json",
+  "fetched_at": "2026-10-07T07:17:55.433784+00:00",
+  "license": "ODbL"
+}

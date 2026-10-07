@@ -1,0 +1,169 @@
+{
+  "generated_at": "2026-10-07T07:35:47.004197+00:00",
+  "model_sha256": "ca8ced1813c99926e482ac24330f9db3ace1dec052da8e656e044a878bcf69ee",
+  "held_out_rows": 4269,
+  "overall": {
+    "n": 4269,
+    "mae_inr": 357.11073745152106,
+    "median_absolute_percentage_error": 20.827642944710263,
+    "mean_absolute_log_error": 0.27185244822332205,
+    "r2": 0.958594711287769
+  },
+  "subgroups_minimum_n": 30,
+  "subgroups": [
+    {
+      "platform": "amazon",
+      "category": "Computers",
+      "n": 78,
+      "mae_inr": 309.68125605347126,
+      "median_absolute_percentage_error": 29.623517254502385,
+      "mean_absolute_log_error": 0.37986505781036545,
+      "r2": 0.675790467207719
+    },
+    {
+      "platform": "amazon",
+      "category": "Electronics",
+      "n": 100,
+      "mae_inr": 865.391893571224,
+      "median_absolute_percentage_error": 22.281320659749486,
+      "mean_absolute_log_error": 0.3156484291094749,
+      "r2": 0.9234121056059991
+    },
+    {
+      "platform": "amazon",
+      "category": "Home and kitchen",
+      "n": 104,
+      "mae_inr": 451.1536385946173,
+      "median_absolute_percentage_error": 15.921735607930943,
+      "mean_absolute_log_error": 0.21580740676534954,
+      "r2": 0.7666448049365264
+    },
+    {
+      "platform": "flipkart",
+      "category": "Automotive",
+      "n": 222,
+      "mae_inr": 177.10208695896426,
+      "median_absolute_percentage_error": 8.187069154863899,
+      "mean_absolute_log_error": 0.15878708924735968,
+      "r2": 0.7596532631458547
+    },
+    {
+      "platform": "flipkart",
+      "category": "Baby and kids",
+      "n": 147,
+      "mae_inr": 193.01308263005134,
+      "median_absolute_percentage_error": 21.20614639721031,
+      "mean_absolute_log_error": 0.2432600268329377,
+      "r2": 0.9495509060649989
+    },
+    {
+      "platform": "flipkart",
+      "category": "Clothing",
+      "n": 1288,
+      "mae_inr": 194.39035551122382,
+      "median_absolute_percentage_error": 22.477304613997656,
+      "mean_absolute_log_error": 0.2706792311243381,
+      "r2": 0.7336797782002636
+    },
+    {
+      "platform": "flipkart",
+      "category": "Computers",
+      "n": 106,
+      "mae_inr": 302.86544098306484,
+      "median_absolute_percentage_error": 18.972632269669564,
+      "mean_absolute_log_error": 0.23481771256795322,
+      "r2": 0.8540568296192463
+    },
+    {
+      "platform": "flipkart",
+      "category": "Electronics",
+      "n": 339,
+      "mae_inr": 346.21384416279164,
+      "median_absolute_percentage_error": 35.12937659653562,
+      "mean_absolute_log_error": 0.4181890871418002,
+      "r2": 0.009925342881889732
+    },
+    {
+      "platform": "flipkart",
+      "category": "Fashion accessories",
+      "n": 170,
+      "mae_inr": 325.21887522049667,
+      "median_absolute_percentage_error": 30.46283294722663,
+      "mean_absolute_log_error": 0.36647016041968594,
+      "r2": 0.7644594392904956
+    },
+    {
+      "platform": "flipkart",
+      "category": "Footwear",
+      "n": 243,
+      "mae_inr": 290.5174281054002,
+      "median_absolute_percentage_error": 25.303398472467258,
+      "mean_absolute_log_error": 0.2857280577783779,
+      "r2": 0.6344893464344832
+    },
+    {
+      "platform": "flipkart",
+      "category": "Home and kitchen",
+      "n": 240,
+      "mae_inr": 240.97023421131556,
+      "median_absolute_percentage_error": 16.166364571258466,
+      "mean_absolute_log_error": 0.23863674767308826,
+      "r2": 0.8478314135006694
+    },
+    {
+      "platform": "flipkart",
+      "category": "Home decor and furniture",
+      "n": 207,
+      "mae_inr": 1006.2795013001108,
+      "median_absolute_percentage_error": 19.724304256976975,
+      "mean_absolute_log_error": 0.2533209057754635,
+      "r2": 0.9367418596304903
+    },
+    {
+      "platform": "flipkart",
+      "category": "Jewellery",
+      "n": 647,
+      "mae_inr": 624.8611591673797,
+      "median_absolute_percentage_error": 17.917663445013833,
+      "mean_absolute_log_error": 0.2637006498358973,
+      "r2": 0.9750065582493502
+    },
+    {
+      "platform": "flipkart",
+      "category": "Office supplies",
+      "n": 89,
+      "mae_inr": 290.4517277762979,
+      "median_absolute_percentage_error": 20.307117623737426,
+      "mean_absolute_log_error": 0.24938860719049735,
+      "r2": 0.8755042467647821
+    },
+    {
+      "platform": "flipkart",
+      "category": "Personal care",
+      "n": 159,
+      "mae_inr": 271.5579443715672,
+      "median_absolute_percentage_error": 12.741503896877349,
+      "mean_absolute_log_error": 0.19352003269617502,
+      "r2": 0.5388039013407311
+    },
+    {
+      "platform": "flipkart",
+      "category": "Tools and home improvement",
+      "n": 78,
+      "mae_inr": 145.92788789609725,
+      "median_absolute_percentage_error": 11.865950107590988,
+      "mean_absolute_log_error": 0.15188487507907875,
+      "r2": 0.8829392679479646
+    }
+  ],
+  "reference_price_sensitivity": {
+    "perturbation_pct": 25,
+    "median_prediction_change_pct": 22.223550684971393,
+    "p90_prediction_change_pct": 48.340315357956776,
+    "scope": "Controlled feature perturbation, not new market observations or a causal estimate"
+  },
+  "limitations": [
+    "Historical snapshots cannot establish prospective performance.",
+    "Diagnostic subgroup results must not be used to retune against the frozen test set."
+  ]
+}

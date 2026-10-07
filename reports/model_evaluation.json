@@ -1,0 +1,112 @@
+{
+  "target": "log(1 + observed selling price in INR)",
+  "selected_model": "hist_gradient_boosting",
+  "selection_criterion": "Lowest validation mean absolute log error among tree candidates",
+  "validation": {
+    "baseline": {
+      "n": 2708,
+      "mae_inr": 398.4602681386004,
+      "median_absolute_percentage_error": 20.8705882352941,
+      "mean_absolute_log_error": 0.27938898221089575,
+      "r2": 0.965247385671075
+    },
+    "random_forest": {
+      "n": 2708,
+      "mae_inr": 386.03649865636777,
+      "median_absolute_percentage_error": 21.354293324102112,
+      "mean_absolute_log_error": 0.2636053020645714,
+      "r2": 0.968883369718322
+    },
+    "hist_gradient_boosting": {
+      "n": 2708,
+      "mae_inr": 410.67202357305297,
+      "median_absolute_percentage_error": 20.587026123527053,
+      "mean_absolute_log_error": 0.2593303370920817,
+      "r2": 0.9463928039246342
+    }
+  },
+  "test": {
+    "n": 4269,
+    "mae_inr": 357.11073745152106,
+    "median_absolute_percentage_error": 20.827642944710263,
+    "mean_absolute_log_error": 0.27185244822332205,
+    "r2": 0.958594711287769,
+    "interval_coverage": 0.8983368470367767
+  },
+  "baseline_test": {
+    "n": 4269,
+    "mae_inr": 373.27015716977473,
+    "median_absolute_percentage_error": 23.393316195372734,
+    "mean_absolute_log_error": 0.3059612173480262,
+    "r2": 0.9583820028899013
+  },
+  "platform_comparison": {
+    "amazon": {
+      "combined_model": {
+        "n": 293,
+        "mae_inr": 542.5506770225726,
+        "median_absolute_percentage_error": 22.647735962377748,
+        "mean_absolute_log_error": 0.2932464218042123,
+        "r2": 0.9190856408322051
+      },
+      "separate_model": {
+        "n": 293,
+        "mae_inr": 582.2580229075082,
+        "median_absolute_percentage_error": 24.478691866013015,
+        "mean_absolute_log_error": 0.3111039105868915,
+        "r2": 0.9087065515351457
+      },
+      "baseline": {
+        "n": 293,
+        "mae_inr": 489.31291184026924,
+        "median_absolute_percentage_error": 23.31722162549227,
+        "mean_absolute_log_error": 0.3000712538263865,
+        "r2": 0.9580174169322829
+      }
+    },
+    "flipkart": {
+      "combined_model": {
+        "n": 3976,
+        "mae_inr": 343.44526906763815,
+        "median_absolute_percentage_error": 20.672304760365247,
+        "mean_absolute_log_error": 0.270275880250686,
+        "r2": 0.961175953683696
+      },
+      "separate_model": {
+        "n": 3976,
+        "mae_inr": 341.2653532578729,
+        "median_absolute_percentage_error": 20.746549652426445,
+        "mean_absolute_log_error": 0.26674286775603334,
+        "r2": 0.9552413085781811
+      },
+      "baseline": {
+        "n": 3976,
+        "mae_inr": 364.71871674762815,
+        "median_absolute_percentage_error": 23.42280307975468,
+        "mean_absolute_log_error": 0.3063952614405415,
+        "r2": 0.9583689983714967
+      }
+    }
+  },
+  "splits": {
+    "train": 10777,
+    "validation": 2708,
+    "calibration": 3513,
+    "test": 4269
+  },
+  "unique_title_groups": 13709,
+  "interval": {
+    "nominal_coverage": 0.9,
+    "log_radius": 0.6349388239730751,
+    "calibration_rows": 3513
+  },
+  "elapsed_seconds": 4.860094957984984,
+  "limitations": [
+    "No ground-truth fraud labels; prediction is not authenticity verification.",
+    "Old/undated snapshots do not establish today's fair price.",
+    "Title normalization reduces but cannot eliminate variant leakage.",
+    "Listed price is a predictor, so inflated reference prices can bias estimates.",
+    "Calibration coverage assumes comparable data; it is not a per-product confidence score.",
+    "Platform and category shifts are confounded with unknown collection dates."
+  ]
+}

@@ -1,0 +1,48 @@
+name: Daily price collection
+on:
+  schedule:
+    - cron: '30 2 * * *'   # 08:00 IST daily
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: collect-prices
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install runtime dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Fetch bounded INR snapshot and archive it
+        run: python scripts/data_feasibility.py
+      - name: Discard the run when no observation changed
+        run: |
+          python - <<'PY'
+          import json, subprocess, sys
+          path = "datasets/external/current/open_prices_inr.json"
+          try:
+              previous = json.loads(subprocess.check_output(["git", "show", f"HEAD:{path}"]))["observations"]
+          except subprocess.CalledProcessError:
+              sys.exit(0)
+          if json.load(open(path))["observations"] == previous:
+              subprocess.run(["git", "checkout", "--", "datasets", "reports"], check=True)
+              subprocess.run(["git", "clean", "-fdq", "datasets/external/archive"], check=True)
+              print("Observations unchanged; nothing to archive.")
+          PY
+      - name: Commit new evidence
+        run: |
+          git config user.name "price-truth-collector"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add datasets/external/archive datasets/external/current \
+            reports/current/data_feasibility.json reports/current/history_readiness.csv \
+            reports/current/collection_status.json
+          if git diff --cached --quiet; then echo "No new observations"; exit 0; fi
+          git commit -m "Daily Open Prices INR snapshot $(date -u +%F)"
+          git push

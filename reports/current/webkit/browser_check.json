@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-10-07T08:34:15.837339+00:00",
+  "url": "http://127.0.0.1:8501",
+  "browser": "26.6",
+  "engine": "webkit",
+  "initial_visible_load_seconds": 0.5066319160105195,
+  "javascript_errors": [],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "horizontal_page_overflow": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "horizontal_page_overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "horizontal_page_overflow": false
+    }
+  ],
+  "accessibility_serious_or_critical": null,
+  "flows": [
+    "home",
+    "price check with real model and PDF download",
+    "unit comparison",
+    "offline food lookup",
+    "shrinkflation case"
+  ],
+  "scope": "Local webkit; three viewport emulations. WebKit is not branded Safari; emulation is not a physical device."
+}

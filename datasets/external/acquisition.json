@@ -1,0 +1,21 @@
+{
+  "observations": 395,
+  "unique_barcodes": 370,
+  "cached_barcodes": [
+    "8904043551548",
+    "6291100212606",
+    "8906080604751",
+    "00001292"
+  ],
+  "lookup_failures": [
+    {
+      "code": "8901287100518",
+      "error": "Live lookup is unavailable and no cached record exists."
+    },
+    {
+      "code": "8901207049644",
+      "error": "Live lookup is unavailable and no cached record exists."
+    }
+  ],
+  "sha256": "35a95e9b319ad7992740687e64469a3cb0f98b0f3afa716e7ffc5060be345061"
+}

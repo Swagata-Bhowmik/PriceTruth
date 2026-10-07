@@ -1,0 +1,76 @@
+{
+  "method": "Python ast: module/class/function leading string expressions; count end_lineno - lineno + 1. Comments/LOC from recorded Radon raw output.",
+  "scope": "13 production/script Python files; tests excluded",
+  "files": [
+    {
+      "file": "app.py",
+      "docstring_blocks": 4,
+      "docstring_physical_lines": 4
+    },
+    {
+      "file": "src/price_truth/__init__.py",
+      "docstring_blocks": 1,
+      "docstring_physical_lines": 1
+    },
+    {
+      "file": "src/price_truth/calculations.py",
+      "docstring_blocks": 6,
+      "docstring_physical_lines": 6
+    },
+    {
+      "file": "src/price_truth/catalogue.py",
+      "docstring_blocks": 4,
+      "docstring_physical_lines": 4
+    },
+    {
+      "file": "src/price_truth/data.py",
+      "docstring_blocks": 8,
+      "docstring_physical_lines": 8
+    },
+    {
+      "file": "src/price_truth/external.py",
+      "docstring_blocks": 5,
+      "docstring_physical_lines": 5
+    },
+    {
+      "file": "src/price_truth/history.py",
+      "docstring_blocks": 4,
+      "docstring_physical_lines": 4
+    },
+    {
+      "file": "src/price_truth/model.py",
+      "docstring_blocks": 9,
+      "docstring_physical_lines": 9
+    },
+    {
+      "file": "src/price_truth/paths.py",
+      "docstring_blocks": 1,
+      "docstring_physical_lines": 1
+    },
+    {
+      "file": "src/price_truth/ui.py",
+      "docstring_blocks": 7,
+      "docstring_physical_lines": 7
+    },
+    {
+      "file": "scripts/browser_check.py",
+      "docstring_blocks": 2,
+      "docstring_physical_lines": 2
+    },
+    {
+      "file": "scripts/fetch_real_data.py",
+      "docstring_blocks": 3,
+      "docstring_physical_lines": 3
+    },
+    {
+      "file": "scripts/review.py",
+      "docstring_blocks": 6,
+      "docstring_physical_lines": 6
+    }
+  ],
+  "docstring_blocks": 60,
+  "docstring_physical_lines": 60,
+  "radon_comment_lines": 4,
+  "physical_loc": 1219,
+  "comment_lines_as_pct_of_physical_loc": 0.3281378178835111
+}
