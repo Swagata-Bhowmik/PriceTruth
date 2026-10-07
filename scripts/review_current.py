@@ -23,7 +23,7 @@ TARGETS = ["src", "app.py", "scripts", "tests"]
 
 def mutation_scope() -> list[str]:
     """Read the mutated module list from pyproject.toml so reports never drift from config."""
-    config = tomllib.loads((ROOT / "pyproject.toml").read_text())["tool"]["mutmut"]
+    config = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["tool"]["mutmut"]
     return [path.rsplit("/", 1)[-1] for path in config["source_paths"]]
 
 
@@ -31,8 +31,8 @@ def execute(args: list[str], filename: str, commands: list) -> str:
     """Write command output and preserve failed exit codes instead of claiming a pass."""
     start = time.perf_counter()
     result = subprocess.run(args, cwd=ROOT, capture_output=True, text=True, timeout=1800)
-    (OUT / filename).write_text(result.stdout)
-    (OUT / (filename + ".stderr")).write_text(result.stderr)
+    (OUT / filename).write_text(result.stdout, encoding="utf-8")
+    (OUT / (filename + ".stderr")).write_text(result.stderr, encoding="utf-8")
     commands.append({"command": shlex.join(args), "exit_code": result.returncode,
                      "elapsed_seconds": time.perf_counter()-start})
     if result.returncode:
@@ -61,7 +61,7 @@ def collect_mutations(commands: list) -> dict:
     execute([mutmut, "results", "--all", "true"], "mutmut-results.txt", commands)
     execute([mutmut, "export-cicd-stats"], "mutmut-export.txt", commands)
     shutil.copyfile(ROOT / "mutants/mutmut-cicd-stats.json", OUT / "mutation.json")
-    return json.loads((OUT / "mutation.json").read_text())
+    return json.loads((OUT / "mutation.json").read_bytes())
 
 
 def benchmark() -> dict:
@@ -116,7 +116,7 @@ def metrics_sections(metrics: dict) -> list[str]:
 
 def render_report(metrics: dict, mutations: dict, timings: dict, manifest: dict) -> str:
     """Render measured results, preserving scope and externally unverified requirements."""
-    coverage = json.loads((OUT / "coverage.json").read_text())["totals"]
+    coverage = json.loads((OUT / "coverage.json").read_bytes())["totals"]
     suite = ET.parse(OUT / "pytest.xml").getroot().find("testsuite")
     killed, total = mutations["killed"], mutations["total"]
     sections = ["# Price Truth — current engineering review", f"Generated: {manifest['generated_at']}",
@@ -146,7 +146,7 @@ def main() -> None:
     manifest = source_manifest(commands)
     (OUT / "performance.json").write_text(json.dumps(timings, indent=2))
     (OUT / "review_manifest.json").write_text(json.dumps(manifest, indent=2))
-    (OUT / "CODE-REVIEW-REPORT.md").write_text(render_report(metrics, mutations, timings, manifest))
+    (OUT / "CODE-REVIEW-REPORT.md").write_text(render_report(metrics, mutations, timings, manifest), encoding="utf-8")
     print(f"Review completed. Evidence: {OUT}")
 
 

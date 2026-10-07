@@ -24,7 +24,7 @@ DAYS = pd.date_range(START, HORIZON, freq="D")
 @lru_cache(maxsize=1)
 def assumptions() -> dict:
     """Load the researched generator parameters."""
-    return json.loads(ASSUMPTIONS.read_text())
+    return json.loads(ASSUMPTIONS.read_bytes())
 
 
 def seed_for(*parts: str) -> int:

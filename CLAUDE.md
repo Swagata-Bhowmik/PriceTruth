@@ -15,11 +15,12 @@ Full background, requirements, personas (Priya, Rajesh, Aarav), rubric and decis
 | Item | Location |
 |---|---|
 | Repository | https://github.com/Swagata-Bhowmik/PriceTruth (public), branch `main` |
-| Local folder | `/Users/krishsoni/Documents/swagata/price-truth` |
+| Source of truth | **This repository only.** No other repository or folder is used |
+| Local clone (Windows) | `C:\Users\mrkri\Documents\GitHub\PriceTruth`; venv at `.venv\Scripts\python.exe` (Python 3.12) |
 | First commit | `f78958e` (7 Oct 2026, Swagata Bhowmik) — single import commit: *“Import Price Truth application, dataset, models and tests (AI-assisted development)”* |
 | CI | GitHub Actions **Application checks** — green on `f78958e` |
-| Older working copy | `/Users/krishsoni/Documents/price-truth` — earlier development folder, still linked to the old repo `mrkrishsoni/price-truth` (still public as of 7 Oct). Do not work there; this folder is the source of truth. |
-| Online deployment | Not confirmed. Planned on Streamlit Community Cloud from this repo (see `GITHUB-SETUP.md` Step 9 if present, or README → Deployment). |
+| Status tracker | `PROJECT-COMPLETION.md` — measured state, decisions in force, open items |
+| Online deployment | Not yet. Planned on Streamlit Community Cloud from this repo (README → Deployment) |
 
 ## How it was built (history)
 
@@ -49,6 +50,8 @@ Full background, requirements, personas (Priya, Rajesh, Aarav), rubric and decis
 | Dataset audit | 59 / 59 integrity checks pass |
 
 ## Commands
+
+On Windows, replace `.venv/bin/python` with `.venv\Scripts\python.exe` (and `.venv/bin/ruff` with `.venv\Scripts\ruff.exe`, and so on). Mutmut does not run natively on Windows, so `scripts/review.py` (which includes it) runs in CI or WSL; tests, Ruff and Radon run locally.
 
 ```bash
 .venv/bin/python -m streamlit run app.py          # app at http://localhost:8501 (guide at /user-guide)
@@ -107,22 +110,23 @@ datasets/              raw Amazon/Flipkart CSVs (never modified), processed cata
 - After code changes that will be reported, rerun `scripts/review.py` and the browser checks; never edit measured numbers by hand.
 - Live lookups write cache files under `datasets/external/off`, `price_cache/` and `search/`. Do not commit those incidental files unless intended.
 - The user guide (`docs/USER-GUIDE.html`) contains screenshots of the app. If a page changes visibly, regenerate the guide (the capture/build scripts are not in the repo; recreate them with Playwright if needed) or note it as outdated.
-- Port 8501 may already be in use by the older working copy; use `--server.port 8502` if so.
+- If port 8501 is busy, use `--server.port 8502`.
 
 ## Documents — current vs historical
 
 | Current | Historical (describe earlier states; do not treat as current) |
 |---|---|
-| `README.md` — setup, pages, deployment, automation | `PROGRESS.md` (19 Sep; mentions 98 tests, old pages) |
-| `PROJECT-COMPLETION.md` — top section “7 October 2026 status” (sections below the line are 6 Oct) | `docs/CLAUDE-UI-HANDOFF.md` (redesign brief — completed) |
-| `docs/COMPLETION-PLAN.md` — gap audit and open items | `docs/REVIEW-SUBMISSION-PLAN.md` (September submission) |
-| `datasets/final/DATA-CARD.md` — dataset v1.2 | `reports/CODE-REVIEW-REPORT.md` (19 Sep review) |
-| `reports/current/CODE-REVIEW-REPORT.md` + raw evidence | `submission/` (local only; Word reports of 19 Sep) |
+| `README.md` — setup, pages, deployment, automation | `docs/history/` — earlier trackers, plans and handoffs (index in its `README.md`) |
+| `PROJECT-COMPLETION.md` — **the one status tracker**: measured state, decisions, open items | `reports/2026-09-19-lab-submission/` — evidence behind the submitted Lab Work report |
+| `datasets/final/DATA-CARD.md` — dataset v1.2 | `submission/` (local only; Word reports of 19 Sep) |
+| `reports/current/CODE-REVIEW-REPORT.md` + raw evidence | |
 | `docs/DATA-SOURCES.md`, `docs/MUTATION-SURVIVORS.md`, `docs/USABILITY-STUDY.md`, `docs/USER-GUIDE.html` | |
 
-## Local-only files (in this folder, not in Git)
+`reports/` root holds only live model and data outputs read by the app (`model_evaluation.json`, `data_audit.json`, `discount_model_evaluation.json`, `evaluation_split.csv`). New review evidence goes to `reports/current/`. Status changes go in `PROJECT-COMPLETION.md`; do not start new tracker files.
 
-Ignored by `.gitignore` because they contain team names and roll numbers or are generated output:
+## Local-only files (not in Git)
+
+Ignored by `.gitignore` because they contain team names and roll numbers or are generated output. They are **not present in the Windows clone**; ask the user for them when needed:
 
 - `PRICE-TRUTH-MASTER-CONTEXT.md` — full project history, requirements, rubric, personas (**read for background**)
 - `PRICE-TRUTH-BUILD-HANDOFF.md` — build plan, FR/NFR list
@@ -133,14 +137,4 @@ Ignored by `.gitignore` because they contain team names and roll numbers or are 
 
 ## Open items
 
-| Item | Status / owner |
-|---|---|
-| Deploy on Streamlit Community Cloud from this repo; set repo variable `HEALTH_URL` | Owner (Swagata's Streamlit/GitHub login) |
-| Hosted browser checks + load test (25/50/100 users) against the deployed URL | After deployment |
-| Update Lab Work Word report and record demo video for **16 Oct** | Before the demo |
-| Old repo `mrkrishsoni/price-truth` — make private or delete; disconnect older working copy | Owner decision |
-| 14-day uptime record | Starts after deployment |
-| Usability study with 5 participants (`docs/USABILITY-STUDY.md`) | Needs participants |
-| Physical phone/tablet, branded Safari/Edge checks | Needs devices |
-| Real-data forecast (≥ 40 consecutive days) and live retailer APIs | Time / API approval |
-| Optional: sale-calendar-aware next-day forecast (the forecast rarely beats “same as today”) | Idea, not started |
+Maintained in **`PROJECT-COMPLETION.md` → Open items** (before-demo list for 16 Oct, then time- or third-party-bound items). Keep that list current instead of duplicating it here.

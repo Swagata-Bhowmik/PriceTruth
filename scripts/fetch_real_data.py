@@ -34,7 +34,7 @@ def fetch_prices(params: dict, filename: str) -> list[dict]:
               "license": "ODbL-1.0", "total_at_source": first["total"],
               "complete_query": first["pages"] <= 20, "observations": observations}
     path = EXTERNAL / filename
-    path.write_text(json.dumps(record, indent=2, ensure_ascii=False))
+    path.write_text(json.dumps(record, indent=2, ensure_ascii=False), encoding="utf-8")
     return observations
 
 

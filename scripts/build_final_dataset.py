@@ -30,7 +30,7 @@ def stratified(catalogue: pd.DataFrame, per_group: int, salt: str) -> pd.DataFra
 
 def food_prices(end: date) -> pd.DataFrame:
     """Real Open Prices INR observations plus anchored synthetic daily store histories."""
-    snapshot = json.loads((EXTERNAL / "current/open_prices_inr.json").read_text())
+    snapshot = json.loads((EXTERNAL / "current/open_prices_inr.json").read_bytes())
     real = pd.DataFrame(snapshot["observations"]).assign(provenance="real")
     named = real[real.product_name.notna() & (real.location_type == "shop")]
     anchors = (named.groupby(["product_code", "product_name"]).price.median().reset_index()
@@ -48,10 +48,10 @@ def food_prices(end: date) -> pd.DataFrame:
 
 def shrink_cases() -> dict:
     """Merge cited real cases with simulated generic timelines (provenance on every case)."""
-    real = json.loads((DATA / "evidence/shrink_cases.json").read_text())
-    extra = json.loads((FINAL / "shrink_research.json").read_text()) if (FINAL / "shrink_research.json").exists() \
+    real = json.loads((DATA / "evidence/shrink_cases.json").read_bytes())
+    extra = json.loads((FINAL / "shrink_research.json").read_bytes()) if (FINAL / "shrink_research.json").exists() \
         else {"cases": []}
-    simulated = json.loads((FINAL / "shrink_simulated.json").read_text())["cases"]
+    simulated = json.loads((FINAL / "shrink_simulated.json").read_bytes())["cases"]
     cases = [{**c, "provenance": "real", "source_name": real["source_name"], "source_url": real["source_url"],
               "reported_on": real["reported_on"]} for c in real["cases"]]
     cases += [{**c, "provenance": "real"} for c in extra["cases"]]
@@ -75,7 +75,7 @@ def main() -> None:
     food = food_prices(end)
     food.to_csv(FINAL / "food_prices.csv.gz", index=False)
     cases = shrink_cases()
-    (FINAL / "shrink_cases.json").write_text(json.dumps(cases, indent=2, ensure_ascii=False))
+    (FINAL / "shrink_cases.json").write_text(json.dumps(cases, indent=2, ensure_ascii=False), encoding="utf-8")
     report = authenticity.train(labels)
     summary = {"generated_at": datetime.now(UTC).isoformat(), "end_date": end.isoformat(),
                "real_listings": int(len(catalogue)),

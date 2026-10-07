@@ -130,7 +130,7 @@ def price_collection() -> tuple[pd.DataFrame, str, bool]:
     """Most complete saved Open Prices collection, a description, and whether the archive was unreadable."""
     latest = EXTERNAL / "current/open_prices_inr.json"
     if latest.exists():
-        snapshot = json.loads(latest.read_text())
+        snapshot = json.loads(latest.read_bytes())
         frame, metadata = pd.DataFrame(snapshot["observations"]), snapshot
     else:
         frame, metadata = load_observations()

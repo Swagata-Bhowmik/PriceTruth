@@ -33,13 +33,13 @@ def discount_model():
 def report(name: str) -> dict | None:
     """Read a saved evaluation report, or None when it is absent."""
     path = REPORTS / name
-    return json.loads(path.read_text()) if path.exists() else None
+    return json.loads(path.read_bytes()) if path.exists() else None
 
 
 @st.cache_data
 def json_file(path) -> dict | None:
     """Read any JSON file, or None when it is absent."""
-    return json.loads(path.read_text()) if path.exists() else None
+    return json.loads(path.read_bytes()) if path.exists() else None
 
 
 def _warm(frame, bundle: dict) -> None:

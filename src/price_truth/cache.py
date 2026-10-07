@@ -13,6 +13,7 @@ def write_json(path: Path, value: dict) -> None:
         try:
             json.dump(value, handle, indent=2)
         except Exception:
+            handle.close()  # Windows cannot delete a file that is still open
             temporary.unlink(missing_ok=True)
             raise
     temporary.replace(path)
@@ -21,7 +22,7 @@ def write_json(path: Path, value: dict) -> None:
 def read_json(path: Path) -> dict | None:
     """Treat malformed local cache data as a miss, never as a successful API response."""
     try:
-        value = json.loads(path.read_text())
+        value = json.loads(path.read_bytes())
     except (OSError, ValueError):
         return None
     return value if isinstance(value, dict) else None

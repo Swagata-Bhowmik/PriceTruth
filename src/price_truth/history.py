@@ -11,7 +11,7 @@ from price_truth.paths import EXTERNAL
 def load_observations(example: bool = False) -> tuple[pd.DataFrame, dict]:
     """Load public observed INR prices separately from snapshot training data."""
     filename = "open_prices_example.json" if example else "open_prices_inr.json"
-    payload = json.loads((EXTERNAL / filename).read_text())
+    payload = json.loads((EXTERNAL / filename).read_bytes())
     return pd.DataFrame(payload["observations"]), {k: v for k, v in payload.items() if k != "observations"}
 
 

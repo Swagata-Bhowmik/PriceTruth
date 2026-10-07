@@ -217,8 +217,8 @@ def shrink_cases() -> list[dict]:
     """Cases from the finalized dataset, falling back to the original cited evidence."""
     final = DATA / "final" / "shrink_cases.json"
     if final.exists():
-        return json.loads(final.read_text())["cases"]
-    evidence = json.loads((DATA / "evidence/shrink_cases.json").read_text())
+        return json.loads(final.read_bytes())["cases"]
+    evidence = json.loads((DATA / "evidence/shrink_cases.json").read_bytes())
     return [{**c, "source_name": evidence["source_name"], "source_url": evidence["source_url"],
              "reported_on": evidence["reported_on"], "provenance": "real"} for c in evidence["cases"]]
 
@@ -311,7 +311,7 @@ def dataset_tab(summary: dict | None, discount: dict | None) -> None:
         st.caption(f"{discount['selected_model'].replace('_', ' ').title()} evaluated on products it never saw, "
                    f"using synthetic labels. {discount['label_rule']}")
     with st.expander("Generator assumptions and sources"):
-        st.json(json.loads((DATA / "final" / "assumptions.json").read_text()), expanded=False)
+        st.json(json.loads((DATA / "final" / "assumptions.json").read_bytes()), expanded=False)
 
 
 def methods_page(evaluation: dict | None, audit: dict | None, data_audit: dict | None,

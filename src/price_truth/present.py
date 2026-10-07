@@ -134,7 +134,7 @@ def money(value: float, currency: str = "INR") -> str:
 def category_quality(audit_path: Path, platform: str, category: str) -> dict | None:
     """Return held-out quality for this platform/category when it is weak (R² below 0.5)."""
     try:
-        groups = json.loads(audit_path.read_text())["subgroups"]
+        groups = json.loads(audit_path.read_bytes())["subgroups"]
     except (OSError, ValueError, KeyError):
         return None
     for group in groups:

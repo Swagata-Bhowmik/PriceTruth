@@ -160,3 +160,14 @@ def test_saved_responses_accept_tomorrow_dated_rows():
     assert price_api.valid_cache(record, CODE) is True
     record["observations"] = [{**good, "date": (date.today() + timedelta(days=2)).isoformat()}]
     assert price_api.valid_cache(record, CODE) is False
+
+
+def test_observations_load_as_utf8_on_every_platform(tmp_path, monkeypatch):
+    """Windows: store names with non-cp1252 bytes (č = C4 8D) load instead of raising UnicodeDecodeError."""
+    from price_truth import history
+    payload = {"source": "Open Prices", "observations": [{"location_name": "Obchod č. 1", "price": 10}]}
+    (tmp_path / "open_prices_inr.json").write_bytes(json.dumps(payload, ensure_ascii=False).encode("utf-8"))
+    monkeypatch.setattr(history, "EXTERNAL", tmp_path)
+    frame, meta = history.load_observations()
+    assert frame.loc[0, "location_name"] == "Obchod č. 1"
+    assert meta == {"source": "Open Prices"}

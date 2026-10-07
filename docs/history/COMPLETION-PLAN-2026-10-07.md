@@ -1,5 +1,7 @@
 # Price Truth — full completion plan
 
+> **Historical document.** Superseded; kept for the record. Current status: [PROJECT-COMPLETION.md](../../PROJECT-COMPLETION.md).
+
 Written 7 October 2026. Baseline: the 6 October build (150 passing tests; review manifest matches current source). The goal is a complete, deployed product, not only a demo. The Working Demo is due 16 October; work after that continues toward full completion.
 
 Rules carried over from earlier work: no synthetic data in training, history or offers; no fake scores, waiting periods or ratings in the UI; no unauthorized scraping. Unsupported results should decline with a clear explanation.

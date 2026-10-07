@@ -1,5 +1,7 @@
 # Price Truth: prioritize the 40-mark Lab Work
 
+> **Historical document.** Superseded; kept for the record. Current status: [PROJECT-COMPLETION.md](../../PROJECT-COMPLETION.md).
+
 ## Final same-day decision — supersedes the schedule below
 
 The user requires completion today. Freeze feature expansion and present the working historical price-assessment workflow, with unit comparison as supporting functionality. Existing tool scopes remain explicit: the code review covers the current application and its supporting files, while Mutmut covers three domain modules. Do not describe those results as isolated model-only measurements.

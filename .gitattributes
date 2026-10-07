@@ -1,0 +1,8 @@
+# Same bytes on every OS: raw-data SHA-256 checks and source hashes must match the Mac/CI checkout.
+* text=auto eol=lf
+datasets/** -text
+artifacts/** binary
+*.png binary
+*.pdf binary
+*.gz binary
+*.joblib binary

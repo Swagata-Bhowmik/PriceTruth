@@ -2,14 +2,15 @@
 
 A functional Python web application for explaining observed product prices, looking up food packs, comparing unit prices, and showing sourced price/pack history. Built for Group 11's NMIMS M.Sc. Data Science project.
 
-The active completion record is [PROJECT-COMPLETION.md](PROJECT-COMPLETION.md). September submission evidence is preserved; new checks are in `reports/current/`.
+Current status, decisions and open items: [PROJECT-COMPLETION.md](PROJECT-COMPLETION.md). Current review evidence is in `reports/current/`; the September Lab Work evidence is in `reports/2026-09-19-lab-submission/` and superseded documents are in `docs/history/`.
 
 ## Run the existing local build
 
 From the project folder:
 
 ```bash
-.venv/bin/python -m streamlit run app.py
+.venv/bin/python -m streamlit run app.py      # macOS/Linux
+.venv\Scripts\python.exe -m streamlit run app.py   # Windows
 ```
 
 Open `http://localhost:8501`. The current workspace already includes the cleaned catalogue, trained model, real API caches, and source evidence, so the demo can run without downloading data again. Live barcode/name search needs internet; use the explicitly labeled saved examples when offline.
@@ -61,8 +62,10 @@ app.py (st.navigation) → views/*.py → page bodies in ui.py / workspace.py
                                         ├─ present.py   plain-language verdicts, SHAP % effects (pure, tested)
                                         ├─ theme.py     brand CSS, verdict/empty-state components, chart styling
                                         └─ resources.py cached catalogue/model + background warm-up
-domain modules: data.py · model.py · calculations.py · catalogue.py · history.py · forecast.py
-                observations.py · offers.py · external.py · price_api.py · evidence_store.py · exports.py
+                                        └─ market_ui.py Price-check tabs: discount, history & timing, where to buy
+domain modules: data.py · model.py · authenticity.py · synthetic.py · calculations.py · catalogue.py
+                history.py · forecast.py · observations.py · offers.py · external.py · price_api.py
+                evidence_store.py · exports.py
 ```
 
 Pages never compute results themselves; they call the domain modules. Observation uploads and manual entries are validated atomically and held in session memory only.
@@ -73,7 +76,7 @@ Pages never compute results themselves; they call the domain modules. Observatio
 .venv/bin/python scripts/review.py
 ```
 
-The runner writes Ruff, PyTest/coverage, Radon CC/MI/raw/Halstead, scoped Mutmut, timings and a source-hash manifest to `reports/current/`. Read the [current review](reports/current/CODE-REVIEW-REPORT.md). A step-by-step [user guide with screenshots](docs/USER-GUIDE.html) explains every page and number; it is also built into the app at `/user-guide`. Mutation scope is the domain modules listed under `[tool.mutmut]` in `pyproject.toml` (calculations, catalogue, history, observations, forecast, offers, evidence_store and price_api); it is not a whole-application mutation score. Remaining survivors are justified in [docs/MUTATION-SURVIVORS.md](docs/MUTATION-SURVIVORS.md). The original [submission report](reports/CODE-REVIEW-REPORT.md) and `submission/BASELINE-2026-09-19-SOURCE-EVIDENCE.zip` preserve the earlier version.
+The runner writes Ruff, PyTest/coverage, Radon CC/MI/raw/Halstead, scoped Mutmut, timings and a source-hash manifest to `reports/current/`. Read the [current review](reports/current/CODE-REVIEW-REPORT.md). A step-by-step [user guide with screenshots](docs/USER-GUIDE.html) explains every page and number; it is also built into the app at `/user-guide`. Mutation scope is the domain modules listed under `[tool.mutmut]` in `pyproject.toml` (calculations, catalogue, history, observations, forecast, offers, evidence_store and price_api); it is not a whole-application mutation score. Remaining survivors are justified in [docs/MUTATION-SURVIVORS.md](docs/MUTATION-SURVIVORS.md). The September [submission report](reports/2026-09-19-lab-submission/CODE-REVIEW-REPORT.md) and its raw evidence preserve the earlier version.
 
 Additional checks:
 
@@ -124,4 +127,4 @@ Hosted checks: `PRICE_TRUTH_URL=https://<app>.streamlit.app/~/+ python scripts/b
 
 ## Remaining external work
 
-Time- or third-party-bound items are tracked in [docs/COMPLETION-PLAN.md](docs/COMPLETION-PLAN.md): a 40-day real history before any Indian forecast can be validated, a 14-day uptime window, retailer API approvals, a usability study with real participants ([kit](docs/USABILITY-STUDY.md)) and physical-device checks.
+Time- or third-party-bound items are tracked in [PROJECT-COMPLETION.md](PROJECT-COMPLETION.md#open-items): a 40-day real history before any Indian forecast can be validated, a 14-day uptime window, retailer API approvals, a usability study with real participants ([kit](docs/USABILITY-STUDY.md)) and physical-device checks.
