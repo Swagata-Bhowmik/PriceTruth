@@ -20,8 +20,10 @@ def catalogue():
 
 @st.cache_resource(show_spinner="Loading model…")
 def model():
-    """Cache the trusted locally generated model across sessions."""
-    return load_model()
+    """Cache the trusted locally generated model across sessions, with category-level training counts."""
+    from price_truth.model import with_group_support
+
+    return with_group_support(load_model(), catalogue())
 
 
 @st.cache_resource(show_spinner="Loading discount model…")

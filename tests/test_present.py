@@ -84,7 +84,8 @@ def test_kpi_cards_follow_results_in_reading_order():
     """Headline cards restate computed results; tone follows the verdict, never invents numbers."""
     import pandas as pd
 
-    result = {"status": "above_model_range", "estimate": 500., "lower": 400., "upper": 650.}
+    result = {"status": "above_model_range", "estimate": 500., "lower": 400., "upper": 650., "support": 40,
+              "group_support": 400, "comparison_basis": "subcategory"}
     check = {"claimed_discount_pct": 60., "usual_discount_pct": 40., "lowest_30d": 300., "real_discount_pct": -2.,
              "inflated": True}
     risk = {"probability_inflated": .42, "flagged": True, "threshold": .17}
@@ -115,3 +116,15 @@ def test_kpi_cards_handle_missing_model_and_no_offers():
     assert unflagged["tone"] == "good" and unflagged["note"] == "below the 17% flag line"
     own_best = pd.DataFrame({"platform": ["Amazon"], "total": [99.], "available": [True]})
     assert present.best_offer_card(own_best, "amazon")["note"] == "incl. delivery and fees"
+
+
+def test_basis_note_names_the_comparison_used():
+    """The verdict always says which comparable listings it rests on."""
+    base = {"support": 42, "group_support": 900}
+    assert "42 training listings in the same platform and subcategory" in present.basis_note(
+        {**base, "comparison_basis": "subcategory"})
+    category = present.basis_note({**base, "support": 3, "comparison_basis": "category"})
+    assert "Only 3" in category and "900" in category and "rough guide" in category
+    assert "Too few" in present.basis_note({**base, "comparison_basis": "none"})
+    card = present.price_card({**base, "status": "within_model_range", "comparison_basis": "category"})
+    assert card["note"] == "rough guide (category level)" and "rough guide" in card["tip"]

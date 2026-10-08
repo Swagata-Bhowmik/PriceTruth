@@ -152,6 +152,7 @@ def train_model() -> dict:
                         "Platform and category shifts are confounded with unknown collection dates."]}
     MODEL.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump({"pipeline": pipeline, "radius": radius, "support": by_group,
+                 "group_support": fitting.groupby(["platform", "category_group"]).size().to_dict(),
                  "training_keys": set(fitting.key), "report": report}, MODEL)
     (REPORTS / "model_evaluation.json").write_text(json.dumps(report, indent=2))
     return report
@@ -160,6 +161,25 @@ def train_model() -> dict:
 def load_model() -> dict:
     """Load only the trusted locally generated model; never accept uploaded pickle files."""
     return joblib.load(MODEL)
+
+
+MIN_SUPPORT = 30
+
+
+def with_group_support(bundle: dict, catalogue: pd.DataFrame) -> dict:
+    """Add training counts per platform and category group (for artifacts saved before they were stored)."""
+    if "group_support" not in bundle:
+        fitted = catalogue[catalogue.key.isin(bundle["training_keys"])]
+        bundle["group_support"] = fitted.groupby(["platform", "category_group"]).size().to_dict()
+    return bundle
+
+
+def comparison_basis(bundle: dict, listing: dict) -> tuple[str, int, int]:
+    """Compare with the exact subcategory when it has enough training listings, else the category group."""
+    support = int(bundle["support"].get((listing["platform"], listing["subcategory"]), 0))
+    group = int(bundle.get("group_support", {}).get((listing["platform"], listing.get("category_group")), 0))
+    basis = "subcategory" if support >= MIN_SUPPORT else "category" if group >= MIN_SUPPORT else "none"
+    return basis, support, group
 
 
 def assess(bundle: dict, listing: dict, selling_price: float, listed_price: float) -> dict:
@@ -175,16 +195,17 @@ def assess(bundle: dict, listing: dict, selling_price: float, listed_price: floa
     estimate = float(np.expm1(estimate_log))
     lower = max(0., float(np.expm1(estimate_log - bundle["radius"])))
     upper = float(np.expm1(estimate_log + bundle["radius"]))
-    support = bundle["support"].get((listing["platform"], listing["subcategory"]), 0)
+    basis, support, group = comparison_basis(bundle, listing)
     explanation = shap.TreeExplainer(estimator)(transformed)
     contributions = explanation.values[0]
     base = float(np.asarray(explanation.base_values).reshape(-1)[0])
     names = pipeline.steps[0][1].get_feature_names_out().tolist()
-    status = "limited_support" if support < 30 else (
+    status = "limited_support" if basis == "none" else (
         "below_model_range" if selling_price < lower else
         "above_model_range" if selling_price > upper else "within_model_range")
     return {"claimed_discount_pct": claimed, "estimate": estimate, "lower": lower, "upper": upper,
-            "status": status, "support": int(support), "prediction_log": estimate_log,
+            "status": status, "support": support, "group_support": group, "comparison_basis": basis,
+            "prediction_log": estimate_log,
             "base_log": base, "shap": [{"feature": name, "contribution": float(value)}
                                          for name, value in zip(names, contributions, strict=True)],
             "explanation_error": abs(base + float(contributions.sum()) - estimate_log),

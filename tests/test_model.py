@@ -54,3 +54,23 @@ def test_training_pipeline_on_real_data(monkeypatch, tmp_path):
     assert sum(result["splits"].values()) == len(load_catalogue())
     assert result["interval"]["calibration_rows"] == result["splits"]["calibration"]
     assert result["test"]["mean_absolute_log_error"] < result["baseline_test"]["mean_absolute_log_error"]
+
+
+def test_sparse_subcategory_falls_back_to_category_group(bundle):
+    """A thin subcategory is compared at platform + category level when that has enough training listings."""
+    from price_truth.model import comparison_basis, with_group_support
+
+    data = load_catalogue()
+    enriched = with_group_support(dict(bundle), data)
+    assert with_group_support(enriched, data.head(0)) is enriched  # stored counts are never recomputed
+    row = data.iloc[0].to_dict()
+    row["subcategory"] = "Unseen category"
+    assert comparison_basis(enriched, row)[0] == "category"
+    result = assess(enriched, row, 100, 200)
+    assert result["comparison_basis"] == "category" and result["status"] != "limited_support"
+    assert result["support"] == 0 and result["group_support"] >= 30
+    row["category_group"] = "Unseen group"
+    assert assess(enriched, row, 100, 200)["status"] == "limited_support"
+    exact = data.iloc[0].to_dict()
+    exact_basis, support, _ = comparison_basis(enriched, exact)
+    assert (exact_basis == "subcategory") == (support >= 30)

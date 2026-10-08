@@ -128,6 +128,7 @@ def test_pack_transfer_prefills_unit_comparison():
     button(app, "Compare this pack's value").click().run()
     assert not app.exception
     assert app.session_state["quantity1"] > 0 and app.session_state["price1"] is None
+    assert any("Go to Pack value" in i.value for i in app.info)
 
 
 def test_methods_lists_licences():

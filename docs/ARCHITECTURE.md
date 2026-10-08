@@ -79,6 +79,7 @@ Each row compares the chosen tool with the alternatives considered, against this
 |---|---|---|---|
 | Price model | scikit-learn `HistGradientBoostingRegressor` on log(1+price) | Median baseline, Random Forest, XGBoost/LightGBM | It had the lowest validation mean absolute log error (0.259 vs 0.264 RF, 0.279 baseline) and handles missing ratings natively. Gradient boosting libraries such as XGBoost/LightGBM give a similar model with an extra compiled dependency |
 | Uncertainty | Calibrated residual radius (conformal-style) | Quantile regression, bootstrapping | One fitted model; held-out coverage 89.8% for a 90% target |
+| Verdict gate | At least 30 training listings in the same platform + subcategory; otherwise the platform + category group (labelled a rough guide); otherwise no verdict | Always give a verdict | Avoids confident verdicts where the model has seen few similar products; the fallback cut "no verdict" from 20% of listings to under 1% |
 | Explanation | SHAP `TreeExplainer` | LIME, permutation importance | Exact, additive per-prediction values for tree models; the dashboard converts them to % effects that add up to the estimate |
 | Discount model | Logistic regression | Gradient boosting classifier | Higher validation average precision (0.267 vs 0.227), the selection criterion; also a higher ROC AUC (0.883 vs 0.874) and a lower Brier score (0.049 vs 0.054, better calibrated). Its coefficients explain themselves |
 | Data handling | pandas + NumPy | Polars | The team knows them; data size (≈ 0.8 M rows) fits in memory |

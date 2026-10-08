@@ -14,7 +14,7 @@ ASSESSMENT = {
                           "This price is above the range similar historical listings sold for. "
                           "The advertised discount may overstate the saving.", "bad"),
     "limited_support": ("Not enough comparable listings",
-                        "Fewer than 30 training listings share this platform and subcategory, "
+                        "Fewer than 30 training listings share this platform and category, "
                         "so the estimate is shown without a verdict.", "muted"),
 }
 
@@ -128,11 +128,23 @@ SHORT_VERDICT = {"below_model_range": "Below expected", "within_model_range": "A
                  "above_model_range": "Above expected", "limited_support": "No verdict"}
 
 
+def basis_note(result: dict) -> str:
+    """Which comparable listings the verdict rests on, in one sentence."""
+    basis = result.get("comparison_basis", "subcategory")
+    if basis == "subcategory":
+        return f"Compared with {result['support']:,} training listings in the same platform and subcategory."
+    if basis == "category":
+        return (f"Only {result['support']} training listings share this exact subcategory, so it is compared with "
+                f"{result['group_support']:,} in the same platform and category: treat it as a rough guide.")
+    return "Too few comparable training listings for a verdict."
+
+
 def price_card(result: dict) -> dict:
     """Headline card for the price-position verdict."""
     title, text, tone = verdict(ASSESSMENT, result["status"])
+    note = "rough guide (category level)" if result.get("comparison_basis") == "category" else title
     return {"label": "Price verdict", "value": SHORT_VERDICT.get(result["status"], title), "tone": tone,
-            "note": title, "tip": text}
+            "note": note, "tip": f"{text} {basis_note(result)}"}
 
 
 def estimate_card(result: dict) -> dict:

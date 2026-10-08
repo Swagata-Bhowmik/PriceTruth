@@ -138,9 +138,8 @@ def verdict_section(row: dict, analysis: dict, selling: float) -> None:
         theme.verdict(title, text, tone)
         st.plotly_chart(theme.range_chart(result["lower"], result["estimate"], result["upper"], selling),
                         width="stretch", config={"displayModeBar": False})
-        st.caption(f"{result['support']:,} training listings share this platform and subcategory. The range is "
-                   "calibrated to hold 90% of held-out selling prices; it is not a probability that a discount "
-                   "is genuine.")
+        st.caption(f"{present.basis_note(result)} The range is calibrated to hold 90% of held-out selling prices; "
+                   "it is not a probability that a discount is genuine.")
     with right:
         effects = present.shap_effects(result, row)
         st.plotly_chart(theme.effects_chart(effects["effects"]), width="stretch", config={"displayModeBar": False})
@@ -366,6 +365,8 @@ def dashboard_page(data: pd.DataFrame, discount_loader=None) -> None:
                 "Pick a product, enter the price you see, and scroll through the verdict, the discount check, its "
                 "price history and the cheapest place to buy.",
                 [("listings", f"{len(data):,}"), ("platforms", "8"), ("cited shrink cases", "10")])
+    if st.session_state.get("prefill_note"):
+        st.info(f"{st.session_state['prefill_note']} [Go to Pack value ↓](#packs)", icon=":material/inventory_2:")
     with st.container(border=True):
         row = selector(data)
         if row is None:
