@@ -1,7 +1,7 @@
 """Bounded concurrent model+SHAP benchmark; explicitly not full browser-user capacity."""
 import json
 import os
-import subprocess
+import subprocess  # nosec B404 - runs this same script as a worker, fixed arguments
 import sys
 import threading
 import time
@@ -48,7 +48,8 @@ def main() -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, indent=2))
     print(json.dumps({k: v for k, v in report.items() if k != "results"}, indent=2))
-    assert all(r["ok"] for r in results), "Concurrent calls failed; inspect raw results."
+    if not all(r["ok"] for r in results):
+        raise SystemExit("Concurrent calls failed; inspect raw results.")
 
 
 if __name__ == "__main__":
@@ -58,7 +59,7 @@ if __name__ == "__main__":
         environment = {**os.environ, "PRICE_TRUTH_LOAD_WORKER": "1", "OMP_NUM_THREADS": "1",
                        "OPENBLAS_NUM_THREADS": "1", "VECLIB_MAXIMUM_THREADS": "1"}
         try:
-            result = subprocess.run([sys.executable, __file__], env=environment, timeout=120)
+            result = subprocess.run([sys.executable, __file__], env=environment, timeout=120)  # nosec B603
             sys.exit(result.returncode)
         except subprocess.TimeoutExpired:
             out = REPORTS / "current/concurrency-timeout.json"

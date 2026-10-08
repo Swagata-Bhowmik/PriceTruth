@@ -1,5 +1,4 @@
 """Streamlit page bodies. Calculations come from domain modules; this file only presents them."""
-import hashlib
 import json
 
 import pandas as pd
@@ -7,178 +6,12 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from price_truth import present, theme
-from price_truth.calculations import compare_packs, shrink_change
-from price_truth.catalogue import export_csv, safe_url, search
-from price_truth.exports import assessment_pdf
-from price_truth.model import assess
-from price_truth.paths import DATA, REPORTS
+from price_truth.catalogue import export_csv, search
+from price_truth.paths import DATA
 
 PLATFORMS = {"Both": ["amazon", "flipkart"], "Amazon": ["amazon"], "Flipkart": ["flipkart"]}
 UNITS = ["g", "kg", "ml", "l", "count"]
 CURRENCIES = ["INR", "EUR", "USD", "GBP"]
-
-
-def listing_picker(data: pd.DataFrame) -> dict | None:
-    """Search both catalogues and pick one listing from a selectable results table."""
-    columns = st.columns([3, 2], vertical_alignment="bottom")
-    query = columns[0].text_input("Search historical listings", key="product_query",
-                                  placeholder="e.g. charging cable, smart watch, kurta")
-    platform = columns[1].segmented_control("Platform", list(PLATFORMS), default="Both", key="product_platform")
-    matches = search(data, query, PLATFORMS[platform or "Both"]).head(200)
-    if matches.empty:
-        theme.empty_state("No listings match that search",
-                          "Try fewer or more general words, or switch the platform filter to Both.")
-        return None
-    table = pd.DataFrame({"Platform": matches.platform.str.title(), "Product": matches.name,
-                          "Variant": matches.variant, "Listed": matches.listed_price,
-                          "Sold at": matches.selling_price, "Discount": matches.discount_pct,
-                          "ID": matches.product_id})
-    st.caption(f"{len(matches):,} listing{'s' if len(matches) != 1 else ''} shown · prices as recorded on the "
-               "catalogue date · click a row to choose")
-    # A new search gets a new widget key, so a selection never points into a different result set.
-    results_id = hashlib.sha256("|".join(matches.key).encode()).hexdigest()[:12]
-    event = st.dataframe(table, hide_index=True, on_select="rerun", selection_mode="single-row",
-                         key=f"product_table_{results_id}", height=230, column_config={
-                             "Listed": st.column_config.NumberColumn(format="₹%.0f"),
-                             "Sold at": st.column_config.NumberColumn(format="₹%.0f"),
-                             "Discount": st.column_config.NumberColumn(format="%.0f%%"),
-                             "Product": st.column_config.TextColumn(width="large"),
-                             "Variant": st.column_config.TextColumn(width="medium")})
-    rows = event.selection.rows if event and event.selection else []
-    index = rows[0] if rows and rows[0] < len(matches) else 0
-    return matches.iloc[index].to_dict()
-
-
-def product_page(data: pd.DataFrame, model_loader, discount_loader=None) -> None:
-    """Primary journey: choose a listing, enter a price, see a verdict with its reasons."""
-    theme.page_header("Price check", "Is this a good price?",
-                      "Compare a price with what similar Amazon and Flipkart listings actually sold for.")
-    row = listing_picker(data)
-    if row is None:
-        return
-    theme.product_card(row["name"], [("Platform", row["platform"].title()), ("Category", row["category_group"]),
-                                     ("Variant", row.get("variant") or ""), ("ID", row["product_id"]),
-                                     ("Currency", "INR"), ("Observed", str(row.get("observed_at") or "")[:10] or "date unknown")],
-                       "historical", "not a live offer")
-    weak = present.category_quality(REPORTS / "current/model_audit.json", row["platform"], row["category_group"])
-    if weak:
-        st.warning(f"The model is less reliable for {row['platform'].title()} {row['category_group']} "
-                   f"(held-out R² {weak['r2']:.2f}, typical error {weak['median_absolute_percentage_error']:.0f}%). "
-                   "Treat the verdict as a rough guide.", icon="⚠️")
-    assessment_panel(row, model_loader(), discount_loader() if discount_loader else None)
-
-
-def assessment_panel(row: dict, bundle: dict, discount_bundle: dict | None = None) -> None:
-    """Assess the selected listing; results persist across reruns until the inputs change."""
-    from price_truth.market_ui import current_price
-
-    today_price, today_mrp = current_price(row)
-    with st.form(f"quote_{row['key']}", border=False):
-        columns = st.columns(2)
-        listed = columns[0].number_input("Listed (MRP) price, ₹", min_value=.01, value=today_mrp,
-                                         help="The 'was' or reference price the seller shows.")
-        selling = columns[1].number_input("Price you were offered, ₹", min_value=.01, value=today_price,
-                                          help="Starts at today's price for this listing; change it to the "
-                                               "price you see.")
-        if st.form_submit_button("Check this price", type="primary"):
-            st.session_state["price_check"] = {"key": row["key"], "selling": selling, "listed": listed}
-    saved = st.session_state.get("price_check")
-    if not saved or saved["key"] != row["key"]:
-        return
-    selling, listed = saved["selling"], saved["listed"]
-    try:
-        result = assess(bundle, row, selling, listed)
-    except ValueError as exc:
-        st.error(str(exc))
-        return
-    show_assessment(row, result, selling, listed)
-    from price_truth.market_ui import market_tabs
-
-    market_tabs(row, selling, listed, discount_bundle)
-
-
-def show_assessment(row: dict, result: dict, selling: float, listed: float) -> None:
-    """Verdict, range, reasons and exports for the price-position model."""
-    title, text, tone = present.verdict(present.ASSESSMENT, result["status"])
-    theme.verdict(title, text, tone)
-    columns = st.columns(3)
-    columns[0].metric("Advertised discount", f"{result['claimed_discount_pct']:.0f}%")
-    columns[1].metric("Model estimate", present.money(result["estimate"]))
-    columns[2].metric("Expected range", f"{present.money(result['lower'])}–{present.money(result['upper'])}")
-    st.plotly_chart(theme.range_chart(result["lower"], result["estimate"], result["upper"], selling),
-                    width="stretch", config={"displayModeBar": False})
-    effects = present.shap_effects(result, row)
-    st.plotly_chart(theme.effects_chart(effects["effects"]), width="stretch", config={"displayModeBar": False})
-    st.caption(f"Starting from a typical listing ({present.money(effects['baseline'])}), each factor raised or "
-               f"lowered the estimate by the percentage shown, reaching {present.money(effects['estimate'])}. "
-               "These are computed SHAP contributions of the trained model. They explain the estimate, "
-               "not whether a seller is honest.")
-    with st.expander("How to read this result"):
-        st.markdown(
-            f"- **Comparable listings:** {result['support']} training listings share this platform and subcategory.\n"
-            "- **Expected range:** calibrated to contain 90% of held-out selling prices for comparable data. "
-            "It is not a 90% probability that a discount is real.\n"
-            "- **Listed price matters:** the model uses the listed price, so an inflated MRP can raise the estimate.\n"
-            "- **Historical data:** Flipkart listings are from 2015–2016; Amazon dates are unknown.")
-        if result["seen_in_training"]:
-            st.caption("This listing was part of training. Published accuracy uses separate held-out products.")
-        st.caption(f"Technical: log-space prediction {result['prediction_log']:.4f}, "
-                   f"baseline {result['base_log']:.4f}, explanation error {result['explanation_error']:.2e}.")
-    document = {**result, "listing_key": row["key"], "platform": row["platform"],
-                "quoted_price": selling, "listed_price": listed, "currency": "INR",
-                "scope": "historical_price_assessment_not_fraud_verification"}
-    columns = st.columns(3)
-    columns[0].download_button("Download PDF report", lambda: assessment_pdf(row, result, selling, listed),
-                               file_name="price_assessment.pdf", mime="application/pdf", on_click="ignore",
-                               width="stretch")
-    columns[1].download_button("Download data (JSON)", json.dumps(document, indent=2),
-                               file_name="price_assessment.json", mime="application/json", on_click="ignore",
-                               width="stretch")
-    url = safe_url(row["product_url"])
-    if url:
-        columns[2].link_button(f"Open on {row['platform'].title()}", url, width="stretch")
-
-
-def pack_inputs(index: int, currency: str) -> dict:
-    """One pack option; keys are stable so other pages can pre-fill a pack."""
-    with st.container(border=True):
-        st.markdown(f"**Option {index}**")
-        price = st.number_input(f"Price ({currency})", min_value=.01, value=None, key=f"price{index}")
-        quantity = st.number_input("Quantity per pack", min_value=.01, value=None, key=f"quantity{index}")
-        columns = st.columns(2)
-        unit = columns[0].selectbox("Unit", UNITS, key=f"unit{index}")
-        count = columns[1].number_input("Packs", min_value=1, value=1, key=f"count{index}")
-    return {"name": f"Option {index}", "price": price, "quantity": quantity, "unit": unit,
-            "packs": count, "currency": currency}
-
-
-def unit_page() -> None:
-    """Compare two to four pack options of one product on price per 100 g/ml or per item."""
-    theme.page_header("Unit price", "Which pack is better value?",
-                      "Enter the price and size of each option. Prices are normalised to 100 g, 100 ml or one item.")
-    if st.session_state.get("prefill_note"):
-        st.info(st.session_state["prefill_note"], icon="📦")
-    top = st.columns([1, 1, 2])
-    currency = top[0].selectbox("Currency", CURRENCIES, key="unit_currency")
-    options = top[1].segmented_control("Options", [2, 3, 4], default=2, key="unit_options") or 2
-    with st.form("units", border=False):
-        columns = st.columns(options)
-        packs = []
-        for index, column in enumerate(columns, 1):
-            with column:
-                packs.append(pack_inputs(index, currency))
-        submitted = st.form_submit_button("Compare value", type="primary")
-    if not submitted:
-        return
-    if any(p["price"] is None or p["quantity"] is None for p in packs):
-        st.error("Enter a price and a quantity for every option.")
-        return
-    try:
-        result = compare_packs(packs)
-    except ValueError as exc:
-        st.error(str(exc))
-        return
-    show_unit_result(result, currency)
 
 
 def show_unit_result(result: list[dict], currency: str) -> None:
@@ -221,40 +54,6 @@ def shrink_cases() -> list[dict]:
     evidence = json.loads((DATA / "evidence/shrink_cases.json").read_bytes())
     return [{**c, "source_name": evidence["source_name"], "source_url": evidence["source_url"],
              "reported_on": evidence["reported_on"], "provenance": "real"} for c in evidence["cases"]]
-
-
-def shrink_page() -> None:
-    """Pack reductions at the same or similar price, with the hidden unit-price increase."""
-    theme.page_header("Shrinkflation", "Same price, smaller pack",
-                      "Cases where the pack got smaller while the price stayed about the same.")
-    cases = shrink_cases()
-    case = st.selectbox("Product", cases, key="shrink_case", format_func=lambda c: c["product"])
-    points = shrink_points(case)
-    first, last = points[0], points[-1]
-    result = shrink_change(first["quantity"], last["quantity"], first["price"], last["price"])
-    unit = case["unit"]
-    theme.verdict(f"{first['quantity']:g}{unit} → {last['quantity']:g}{unit}"
-                  f"{' at ₹' + format(last['price'], 'g') if first['price'] == last['price'] else ''}",
-                  f"You get {result['quantity_reduction_pct']:.0f}% less, so the real price per {unit} rose "
-                  f"{result['unit_price_increase_pct']:.0f}%.", "bad")
-    columns = st.columns(3)
-    columns[0].metric("Quantity reduction", f"{result['quantity_reduction_pct']:.1f}%")
-    columns[1].metric("Hidden price increase", f"{result['unit_price_increase_pct']:.1f}%")
-    columns[2].metric("Label price", f"₹{first['price']:g} → ₹{last['price']:g}")
-    figure = go.Figure(go.Bar(x=[p["period"] for p in points], y=[p["quantity"] for p in points],
-                              marker_color=[theme.PURPLE] + [theme.CORAL] * (len(points) - 1),
-                              text=[f"{p['quantity']:g} {unit} · ₹{p['price']:g}" for p in points],
-                              textposition="outside", cliponaxis=False))
-    figure.update_layout(title="Pack size over time")
-    figure.update_yaxes(ticksuffix=f" {unit}", rangemode="tozero")
-    st.plotly_chart(theme.style_figure(figure, 320), width="stretch", config={"displayModeBar": False})
-    if case.get("notes"):
-        st.markdown(f"**About this case.** {case['notes']}")
-    if case.get("source_url"):
-        st.caption(f"{case.get('source_name', 'Source')} · {case.get('reported_on', '')}")
-        st.link_button("Read the original report", case["source_url"])
-    st.caption("To track your own packs over time, add dated observations under My observations and use "
-               "Analyse pack-size changes.")
 
 
 def catalogue_page(data: pd.DataFrame) -> None:

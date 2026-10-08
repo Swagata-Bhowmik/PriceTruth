@@ -124,6 +124,79 @@ def top_contributions(contributions: list[dict], listing: dict, top: int = 6) ->
     return [{"label": k, "value": v} for k, v in items[:top]]
 
 
+SHORT_VERDICT = {"below_model_range": "Below expected", "within_model_range": "As expected",
+                 "above_model_range": "Above expected", "limited_support": "No verdict"}
+
+
+def price_card(result: dict) -> dict:
+    """Headline card for the price-position verdict."""
+    title, text, tone = verdict(ASSESSMENT, result["status"])
+    return {"label": "Price verdict", "value": SHORT_VERDICT.get(result["status"], title), "tone": tone,
+            "note": title, "tip": text}
+
+
+def estimate_card(result: dict) -> dict:
+    """Headline card for the model's estimate and its calibrated range."""
+    return {"label": "Fair price estimate", "value": money(result["estimate"]),
+            "note": f"range {money(result['lower'])}–{money(result['upper'])}",
+            "tip": "What similar Amazon and Flipkart listings sold for, from a gradient-boosting model trained on "
+                   "real listings. The range holds 90% of held-out selling prices."}
+
+
+def discount_card(check: dict) -> dict:
+    """Headline card comparing the advertised discount with the product's usual one."""
+    gap = check["claimed_discount_pct"] - check["usual_discount_pct"]
+    return {"label": "Advertised discount", "value": f"{check['claimed_discount_pct']:.0f}% off",
+            "tone": "bad" if check["inflated"] else "neutral",
+            "note": f"usual {check['usual_discount_pct']:.0f}% ({gap:+.0f} pts)",
+            "tip": "Discount off the listed MRP, compared with the median discount this product carried over the "
+                   "previous 90 days."}
+
+
+def saving_card(check: dict) -> dict:
+    """Headline card for the real saving against the 30-day lowest price."""
+    real = check["real_discount_pct"]
+    tone = "bad" if check["inflated"] else "good" if real >= 5 else "muted"
+    return {"label": "Real saving", "value": f"{real:.0f}%", "tone": tone,
+            "note": f"vs 30-day low {money(check['lowest_30d'])}",
+            "tip": "How far the price sits below its lowest price in the 30 days before the promotion "
+                   "(the EU Omnibus reference-price rule). Negative means it is above that low."}
+
+
+def risk_card(risk: dict | None) -> dict:
+    """Headline card for the discount-authenticity classifier."""
+    if risk is None:
+        return {"label": "Inflation risk", "value": "—", "tone": "muted", "note": "model not trained",
+                "tip": "The discount-authenticity model is not available in this build."}
+    flagged = risk["flagged"]
+    return {"label": "Inflation risk", "value": f"{risk['probability_inflated']:.0%}",
+            "tone": "bad" if flagged else "good",
+            "note": "flagged" if flagged else f"below the {risk['threshold']:.0%} flag line",
+            "tip": "Classifier estimate that this discount is inflated, judged only from what a shopper sees on "
+                   "the listing. Trained on research-calibrated simulated offers (ROC AUC 0.88 on unseen products)."}
+
+
+def best_offer_card(offers, platform: str) -> dict:
+    """Headline card for the cheapest available platform, including delivery and fees."""
+    available = offers[offers.available]
+    if available.empty:
+        return {"label": "Best place to buy", "value": "—", "tone": "muted", "note": "not available today",
+                "tip": "No platform lists this product today."}
+    best = available.iloc[0]
+    own = offers[offers.platform.str.lower() == platform]
+    saving = float(own.total.iloc[0] - best.total) if not own.empty else 0.0
+    note = f"saves {money(saving)} incl. delivery" if saving > 0 else "incl. delivery and fees"
+    return {"label": "Best place to buy", "value": f"{best.platform} {money(best.total)}", "tone": "good",
+            "note": note, "tip": "Lowest total cost (price + delivery + platform fee) across up to 8 Indian "
+                                 "platforms that sell this category. Offers are simulated from the listing's price."}
+
+
+def kpi_cards(result: dict, check: dict, risk: dict | None, offers, platform: str) -> list[dict]:
+    """The six headline figures shown at the top of the dashboard, in reading order."""
+    return [price_card(result), estimate_card(result), discount_card(check), saving_card(check),
+            risk_card(risk), best_offer_card(offers, platform)]
+
+
 def money(value: float, currency: str = "INR") -> str:
     """Format an amount with the rupee sign for INR and a code otherwise."""
     if currency == "INR":

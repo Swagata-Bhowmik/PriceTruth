@@ -17,18 +17,16 @@ from price_truth.paths import REPORTS
 
 
 async def user(browser, base: str, start: asyncio.Event) -> dict:
-    """Open the price check page, submit the default quote and wait for the verdict."""
+    """Open the dashboard and wait until the default product's verdict and headline figures are shown."""
     context = await browser.new_context()
     page = await context.new_page()
     await start.wait()
     began = time.perf_counter()
     try:
-        await page.goto(f"{base}/product", timeout=120_000)
-        button = page.get_by_role("button", name="Check this price", exact=True)
-        await button.wait_for(timeout=120_000)
+        await page.goto(f"{base}/", timeout=120_000)
+        await page.get_by_role("heading", name="Is this a fair price?").wait_for(timeout=120_000)
         loaded = time.perf_counter() - began
-        await button.click()
-        await page.get_by_text("Advertised discount", exact=True).first.wait_for(timeout=120_000)
+        await page.get_by_text("Fair price estimate").first.wait_for(timeout=120_000)
         return {"ok": True, "page_ready_s": loaded, "verdict_s": time.perf_counter() - began}
     except Exception as exc:  # noqa: BLE001 - every failure is recorded as a failed user
         return {"ok": False, "error": type(exc).__name__, "seconds": time.perf_counter() - began}

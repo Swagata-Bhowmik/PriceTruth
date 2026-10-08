@@ -5,20 +5,21 @@ import json
 import platform
 import shlex
 import shutil
-import subprocess
+import subprocess  # nosec B404 - runs the fixed review tool commands listed in this file
 import sys
 import time
 import tomllib
-import xml.etree.ElementTree as ET
 from datetime import UTC, datetime
 from pathlib import Path
 
+import defusedxml.ElementTree as ET
 import numpy as np
 
 from price_truth.paths import REPORTS, ROOT
 
 OUT = REPORTS / "current"
-TARGETS = ["src", "app.py", "scripts", "tests"]
+TARGETS = ["src", "app.py", "views", "scripts", "tests"]
+SAST_TARGETS = ["src", "app.py", "views", "scripts"]
 
 
 def mutation_scope() -> list[str]:
@@ -30,7 +31,7 @@ def mutation_scope() -> list[str]:
 def execute(args: list[str], filename: str, commands: list) -> str:
     """Write command output and preserve failed exit codes instead of claiming a pass."""
     start = time.perf_counter()
-    result = subprocess.run(args, cwd=ROOT, capture_output=True, text=True, timeout=1800)
+    result = subprocess.run(args, cwd=ROOT, capture_output=True, text=True, timeout=1800)  # nosec B603
     (OUT / filename).write_text(result.stdout, encoding="utf-8")
     (OUT / (filename + ".stderr")).write_text(result.stderr, encoding="utf-8")
     commands.append({"command": shlex.join(args), "exit_code": result.returncode,
@@ -51,7 +52,18 @@ def collect_checks(commands: list) -> dict:
     for kind in ["cc", "mi", "raw", "hal"]:
         metrics[kind] = json.loads(execute([python, "-m", "radon", kind, *TARGETS, "-j"],
                                            f"radon-{kind}.json", commands))
+    metrics["bandit"] = security_scan(commands)
     return metrics
+
+
+def security_scan(commands: list) -> dict:
+    """Bandit SAST over application and tooling code; any medium or high finding fails the review."""
+    report = json.loads(execute([sys.executable, "-m", "bandit", "-r", *SAST_TARGETS, "-f", "json", "-q",
+                                 "--exit-zero"], "bandit.json", commands))
+    serious = [r for r in report["results"] if r["issue_severity"] in ("MEDIUM", "HIGH")]
+    if serious:
+        raise RuntimeError(f"Bandit reported {len(serious)} medium/high findings. See {OUT / 'bandit.json'}")
+    return report
 
 
 def collect_mutations(commands: list) -> dict:
@@ -82,10 +94,10 @@ def benchmark() -> dict:
 def source_manifest(commands: list) -> dict:
     """Bind results to reviewed source bytes, dependency versions and the actual machine."""
     files = [ROOT / "app.py"]
-    for directory in ["src", "scripts", "tests"]:
+    for directory in ["src", "views", "scripts", "tests"]:
         files.extend(sorted((ROOT / directory).rglob("*.py")))
     packages = ["pandas", "numpy", "scikit-learn", "shap", "streamlit", "pytest", "pytest-cov",
-                "ruff", "radon", "mutmut", "reportlab", "requests", "plotly"]
+                "ruff", "radon", "mutmut", "bandit", "reportlab", "requests", "plotly"]
     return {"generated_at": datetime.now(UTC).isoformat(), "python": sys.version,
             "system": platform.platform(), "commands": commands,
             "versions": {p: importlib.metadata.version(p) for p in packages},
@@ -100,6 +112,18 @@ def table(headers: list, rows: list) -> str:
     return "\n".join([line(headers), line(["---"]*len(headers)), *map(line, rows)])
 
 
+def security_section(report: dict) -> list[str]:
+    """Bandit totals by severity, then each remaining (low) finding with its location."""
+    totals = report["metrics"]["_totals"]
+    rows = [[r["issue_severity"], r["test_id"], f"{r['filename']}:{r['line_number']}", r["issue_text"]]
+            for r in report["results"]]
+    return ["## Security (Bandit SAST)",
+            table(["Severity", "Findings"], [[s.title(), int(totals[f"SEVERITY.{s}"])] for s in ("HIGH", "MEDIUM", "LOW")]),
+            f"Scanned {int(totals['loc']):,} lines in {', '.join(SAST_TARGETS)}; {int(totals['nosec'])} lines carry a "
+            "justified `# nosec` comment (fixed-argument tool subprocesses, text escaping).",
+            *([table(["Severity", "Rule", "Location", "Finding"], rows)] if rows else ["No findings."])]
+
+
 def metrics_sections(metrics: dict) -> list[str]:
     """Present each Radon family separately without conflating index and percentage."""
     cc = [[path, block["name"], block["complexity"], block["rank"]]
@@ -108,7 +132,7 @@ def metrics_sections(metrics: dict) -> list[str]:
     raw = [[path, v["loc"], v["sloc"], v["comments"]] for path, v in metrics["raw"].items()]
     hal = [[path, round(v["total"]["volume"], 2), round(v["total"]["effort"], 2)]
            for path, v in metrics["hal"].items()]
-    return ["## Radon CC", table(["File", "Block", "CC", "Rank"], cc),
+    return [*security_section(metrics["bandit"]), "## Radon CC", table(["File", "Block", "CC", "Rank"], cc),
             "## Radon MI", "MI is an index, not percent maintainability.", table(["File", "MI", "Rank"], mi),
             "## Radon raw", table(["File", "LOC", "SLOC", "Comments"], raw),
             "## Halstead", table(["File", "Volume", "Estimated effort"], hal)]
@@ -144,8 +168,8 @@ def main() -> None:
     mutations = collect_mutations(commands)
     timings = benchmark()
     manifest = source_manifest(commands)
-    (OUT / "performance.json").write_text(json.dumps(timings, indent=2))
-    (OUT / "review_manifest.json").write_text(json.dumps(manifest, indent=2))
+    (OUT / "performance.json").write_text(json.dumps(timings, indent=2), encoding="utf-8")
+    (OUT / "review_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     (OUT / "CODE-REVIEW-REPORT.md").write_text(render_report(metrics, mutations, timings, manifest), encoding="utf-8")
     print(f"Review completed. Evidence: {OUT}")
 

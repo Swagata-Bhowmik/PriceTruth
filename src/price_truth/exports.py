@@ -1,7 +1,7 @@
 """Portable PDF assessment exports with identity, source and interpretation preserved."""
 from datetime import UTC, datetime
 from io import BytesIO
-from xml.sax.saxutils import escape
+from xml.sax.saxutils import escape  # nosec B406 - escapes text for ReportLab; no XML is parsed
 
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet

@@ -1,20 +1,34 @@
 """Read-only Open Food Facts integration with explicit cached fallback."""
 import hashlib
+import logging
 import re
+import time
 from datetime import UTC, datetime
 from pathlib import Path
+from urllib.parse import urlparse
 
 import requests
 
 from price_truth.cache import fresh, read_json, write_json
 from price_truth.paths import EXTERNAL
 
+LOG = logging.getLogger(__name__)
+
 HEADERS = {"User-Agent": "PriceTruthAcademic/0.1 (https://price-truth.netlify.app/)"}
 
 
 def get_json(url: str, params: dict | None = None) -> dict:
     """Read a public API using a bounded request; never silently accept HTML."""
-    response = requests.get(url, params=params, headers=HEADERS, timeout=(5, 15))
+    started = time.perf_counter()
+    try:
+        response = requests.get(url, params=params, headers=HEADERS, timeout=(5, 15))
+    except requests.RequestException as exc:
+        LOG.warning("api request failed", extra={"event": "api_error", "host": urlparse(url).netloc,
+                                                 "error": type(exc).__name__})
+        raise
+    LOG.info("api request", extra={"event": "api_request", "host": urlparse(url).netloc,
+                                   "status": response.status_code,
+                                   "duration_ms": round(1000 * (time.perf_counter() - started), 1)})
     response.raise_for_status()
     payload = response.json()
     if not isinstance(payload, dict):

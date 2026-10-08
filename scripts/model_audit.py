@@ -17,7 +17,8 @@ def main() -> None:
     splits = pd.read_csv(REPORTS / "evaluation_split.csv")
     keys = splits.loc[splits.split == "test", "key"]
     test = data[data.key.isin(keys)].copy()
-    assert len(test) == len(keys) and not set(test.key) & bundle["training_keys"]
+    if len(test) != len(keys) or set(test.key) & bundle["training_keys"]:
+        raise SystemExit("Held-out split does not match the frozen evaluation keys.")
     prediction = bundle["pipeline"].predict(features(test))
     test["predicted_log"] = prediction
     groups = []

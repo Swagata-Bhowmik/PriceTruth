@@ -78,3 +78,40 @@ def test_category_quality_flags_only_weak_groups(tmp_path):
     assert present.category_quality(path, "flipkart", "Electronics")["r2"] == -.57
     assert present.category_quality(path, "amazon", "Electronics") is None
     assert present.category_quality(tmp_path / "missing.json", "amazon", "Electronics") is None
+
+
+def test_kpi_cards_follow_results_in_reading_order():
+    """Headline cards restate computed results; tone follows the verdict, never invents numbers."""
+    import pandas as pd
+
+    result = {"status": "above_model_range", "estimate": 500., "lower": 400., "upper": 650.}
+    check = {"claimed_discount_pct": 60., "usual_discount_pct": 40., "lowest_30d": 300., "real_discount_pct": -2.,
+             "inflated": True}
+    risk = {"probability_inflated": .42, "flagged": True, "threshold": .17}
+    offers = pd.DataFrame({"platform": ["Flipkart", "Amazon"], "total": [310., 350.], "available": [True, True]})
+    cards = present.kpi_cards(result, check, risk, offers, "amazon")
+    assert [c["label"] for c in cards] == ["Price verdict", "Fair price estimate", "Advertised discount",
+                                           "Real saving", "Inflation risk", "Best place to buy"]
+    assert cards[0]["value"] == "Above expected" and cards[0]["tone"] == "bad"
+    assert cards[1]["value"] == "₹500" and cards[1]["note"] == "range ₹400–₹650"
+    assert cards[2]["note"] == "usual 40% (+20 pts)" and cards[2]["tone"] == "bad"
+    assert cards[3]["value"] == "-2%" and cards[3]["tone"] == "bad"
+    assert cards[4]["value"] == "42%" and cards[4]["note"] == "flagged"
+    assert cards[5]["value"] == "Flipkart ₹310" and cards[5]["note"] == "saves ₹40.00 incl. delivery"
+    assert all(c["tip"] for c in cards)
+
+
+def test_kpi_cards_handle_missing_model_and_no_offers():
+    """Without the discount model or any available offer the cards say so instead of guessing."""
+    import pandas as pd
+
+    check = {"claimed_discount_pct": 10., "usual_discount_pct": 10., "lowest_30d": 100., "real_discount_pct": 8.,
+             "inflated": False}
+    offers = pd.DataFrame({"platform": ["Amazon"], "total": [99.], "available": [False]})
+    assert present.risk_card(None)["value"] == "—"
+    assert present.saving_card(check)["tone"] == "good"
+    assert present.best_offer_card(offers, "amazon")["note"] == "not available today"
+    unflagged = present.risk_card({"probability_inflated": .05, "flagged": False, "threshold": .17})
+    assert unflagged["tone"] == "good" and unflagged["note"] == "below the 17% flag line"
+    own_best = pd.DataFrame({"platform": ["Amazon"], "total": [99.], "available": [True]})
+    assert present.best_offer_card(own_best, "amazon")["note"] == "incl. delivery and fees"

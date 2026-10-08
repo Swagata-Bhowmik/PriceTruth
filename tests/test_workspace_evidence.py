@@ -180,7 +180,7 @@ def test_manual_observation_validation_and_clear():
     next(i for i in app.button if i.label == "Add to my session observations").click().run()
     assert not app.exception
     assert app.session_state["observations"].iloc[0].product_id == "00123"
-    assert "insufficient_history" in app.json[0].value
+    assert not app.json  # results are explained in words and tables, never raw JSON
     assert any("Not enough history yet" in str(h.proto.body) for h in app.get("html"))
     next(i for i in app.button if i.label == "Clear session observations").click().run()
     assert not app.exception and any("Upload real" in i.value for i in app.info)

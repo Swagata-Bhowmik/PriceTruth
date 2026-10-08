@@ -43,6 +43,7 @@ class FakeResponse:
 
     def __init__(self, payload, error=None):
         self.payload, self.error = payload, error
+        self.status_code = 500 if error else 200
 
     def raise_for_status(self):
         if self.error:
@@ -150,3 +151,29 @@ def test_failed_cache_write_keeps_previous_entry(tmp_path):
     assert [p.name for p in tmp_path.iterdir()] == ["entry.json"]
     path.write_text("[1, 2]")
     assert read_json(path) is None
+
+
+def test_api_calls_are_logged_as_structured_events(monkeypatch, caplog):
+    """Each public API call logs its host, status and duration; failures log the error type."""
+    import logging
+
+    import requests
+
+    from price_truth import external
+
+    # The app's JSON handler stops propagation; let pytest's capture see the records too.
+    monkeypatch.setattr(logging.getLogger("price_truth"), "propagate", True)
+    monkeypatch.setattr(external.requests, "get", lambda *a, **k: FakeResponse({"ok": 1}))
+    with caplog.at_level(logging.INFO, logger="price_truth.external"):
+        external.get_json("https://world.openfoodfacts.org/api/v2/product/1")
+    record = caplog.records[-1]
+    assert record.event == "api_request" and record.host == "world.openfoodfacts.org" and record.status == 200
+    assert record.duration_ms >= 0
+
+    def fail(*args, **kwargs):
+        raise requests.Timeout()
+
+    monkeypatch.setattr(external.requests, "get", fail)
+    with caplog.at_level(logging.INFO, logger="price_truth.external"), pytest.raises(requests.Timeout):
+        external.get_json("https://prices.openfoodfacts.org/api/v1/prices")
+    assert caplog.records[-1].event == "api_error" and caplog.records[-1].error == "Timeout"

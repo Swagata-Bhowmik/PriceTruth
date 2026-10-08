@@ -23,7 +23,7 @@ from price_truth.offers import compare_observed_offers
 from price_truth.paths import DATA, EXTERNAL
 from price_truth.price_api import fetch_observations
 
-COMPARE_PAGE = "views/compare.py"
+COMPARE_PAGE = "views/dashboard.py"
 PACK_UNITS = {"g", "kg", "ml", "l", "count"}
 
 
@@ -71,8 +71,26 @@ def show_forecast(result: dict) -> None:
     elif result["status"] == "insufficient_history" and "observed_days" in result:
         st.progress(min(result["observed_days"] / 40, 1.0),
                     text=f"{result['observed_days']} of 40 consecutive daily observations")
-    with st.expander("Forecast details"):
-        st.json(result, expanded=False)
+    details = forecast_details(result)
+    if details:
+        with st.expander("How this was tested"):
+            st.dataframe(pd.DataFrame(details, columns=["Measure", "Value"]), hide_index=True, width="stretch")
+
+
+FORECAST_FIELDS = [("selected_on_validation", "Method chosen on validation days"), ("test_mae", "Error on later test days"),
+                   ("baseline_test_mae", "Error of repeating the last price"), ("test_predictions", "Test days"),
+                   ("observed_days", "Days of history"), ("reason", "Note"),
+                   ("forecast_date", "Forecast for")]
+
+
+def forecast_details(result: dict) -> list[tuple[str, str]]:
+    """Readable rows describing how a forecast was validated; no raw JSON in the interface."""
+    rows = []
+    for field, label in FORECAST_FIELDS:
+        value = result.get(field)
+        if value is not None:
+            rows.append((label, f"{value:,.2f}" if isinstance(value, float) else str(value)))
+    return rows
 
 
 def history_panel(frame: pd.DataFrame, code: str) -> None:

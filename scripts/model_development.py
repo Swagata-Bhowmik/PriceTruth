@@ -50,9 +50,11 @@ def main() -> None:
     train_idx, validation_idx = next(GroupShuffleSplit(n_splits=1, test_size=.2, random_state=2026)
                                      .split(development, groups=development.name_group))
     train, validation = development.iloc[train_idx], development.iloc[validation_idx]
-    assert set(train.name_group).isdisjoint(validation.name_group)
+    if not set(train.name_group).isdisjoint(validation.name_group):
+        raise SystemExit("Training and validation share title groups (leakage).")
     reserved = frame.iloc[np.concatenate([splits["test"], splits["calibration"], splits["validation"]])]
-    assert set(development.name_group).isdisjoint(reserved.name_group)
+    if not set(development.name_group).isdisjoint(reserved.name_group):
+        raise SystemExit("Development rows overlap the reserved evaluation rows.")
     inputs = features(train).assign(name=train.name)
     checks = features(validation).assign(name=validation.name)
     changed = checks.copy()
@@ -67,7 +69,8 @@ def main() -> None:
         results[name] = {**metrics(validation.selling_price.to_numpy(), prediction),
                          "reference_plus_25pct_median_prediction_change_pct": float(np.median(
                              100*(np.expm1(perturbed)/np.maximum(np.expm1(prediction), .01)-1)))}
-    assert hashlib.sha256(MODEL.read_bytes()).hexdigest() == original_hash
+    if hashlib.sha256(MODEL.read_bytes()).hexdigest() != original_hash:
+        raise SystemExit("The deployed model artifact changed during an experiment.")
     differences = pd.DataFrame({"group": validation.name_group.to_numpy(),
                                 "difference": errors["title_augmented"]-errors["established_features"]})
     grouped = differences.groupby("group").difference.agg(["sum", "count"])

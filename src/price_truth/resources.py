@@ -1,5 +1,6 @@
 """Process-wide cached data and model, plus a background warm-up of SHAP and PDF export."""
 import json
+import logging
 import threading
 
 import streamlit as st
@@ -7,6 +8,8 @@ import streamlit as st
 from price_truth.data import load_catalogue
 from price_truth.model import load_model
 from price_truth.paths import REPORTS
+
+LOG = logging.getLogger(__name__)
 
 
 @st.cache_data(show_spinner="Loading catalogue…")
@@ -52,7 +55,7 @@ def _warm(frame, bundle: dict) -> None:
         result = assess(bundle, row, row["selling_price"], row["listed_price"])
         assessment_pdf(row, result, row["selling_price"], row["listed_price"])
     except Exception:  # noqa: BLE001 - warm-up is an optimisation; real calls report their own errors.
-        pass
+        LOG.warning("warm-up skipped", exc_info=True, extra={"event": "warmup_failed"})
 
 
 @st.cache_resource

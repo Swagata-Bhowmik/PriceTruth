@@ -16,12 +16,14 @@ def app(page):
 
 
 def test_new_search_resets_the_selected_row():
-    """Finding 1: a selection from a long result list must not index into a shorter one."""
-    page = app("views/product.py")
-    first_key = next(d for d in page.dataframe).proto.id
-    page.text_input(key="product_query").set_value("kurta").run()
+    """Finding 1: narrowing the product list never keeps a selection from the previous list."""
+    page = app("views/dashboard.py")
+    first = page.selectbox(key="dash_product").value
+    page.text_input(key="dash_filter").set_value("boAt").run()
     assert not page.exception
-    assert next(d for d in page.dataframe).proto.id != first_key  # new widget, fresh selection
+    assert page.selectbox(key="dash_product").value != first
+    heading = next(str(h.proto.body) for h in page.get("html") if "Selected product" in str(h.proto.body))
+    assert "boat" in heading.lower()
 
 
 def test_quote_replaces_todays_row_in_the_reference_window():
@@ -58,12 +60,11 @@ def test_price_collection_reads_files_once(monkeypatch):
 def test_pdf_is_built_only_on_download(monkeypatch):
     """Finding 9: rendering the result does not generate the PDF."""
     calls = []
-    import price_truth.ui as ui
+    import price_truth.dashboard as dashboard
 
-    monkeypatch.setattr(ui, "assessment_pdf", lambda *a: calls.append(1) or b"%PDF-")
-    page = app("views/product.py")
-    next(b for b in page.button if b.label == "Check this price").click().run()
-    assert not page.exception and calls == []
+    monkeypatch.setattr(dashboard, "assessment_pdf", lambda *a: calls.append(1) or b"%PDF-")
+    page = app("views/dashboard.py")
+    assert not page.exception and page.get("download_button") and calls == []
 
 
 def test_warmup_reuses_cached_objects(monkeypatch):
