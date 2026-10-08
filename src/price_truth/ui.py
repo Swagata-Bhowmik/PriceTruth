@@ -113,61 +113,78 @@ def dataset_tab(summary: dict | None, discount: dict | None) -> None:
         st.json(json.loads((DATA / "final" / "assumptions.json").read_bytes()), expanded=False)
 
 
+SOURCES = [
+    ["Amazon Sales Dataset (Kaggle, Karkavelraja J)", "1,347 listings, crawled 5 Jan 2023", "CC BY-NC-SA 4.0"],
+    ["Flipkart Products (Kaggle, PromptCloud)", "19,920 listings, 2015–2016", "CC BY-SA 4.0"],
+    ["Open Food Facts", "Barcode pack details, live and saved", "ODbL 1.0"],
+    ["Open Prices (Open Food Facts)", "Dated shop price observations", "ODbL 1.0"],
+    ["MoSPI Consumer Price Index (Government of India)", "Inflation adjustment of simulated prices", "Official statistics"],
+    ["Financial Express (Bloomberg) 2022, ThePrint 2022, Angel One 2026", "10 reported pack reductions",
+     "Cited, not redistributed"],
+]
+LIMITS = ("- **Not a legal finding about a seller.** Discount checks apply a reference-price rule and a model trained "
+          "on simulated, research-calibrated price histories. They show what such a check would conclude, not proof "
+          "of dishonesty.\n"
+          "- **Catalogue prices are historical** (Amazon January 2023, Flipkart 2015–16). Daily histories, "
+          "cross-platform offers and most food shop prices are simulated from those anchors; the Dataset section "
+          "lists exactly which tables are real and which are synthetic.\n"
+          "- **Forecasts are gated.** A next-day estimate is shown only when it beats simply repeating the last "
+          "price on held-out days.\n"
+          "- **No automatic product matching** between food barcodes and marketplace listings.\n"
+          "- **Your entries stay in your session** and are never used for training. Download a CSV to keep them.")
+
+
+def headline_metrics(audit: dict) -> None:
+    """Held-out accuracy of the price model in four figures."""
+    overall = audit["overall"]
+    columns = st.columns(4)
+    columns[0].metric("Held-out listings", f"{audit['held_out_rows']:,}")
+    columns[1].metric("Typical error", f"{overall['median_absolute_percentage_error']:.0f}%",
+                      help="Median absolute percentage error on products never seen in training.")
+    columns[2].metric("Mean absolute error", present.money(overall["mae_inr"]))
+    columns[3].metric("R²", f"{overall['r2']:.3f}")
+
+
+def quality_section(audit: dict | None) -> None:
+    """How the model works and its accuracy by platform and category."""
+    theme.section("quality", "Model", "Model quality", "Held-out accuracy by platform and category.")
+    st.markdown("The model is a histogram gradient-boosting regressor predicting **log(1 + selling price)** from "
+                "listed price, rating, rating count, platform and category. It was chosen over a baseline and a random "
+                "forest on validation error. Related titles are grouped before splitting to reduce leakage. "
+                "Explanations use SHAP TreeExplainer on the fitted model.")
+    if not audit:
+        return
+    groups = pd.DataFrame(audit["subgroups"])
+    groups["platform"] = groups.platform.str.title()
+    groups["Reliability"] = groups.r2.map(lambda r: "Weak" if r < .5 else "Moderate" if r < .8 else "Good")
+    st.dataframe(groups[["platform", "category", "n", "median_absolute_percentage_error", "r2", "Reliability"]],
+                 hide_index=True, column_config={
+                     "platform": "Platform", "category": "Category", "n": "Listings",
+                     "median_absolute_percentage_error": st.column_config.NumberColumn("Typical error", format="%.0f%%"),
+                     "r2": st.column_config.NumberColumn("R²", format="%.2f")})
+    st.caption("Held-out subgroups with at least 30 listings. Weak categories show a warning on the dashboard.")
+
+
 def methods_page(evaluation: dict | None, audit: dict | None, data_audit: dict | None,
                  summary: dict | None = None, discount: dict | None = None) -> None:
     """Explain data, model quality, limits and licences, using saved real reports."""
     theme.page_header("About", "Methods, data and limits",
                       "How Price Truth reaches its results, how accurate it is, and what it cannot tell you.")
     if audit:
-        overall = audit["overall"]
-        columns = st.columns(4)
-        columns[0].metric("Held-out listings", f"{audit['held_out_rows']:,}")
-        columns[1].metric("Typical error", f"{overall['median_absolute_percentage_error']:.0f}%",
-                          help="Median absolute percentage error on products never seen in training.")
-        columns[2].metric("Mean absolute error", present.money(overall["mae_inr"]))
-        columns[3].metric("R²", f"{overall['r2']:.3f}")
-    tabs = st.tabs(["Model quality", "Dataset", "Data sources & licences", "What this cannot do", "Raw reports"])
-    with tabs[0]:
-        st.markdown("The model is a histogram gradient-boosting regressor predicting **log(1 + selling price)** "
-                    "from listed price, rating, rating count, platform and category. It was chosen over a baseline "
-                    "and a random forest on validation error. Related titles are grouped before splitting to reduce "
-                    "leakage. Explanations use SHAP TreeExplainer on the fitted model.")
-        if audit:
-            groups = pd.DataFrame(audit["subgroups"])
-            groups["platform"] = groups.platform.str.title()
-            groups["Reliability"] = groups.r2.map(lambda r: "Weak" if r < .5 else "Moderate" if r < .8 else "Good")
-            st.dataframe(groups[["platform", "category", "n", "median_absolute_percentage_error", "r2", "Reliability"]],
-                         hide_index=True, column_config={
-                             "platform": "Platform", "category": "Category", "n": "Listings",
-                             "median_absolute_percentage_error": st.column_config.NumberColumn("Typical error",
-                                                                                               format="%.0f%%"),
-                             "r2": st.column_config.NumberColumn("R²", format="%.2f")})
-            st.caption("Held-out subgroups with at least 30 listings. Weak categories show a warning on the price check.")
-    with tabs[1]:
-        dataset_tab(summary, discount)
-    with tabs[2]:
-        st.dataframe(pd.DataFrame([
-            ["Amazon Sales Dataset (Kaggle, Karkavelraja J)", "1,347 listings after cleaning", "CC BY-NC-SA 4.0"],
-            ["Flipkart Products (Kaggle, PromptCloud)", "19,920 listings, 2015–2016", "CC BY-SA 4.0"],
-            ["Open Food Facts", "Barcode pack details, live and saved", "ODbL 1.0"],
-            ["Open Prices (Open Food Facts)", "Dated shop price observations", "ODbL 1.0"],
-            ["Bloomberg via Financial Express, 13 May 2022", "Two reported pack reductions", "Cited, not redistributed"],
-        ], columns=["Source", "Used for", "Licence"]), hide_index=True)
-        st.caption("Datasets are used for non-commercial academic purposes with attribution. Derived data keeps the "
-                   "same licences. No retailer websites are scraped.")
-    with tabs[3]:
-        st.markdown("- **Not a legal finding about a seller.** Discount checks apply a reference-price rule and a "
-                    "model trained on simulated, research-calibrated price histories. They show what such a check "
-                    "would conclude, not proof of dishonesty.\n"
-                    "- **Catalogue prices are historical** (Amazon January 2023, Flipkart 2015–16). Daily histories, "
-                    "cross-platform offers and most food shop prices are simulated from those anchors; the Dataset "
-                    "tab lists exactly which tables are real and which are synthetic.\n"
-                    "- **Forecasts are gated.** A next-day estimate is shown only when it beats simply repeating the "
-                    "last price on held-out days.\n"
-                    "- **No automatic product matching** between food barcodes and marketplace listings.\n"
-                    "- **Your entries stay in your session** and are never used for training. Download a CSV to keep them.")
-    with tabs[4]:
-        for name, payload in [("Dataset audit", data_audit), ("Model evaluation", evaluation), ("Model audit", audit)]:
-            if payload:
-                with st.expander(name):
-                    st.json(payload, expanded=False)
+        headline_metrics(audit)
+    theme.section_nav([("quality", "Model quality"), ("dataset", "Dataset"), ("sources", "Sources & licences"),
+                       ("limits", "Limits"), ("raw", "Raw reports")])
+    quality_section(audit)
+    theme.section("dataset", "Dataset", "What is real and what is simulated",
+                  "Every row carries its provenance; the price model uses real listings only.")
+    dataset_tab(summary, discount)
+    theme.section("sources", "Sources", "Data sources and licences", "Non-commercial academic use with attribution.")
+    st.dataframe(pd.DataFrame(SOURCES, columns=["Source", "Used for", "Licence"]), hide_index=True)
+    st.caption("Derived data keeps the same licences. No retailer websites are scraped.")
+    theme.section("limits", "Limits", "What this cannot tell you", "Read these before relying on a result.")
+    st.markdown(LIMITS)
+    theme.section("raw", "Evidence", "Raw reports", "The saved evaluation files behind the figures above.")
+    for name, payload in [("Dataset audit", data_audit), ("Model evaluation", evaluation), ("Model audit", audit)]:
+        if payload:
+            with st.expander(name):
+                st.json(payload, expanded=False)

@@ -2,9 +2,9 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 ENV OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 MPLCONFIGDIR=/tmp/price-truth-matplotlib XDG_CACHE_HOME=/tmp/price-truth-cache
 WORKDIR /app
-COPY pyproject.toml requirements.txt ./
+COPY pyproject.toml requirements.txt requirements.lock ./
 COPY src ./src
-RUN pip install --no-cache-dir -r requirements.txt && useradd --create-home --uid 10001 appuser
+RUN pip install --no-cache-dir -r requirements.lock && useradd --create-home --uid 10001 appuser
 COPY --chown=appuser:appuser app.py ./
 COPY --chown=appuser:appuser views ./views
 COPY --chown=appuser:appuser assets ./assets

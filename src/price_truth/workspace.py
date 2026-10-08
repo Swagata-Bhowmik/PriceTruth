@@ -258,14 +258,16 @@ def food_page() -> None:
     product = st.selectbox("Product", products, key="food_product",
                            format_func=lambda p: f"{p.get('product_name') or 'Unnamed'} · {p.get('code')}")
     code = str(product["code"])
-    tabs = st.tabs(["Pack details", "Price history", "Long-history example"])
-    with tabs[0]:
-        pack_details(code, offline)
-        st.caption("Food barcodes are never matched automatically to Amazon or Flipkart listings.")
-    with tabs[1]:
-        price_history_tab(code, offline)
-    with tabs[2]:
-        history_example()
+    theme.section_nav([("pack", "Pack details"), ("shop-prices", "Shop prices"), ("example", "Long-history example")])
+    theme.section("pack", "Pack", "Pack details", "Name, brand, size and barcode from Open Food Facts.")
+    pack_details(code, offline)
+    st.caption("Food barcodes are never matched automatically to Amazon or Flipkart listings.")
+    theme.section("shop-prices", "History", "What shops charged", "Dated prices for this barcode, one store, "
+                  "currency and price basis at a time.")
+    price_history_tab(code, offline)
+    theme.section("example", "Example", "A longer real history",
+                  "How the history tools behave on a real store series with many dated prices.")
+    history_example()
 
 
 def price_history_tab(code: str, offline: bool) -> None:
@@ -324,25 +326,22 @@ def observations_page() -> None:
                       "Add receipts or prices you saw in shops. They stay in this browser session, are never used for "
                       "training, and you can download or clear them at any time.")
     data = st.session_state.get("observations")
-    tabs = st.tabs(["Add or import", "Price history", "Compare stores", "Pack changes"])
-    with tabs[0]:
-        if flash := st.session_state.pop("obs_flash", None):
-            st.success(flash)
-        add_or_import(data)
+    theme.section_nav([("add", "Add or import"), ("obs-history", "Price history"), ("stores", "Compare stores"),
+                       ("pack-changes", "Pack changes")])
+    theme.section("add", "Your data", "Add or import observations", "One at a time, or a CSV in the template format.")
+    if flash := st.session_state.pop("obs_flash", None):
+        st.success(flash)
+    add_or_import(data)
     if data is None:
-        for tab in tabs[1:]:
-            with tab:
-                theme.empty_state("No observations yet",
-                                  "Upload real dated observations or add one in the first tab to analyse them here.")
+        theme.empty_state("No observations yet", "Upload real dated observations or add one above to see their "
+                          "price history, store comparison and pack changes here.")
         return
-    with tabs[1]:
-        selected = choose_identity(data, ["product_id", "variant", "store", "currency"], "obs")
-        observation_history(selected)
-    with tabs[2]:
-        offers_panel(data)
-    with tabs[3]:
-        selected = choose_identity(data, ["product_id", "variant", "store", "currency"], "pack")
-        pack_change_panel(selected)
+    theme.section("obs-history", "History", "Price history and forecast", "One exact product, store and pack.")
+    observation_history(choose_identity(data, ["product_id", "variant", "store", "currency"], "obs"))
+    theme.section("stores", "Stores", "Compare stores", "Your most recent quotes for one identical pack.")
+    offers_panel(data)
+    theme.section("pack-changes", "Packs", "Pack-size changes", "Has the same product shrunk between your dates?")
+    pack_change_panel(choose_identity(data, ["product_id", "variant", "store", "currency"], "pack"))
 
 
 def add_or_import(data: pd.DataFrame | None) -> None:
