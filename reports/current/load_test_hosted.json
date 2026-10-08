@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-10-08T08:22:51.889000+00:00",
+  "url": "https://pricetruth.streamlit.app/~/+",
+  "waves": [
+    {
+      "users": 10,
+      "successful": 10,
+      "wall_seconds": 23.14622229989618,
+      "errors": [],
+      "page_ready_s": {
+        "median": 21.10005634999834,
+        "p95": 22.770505420025437,
+        "max": 22.771617100108415
+      },
+      "verdict_s": {
+        "median": 22.22612504987046,
+        "p95": 23.0059069350129,
+        "max": 23.102735999971628
+      }
+    },
+    {
+      "users": 25,
+      "successful": 25,
+      "wall_seconds": 57.38108960003592,
+      "errors": [],
+      "page_ready_s": {
+        "median": 54.48717000009492,
+        "p95": 56.06228221999481,
+        "max": 56.239182399818674
+      },
+      "verdict_s": {
+        "median": 54.83598540001549,
+        "p95": 56.20111981993541,
+        "max": 56.85574959986843
+      }
+    }
+  ],
+  "scope": "Simultaneous headless browser sessions from one client machine; client CPU and network also limit results. Each user opens the dashboard and waits for the analysed default product (model, SHAP, discount check and offers)."
+}

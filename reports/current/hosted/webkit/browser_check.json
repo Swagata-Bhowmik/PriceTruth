@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-10-08T08:23:18.585178+00:00",
+  "url": "https://pricetruth.streamlit.app/~/+",
+  "browser": "26.6",
+  "engine": "webkit",
+  "initial_analysed_dashboard_seconds": 5.242578600067645,
+  "javascript_errors": [],
+  "benign_browser_notices": [
+    "ResizeObserver loop completed with undelivered notifications.",
+    "/pricetruth.streamlit.app/~/+/media/21ad9d87dc5d717d93c24477a88dc31025c84cff6571daa43e6d6d36.json due to access control checks.",
+    "/pricetruth.streamlit.app/~/+/media/fb9fe8818eac28a6f706533b8b8c69cc337aeb545346750f4b814fc9.csv due to access control checks.",
+    "/webhooks.fivetran.com/webhooks/615b5e5c-9fde-4c75-a034-f642dba74c1f due to access control checks.",
+    "/webhooks.fivetran.com/webhooks/615b5e5c-9fde-4c75-a034-f642dba74c1f due to access control checks.",
+    "TypeError: Load failed"
+  ],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "horizontal_page_overflow": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "horizontal_page_overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "horizontal_page_overflow": false
+    }
+  ],
+  "accessibility_serious_or_critical": null,
+  "flows": [
+    "landing page search into the dashboard",
+    "dashboard with real model, section navigation and PDF download",
+    "unit comparison on the dashboard",
+    "shrinkflation case",
+    "offline food lookup"
+  ],
+  "scope": "Hosted webkit; three viewport emulations. WebKit is not branded Safari; emulation is not a physical device."
+}

@@ -20,7 +20,7 @@ Full background, requirements, personas (Priya, Rajesh, Aarav), rubric and decis
 | First commit | `f78958e` (7 Oct 2026, Swagata Bhowmik) — single import commit: *“Import Price Truth application, dataset, models and tests (AI-assisted development)”* |
 | CI | GitHub Actions **Application checks** (review, container, browsers) — green on `0d4ca0e` |
 | Status tracker | `PROJECT-COMPLETION.md` — measured state, decisions in force, open items |
-| Online deployment | Not yet. Planned on Streamlit Community Cloud from this repo (README → Deployment) |
+| Online deployment | **https://pricetruth.streamlit.app** (Streamlit Community Cloud, redeploys on push to `main`). Inner URL for scripts: `https://pricetruth.streamlit.app/~/+` |
 
 ## How it was built (history)
 

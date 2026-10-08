@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-10-08T08:19:02.362399+00:00",
+  "url": "https://pricetruth.streamlit.app/~/+",
+  "browser": "153.0.8010.12",
+  "engine": "chrome",
+  "initial_analysed_dashboard_seconds": 8.800422700121999,
+  "javascript_errors": [],
+  "benign_browser_notices": [],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "horizontal_page_overflow": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "horizontal_page_overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "horizontal_page_overflow": false
+    }
+  ],
+  "accessibility_serious_or_critical": [
+    {
+      "page": "dashboard",
+      "rule": "aria-allowed-attr",
+      "impact": "critical",
+      "nodes": 1
+    },
+    {
+      "page": "methods",
+      "rule": "aria-allowed-attr",
+      "impact": "critical",
+      "nodes": 3
+    }
+  ],
+  "flows": [
+    "landing page search into the dashboard",
+    "dashboard with real model, section navigation and PDF download",
+    "unit comparison on the dashboard",
+    "shrinkflation case",
+    "offline food lookup"
+  ],
+  "scope": "Hosted chrome; three viewport emulations. WebKit is not branded Safari; emulation is not a physical device."
+}

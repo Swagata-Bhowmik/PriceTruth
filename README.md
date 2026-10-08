@@ -10,6 +10,8 @@ Price Truth helps Indian online shoppers judge a price before they buy. Pick a p
 
 It is the NMIMS M.Sc. Data Science (Semester 3) Group 11 project.
 
+**Live app: https://pricetruth.streamlit.app**
+
 - **Status, decisions and open items:** [PROJECT-COMPLETION.md](PROJECT-COMPLETION.md).
 - **How it is built, and why each framework was chosen:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 - **How to use it:** the [user guide](docs/USER-GUIDE.html), also built into the app at `/user-guide`.
@@ -106,7 +108,7 @@ The September Lab Work evidence is kept in [reports/2026-09-19-lab-submission/](
 
 ## Deployment
 
-**Host: Streamlit Community Cloud** (free, HTTPS), deployed from this repository's `main` branch with `app.py` and Python 3.12. Every push redeploys.
+**Host: Streamlit Community Cloud** (free, HTTPS) at **https://pricetruth.streamlit.app**, deployed from this repository's `main` branch with `app.py` and Python 3.12. Every push redeploys. `app.py` imports the package from `src/` because Community Cloud installs `requirements.txt` but not the package itself.
 
 1. Sign in at https://share.streamlit.io with GitHub → **Create app → Deploy a public app from GitHub**.
 2. Repository `Swagata-Bhowmik/PriceTruth`, branch `main`, main file `app.py`; **Advanced settings** → Python **3.12**.

@@ -29,7 +29,8 @@ Final evidence: the CI review of commit `0d4ca0e` on Linux (8 October 2026), imp
 | Discount model (simulated labels) | Logistic regression, ROC AUC 0.88; precision 23%, recall 48% at threshold 0.17; shown as the secondary check |
 | Browsers (CI) | Chromium, Firefox and WebKit: landing-page search, dashboard, section menu, PDF download, unit comparison, shrinkflation and food flows pass; no JavaScript errors; no overflow at 390 / 768 / 1440 px |
 | Accessibility | axe-core WCAG A/AA: no serious issue in the app's own markup (including colour contrast of the pastel theme); the remaining findings are inside Streamlit components (dropdown ARIA attribute, hidden file input) |
-| Speed | Assessment with SHAP: 0.34 s first, 0.06 s p95 warm; warm dashboard render ~0.25 s server-side. Load test on the CI runner (server and all browsers on one machine): 10/10 users, median 9.2 s to a full verdict; 25/25 users, 24.6 s. Hosted test pending deployment |
+| Speed | Assessment with SHAP: 0.34 s first, 0.06 s p95 warm; warm dashboard render ~0.25 s server-side. Load test on the CI runner (server and all browsers on one machine): 10/10 users, median 9.2 s to a full verdict; 25/25 users, 24.6 s |
+| Hosted (https://pricetruth.streamlit.app, 8 Oct) | Chrome and WebKit: every flow passes on the live site, no app errors (WebKit's blocked Streamlit Cloud analytics calls are recorded as platform notices); analysed dashboard in 5–9 s for one user. Load test from one laptop against the free tier (1 shared CPU): 10/10 users served, median 22 s to a full verdict; 25/25 served, median 55 s. `reports/current/hosted/`, `load_test_hosted.json` |
 | Dataset | v1.2, 59 / 59 integrity checks; see [`datasets/final/DATA-CARD.md`](datasets/final/DATA-CARD.md) |
 | CI | *Application checks*: review, Docker build and health, three-browser flows and load test; green |
 
@@ -50,10 +51,11 @@ Final evidence: the CI review of commit `0d4ca0e` on Linux (8 October 2026), imp
 
 | # | Item | Owner |
 |---|---|---|
-| 1 | Deploy on Streamlit Community Cloud (README → Deployment) and set the repository variable `HEALTH_URL` | Swagata (needs her Streamlit/GitHub login) |
-| 2 | Hosted checks: browser flows and load test (25 / 50 / 100 users) against the live URL | After 1 |
+| 1 | ~~Deploy on Streamlit Community Cloud~~ Live at https://pricetruth.streamlit.app (8 Oct). Still to do: set the repository variable `HEALTH_URL` = `https://pricetruth.streamlit.app/~/+/_stcore/health` | Swagata (GitHub settings) |
+| 2 | ~~Hosted checks~~ Done 8 Oct: Chrome + WebKit flows, 10/25-user load test | Done |
 | 3 | ~~Regenerate `reports/current/` on the final code~~ Done 8 Oct (commit `0d4ca0e`) | Done |
-| 4 | Update the Lab Work Word report so its numbers match `reports/current/` | Team |
+| 4 | Self-assessment (rubric) emailed to Prof. Naik | Done 8 Oct |
+| 4b | Optional: update the September Lab Work Word report so its numbers match `reports/current/` | Team (file is on the Mac) |
 | 5 | Demo script and a 3–5 minute backup video (route in README → Demo route) | Team |
 
 ### After the demo (time- or third-party-bound)

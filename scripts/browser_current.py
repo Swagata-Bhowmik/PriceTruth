@@ -20,7 +20,9 @@ DASHBOARD = "Is this a fair price?"
 LANDING = "Is your discount actually real?"
 # Browser notices that are not application errors; recorded separately, never dropped.
 BENIGN = ("ResizeObserver loop completed with undelivered notifications",  # layout notice (Plotly/Streamlit)
-          "due to access control checks")  # WebKit's wording when navigation cancels a pending media fetch
+          "due to access control checks",  # WebKit's wording when navigation cancels a pending media fetch
+          "webhooks.fivetran.com",  # Streamlit Community Cloud's own analytics call, blocked by WebKit
+          "TypeError: Load failed")  # WebKit's message for that blocked analytics fetch (hosted wrapper only)
 
 
 def split_messages(messages: list[str]) -> tuple[list[str], list[str]]:
@@ -128,10 +130,11 @@ def run_flows(page, base: str, out: Path, engine: str) -> dict:
     check_unit(page)
     check_food(page, base)
     violations = accessibility(page, base) if engine == "chrome" else None
-    errors, benign = split_messages(errors)
-    return {"initial_analysed_dashboard_seconds": load_seconds, "javascript_errors": errors,
-            "benign_browser_notices": benign,
-            "viewports": check_viewports(page, base, out), "accessibility_serious_or_critical": violations}
+    viewports = check_viewports(page, base, out)
+    app_errors, benign = split_messages(list(errors))  # after every step, so late messages are classified too
+    return {"initial_analysed_dashboard_seconds": load_seconds, "javascript_errors": app_errors,
+            "benign_browser_notices": benign, "viewports": viewports,
+            "accessibility_serious_or_critical": violations}
 
 
 def main() -> None:
