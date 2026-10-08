@@ -1,11 +1,19 @@
 """Price Truth Streamlit entrypoint: navigation and shared setup. Pages live in views/."""
 import logging
+import sys
+from pathlib import Path
 
 import streamlit as st
 
-from price_truth import logs, theme
-from price_truth.paths import ROOT
-from price_truth.resources import catalogue, start_warmup
+# Hosts such as Streamlit Community Cloud install requirements.txt but not this package itself;
+# importing straight from src/ works there, in Docker and in an editable local install alike.
+SRC = Path(__file__).resolve().parent / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+
+from price_truth import logs, theme  # noqa: E402
+from price_truth.paths import ROOT  # noqa: E402
+from price_truth.resources import catalogue, start_warmup  # noqa: E402
 
 logs.configure()
 st.set_page_config(page_title="Price Truth", page_icon=str(ROOT / "assets/icon.svg"), layout="wide",

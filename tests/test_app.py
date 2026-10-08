@@ -166,3 +166,23 @@ def test_user_guide_page_embeds_the_guide():
     assert not app.exception
     assert any(b.proto.label == "Download guide" for b in app.get("download_button"))
     assert len(app.get("iframe")) == 1
+
+
+def test_app_runs_without_the_package_installed():
+    """Deployment: hosts that install only requirements.txt (Streamlit Community Cloud) can still import src/."""
+    import subprocess
+    import sys
+
+    script = (
+        "import sys\n"
+        "sys.meta_path = [f for f in sys.meta_path if 'editable' not in repr(f).lower()]\n"
+        "from pathlib import Path\n"
+        "sys.path = [p for p in sys.path if Path(p).name != 'src']\n"
+        "sys.modules.pop('price_truth', None)\n"
+        "from streamlit.testing.v1 import AppTest\n"
+        "app = AppTest.from_file('app.py', default_timeout=120)\n"
+        "app.run()\n"
+        "assert not app.exception, app.exception\n"
+        "print('ok')\n")
+    result = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True, timeout=300)
+    assert result.returncode == 0 and result.stdout.strip().endswith("ok"), result.stderr[-2000:]
