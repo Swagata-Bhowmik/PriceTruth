@@ -4,24 +4,24 @@ rootdir: /home/runner/work/PriceTruth/PriceTruth
 configfile: pyproject.toml
 testpaths: tests
 plugins: platformdirs-4.12.4, cov-7.1.0, anyio-4.15.1
-collected 419 items
+collected 420 items
 
-tests/test_app.py .....................                                  [  5%]
+tests/test_app.py ......................                                 [  5%]
 tests/test_calculations.py ............................................. [ 15%]
 ......                                                                   [ 17%]
 tests/test_data.py ......................                                [ 22%]
 tests/test_evidence_store.py ..............                              [ 25%]
-tests/test_forecast.py ..........................                        [ 31%]
+tests/test_forecast.py ..........................                        [ 32%]
 tests/test_logs.py ..                                                    [ 32%]
-tests/test_model.py ......                                               [ 33%]
+tests/test_model.py ......                                               [ 34%]
 tests/test_observations.py ............................................. [ 44%]
-.......................................                                  [ 53%]
+.......................................                                  [ 54%]
 tests/test_offers.py ................                                    [ 57%]
 tests/test_present.py ...............                                    [ 61%]
 tests/test_price_api.py ........................................         [ 70%]
 tests/test_review_fixes.py ......                                        [ 72%]
 tests/test_review_fixes_domain.py ................                       [ 76%]
-tests/test_search.py ............                                        [ 78%]
+tests/test_search.py ............                                        [ 79%]
 tests/test_services.py ................................................. [ 90%]
                                                                          [ 90%]
 tests/test_synthetic.py ...............                                  [ 94%]
@@ -32,4 +32,4 @@ tests/test_workspace_evidence.py ........................                [100%]
 _______________ coverage: platform linux, python 3.12.14-final-0 _______________
 
 Coverage JSON written to file /home/runner/work/PriceTruth/PriceTruth/reports/current/coverage.json
-============================= 419 passed in 41.46s =============================
+============================= 420 passed in 44.44s =============================

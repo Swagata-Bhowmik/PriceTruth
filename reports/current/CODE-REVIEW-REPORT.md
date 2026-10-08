@@ -1,6 +1,6 @@
 # Price Truth — current engineering review
 
-Generated: 2026-10-08T06:51:54.214613+00:00
+Generated: 2026-10-08T09:01:11.394059+00:00
 
 Historical submission reports are preserved separately; these results apply to this source manifest.
 
@@ -16,9 +16,9 @@ Historical submission reports are preserved separately; these results apply to t
 | errors | 0 |
 | failures | 0 |
 | skipped | 0 |
-| tests | 419 |
-| time | 41.461 |
-| timestamp | 2026-10-08T06:49:36.185653+00:00 |
+| tests | 420 |
+| time | 44.441 |
+| timestamp | 2026-10-08T08:58:46.435968+00:00 |
 | hostname | runnervm8df0l |
 
 ## Coverage
@@ -56,7 +56,7 @@ Surviving mutants are justified individually in docs/MUTATION-SURVIVORS.md.
 | Medium | 0 |
 | Low | 0 |
 
-Scanned 4,396 lines in src, app.py, views, scripts; 2 lines carry a justified `# nosec` comment (fixed-argument tool subprocesses, text escaping).
+Scanned 4,404 lines in src, app.py, views, scripts; 2 lines carry a justified `# nosec` comment (fixed-argument tool subprocesses, text escaping).
 
 No findings.
 
@@ -592,6 +592,7 @@ No findings.
 | tests/test_app.py | test_pages_render | 2 | A |
 | tests/test_app.py | test_landing_call_to_action_opens_the_dashboard | 2 | A |
 | tests/test_app.py | test_unit_comparison_requires_inputs | 2 | A |
+| tests/test_app.py | test_app_runs_without_the_package_installed | 2 | A |
 
 ## Radon MI
 
@@ -625,7 +626,7 @@ MI is an index, not percent maintainability.
 | src/price_truth/synthetic.py | 35.58 | A |
 | src/price_truth/data.py | 38.17 | A |
 | src/price_truth/cache.py | 66.39 | A |
-| app.py | 61.66 | A |
+| app.py | 77.49 | A |
 | views/home.py | 79.74 | A |
 | views/methods.py | 76.61 | A |
 | views/catalogue.py | 100.0 | A |
@@ -639,7 +640,7 @@ MI is an index, not percent maintainability.
 | scripts/uptime_report.py | 77.68 | A |
 | scripts/model_development.py | 42.2 | A |
 | scripts/review.py | 81.86 | A |
-| scripts/browser_current.py | 46.71 | A |
+| scripts/browser_current.py | 48.89 | A |
 | scripts/concurrency_check.py | 54.66 | A |
 | scripts/build_user_guide.py | 50.91 | A |
 | scripts/load_test.py | 60.58 | A |
@@ -661,7 +662,7 @@ MI is an index, not percent maintainability.
 | tests/test_review_fixes_domain.py | 36.82 | A |
 | tests/test_synthetic.py | 33.41 | A |
 | tests/test_calculations.py | 34.25 | A |
-| tests/test_app.py | 31.59 | A |
+| tests/test_app.py | 30.34 | A |
 
 ## Radon raw
 
@@ -693,7 +694,7 @@ MI is an index, not percent maintainability.
 | src/price_truth/synthetic.py | 255 | 188 | 1 |
 | src/price_truth/data.py | 252 | 199 | 6 |
 | src/price_truth/cache.py | 39 | 29 | 1 |
-| app.py | 35 | 29 | 0 |
+| app.py | 43 | 34 | 5 |
 | views/home.py | 7 | 5 | 0 |
 | views/methods.py | 7 | 5 | 0 |
 | views/catalogue.py | 5 | 3 | 0 |
@@ -707,7 +708,7 @@ MI is an index, not percent maintainability.
 | scripts/uptime_report.py | 25 | 18 | 2 |
 | scripts/model_development.py | 98 | 84 | 0 |
 | scripts/review.py | 5 | 3 | 0 |
-| scripts/browser_current.py | 163 | 119 | 3 |
+| scripts/browser_current.py | 166 | 122 | 6 |
 | scripts/concurrency_check.py | 68 | 57 | 2 |
 | scripts/build_user_guide.py | 294 | 262 | 0 |
 | scripts/load_test.py | 79 | 61 | 1 |
@@ -729,7 +730,7 @@ MI is an index, not percent maintainability.
 | tests/test_review_fixes_domain.py | 173 | 118 | 2 |
 | tests/test_synthetic.py | 170 | 117 | 1 |
 | tests/test_calculations.py | 180 | 117 | 0 |
-| tests/test_app.py | 168 | 111 | 1 |
+| tests/test_app.py | 188 | 127 | 1 |
 
 ## Halstead
 
@@ -761,7 +762,7 @@ MI is an index, not percent maintainability.
 | src/price_truth/synthetic.py | 2711.87 | 31986.13 |
 | src/price_truth/data.py | 815.53 | 7998.45 |
 | src/price_truth/cache.py | 33.22 | 66.44 |
-| app.py | 18.0 | 18.0 |
+| app.py | 47.55 | 67.93 |
 | views/home.py | 4.75 | 2.38 |
 | views/methods.py | 13.93 | 6.97 |
 | views/catalogue.py | 0 | 0 |
@@ -797,15 +798,15 @@ MI is an index, not percent maintainability.
 | tests/test_review_fixes_domain.py | 1164.13 | 4593.74 |
 | tests/test_synthetic.py | 2043.88 | 21072.71 |
 | tests/test_calculations.py | 340.49 | 680.99 |
-| tests/test_app.py | 1202.61 | 6048.43 |
+| tests/test_app.py | 1271.02 | 7067.81 |
 
 ## Local timing
 
 | Measure | Value |
 | --- | --- |
-| first_assessment_seconds | 0.34159645299999397 |
+| first_assessment_seconds | 0.366619012000001 |
 | warm_calls | 29 |
-| warm_p95_seconds | 0.0551196960000027 |
+| warm_p95_seconds | 0.05676903460000062 |
 | scope | Sequential local assessment including SHAP; not 100-user load or browser latency |
 
 ## Requirements still requiring external evidence

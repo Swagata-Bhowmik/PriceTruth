@@ -16,20 +16,20 @@ Eight pages (see [README](README.md#pages)): Price check (verdict, model range, 
 
 ## Measured state
 
-Final evidence: the CI review of commit `0d4ca0e` on Linux (8 October 2026), imported into `reports/current/` after its source hashes were checked against the repository. Regenerate it; never edit it by hand.
+Final evidence: the CI review of commit `2eba3dc` on Linux (8 October 2026), imported into `reports/current/` after its source hashes were checked against the repository. Regenerate it; never edit it by hand.
 
 | Check | Result |
 |---|---|
-| Tests | 419 passing, 0 failures |
+| Tests | 420 passing, 0 failures |
 | Coverage (package) | 95.05% statements (1,997/2,101), 87.21% branches (382/438) |
 | Mutation (8 domain modules) | 1,556 / 1,582 killed (98.36%); 26 equivalent survivors in [`docs/MUTATION-SURVIVORS.md`](docs/MUTATION-SURVIVORS.md) |
-| Lint / complexity | Ruff 0 violations; Radon: 454 blocks rank A, 74 rank B, none C or worse (application, scripts and tests) |
-| Security (Bandit SAST) | 0 high, 0 medium, 0 low over 4,396 lines |
+| Lint / complexity | Ruff 0 violations; Radon: 455 blocks rank A, 74 rank B, none C or worse (application, scripts and tests) |
+| Security (Bandit SAST) | 0 high, 0 medium, 0 low over 4,404 lines |
 | Price model (real listings only) | 4,269 held-out listings: R² 0.959, MAE ₹357, median error 20.8%; Flipkart Electronics weakest (R² 0.01, warned in the app). A verdict is given for 99.6% of listings (subcategory, or category group as a labelled rough guide) |
 | Discount model (simulated labels) | Logistic regression, ROC AUC 0.88; precision 23%, recall 48% at threshold 0.17; shown as the secondary check |
 | Browsers (CI) | Chromium, Firefox and WebKit: landing-page search, dashboard, section menu, PDF download, unit comparison, shrinkflation and food flows pass; no JavaScript errors; no overflow at 390 / 768 / 1440 px |
 | Accessibility | axe-core WCAG A/AA: no serious issue in the app's own markup (including colour contrast of the pastel theme); the remaining findings are inside Streamlit components (dropdown ARIA attribute, hidden file input) |
-| Speed | Assessment with SHAP: 0.34 s first, 0.06 s p95 warm; warm dashboard render ~0.25 s server-side. Load test on the CI runner (server and all browsers on one machine): 10/10 users, median 9.2 s to a full verdict; 25/25 users, 24.6 s |
+| Speed | Assessment with SHAP: 0.37 s first, 0.06 s p95 warm; warm dashboard render ~0.25 s server-side. Load test on the CI runner (server and all browsers on one machine; shared runners vary between runs): 10/10 users, median 15.7 s to a full verdict; 25/25 users, 37.0 s |
 | Hosted (https://pricetruth.streamlit.app, 8 Oct) | Chrome and WebKit: every flow passes on the live site, no app errors (WebKit's blocked Streamlit Cloud analytics calls are recorded as platform notices); analysed dashboard in 5–9 s for one user. Load test from one laptop against the free tier (1 shared CPU): 10/10 users served, median 22 s to a full verdict; 25/25 served, median 55 s. `reports/current/hosted/`, `load_test_hosted.json` |
 | Dataset | v1.2, 59 / 59 integrity checks; see [`datasets/final/DATA-CARD.md`](datasets/final/DATA-CARD.md) |
 | CI | *Application checks*: review, Docker build and health, three-browser flows and load test; green |
@@ -53,7 +53,7 @@ Final evidence: the CI review of commit `0d4ca0e` on Linux (8 October 2026), imp
 |---|---|---|
 | 1 | ~~Deploy on Streamlit Community Cloud~~ Live at https://pricetruth.streamlit.app (8 Oct); `HEALTH_URL` set and the uptime probe green (run #4, 8 Oct) | Done |
 | 2 | ~~Hosted checks~~ Done 8 Oct: Chrome + WebKit flows, 10/25-user load test | Done |
-| 3 | ~~Regenerate `reports/current/` on the final code~~ Done 8 Oct (commit `0d4ca0e`) | Done |
+| 3 | ~~Regenerate `reports/current/` on the final code~~ Done 8 Oct (commit `2eba3dc`) | Done |
 | 4 | Self-assessment (rubric) emailed to Prof. Naik | Done 8 Oct |
 | 4b | Optional: update the September Lab Work Word report so its numbers match `reports/current/` | Team (file is on the Mac) |
 | 5 | Demo script and a 3–5 minute backup video (route in README → Demo route) | Team |
