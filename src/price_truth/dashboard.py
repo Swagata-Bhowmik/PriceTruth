@@ -172,7 +172,7 @@ def discount_section(row: dict, analysis: dict) -> None:
                   "and a classifier that judges the listing as a shopper sees it.")
     left, right = st.columns([1, 1], gap="medium")
     with left:
-        st.markdown("**Rule: price history**")
+        st.markdown("**Primary check: the price-history rule**")
         theme.verdict(*rule_verdict(check))
         columns = st.columns(2)
         columns[0].metric("Usual discount (90 days)", f"{check['usual_discount_pct']:.0f}%",
@@ -182,12 +182,14 @@ def discount_section(row: dict, analysis: dict) -> None:
         st.caption("Flagged when the advertised discount is at least 5 points above usual but the price is less "
                    "than 5% below the 30-day low.")
     with right:
-        st.markdown("**Model: listing as a shopper sees it**")
+        st.markdown("**Secondary check: classifier on the listing alone**")
         if risk is None:
             theme.empty_state("Discount model unavailable", "Run scripts/build_final_dataset.py to train it.")
             return
         st.plotly_chart(theme.gauge(risk["probability_inflated"], risk["threshold"]), width="stretch",
                         config={"displayModeBar": False})
+        st.caption("Secondary signal. The model sees only the listing (prices, category, platform, rating, whether "
+                   "a sale is on), not the price history, so when the two checks disagree, trust the rule.")
     if risk is not None:
         effects = present.top_contributions(risk["contributions"], slim(row))
         st.plotly_chart(theme.contribution_chart(effects, "What raised or lowered the risk"), width="stretch",
