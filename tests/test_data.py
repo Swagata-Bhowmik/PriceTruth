@@ -85,12 +85,10 @@ def test_build_catalogue_reproduces_shipped_catalogue(monkeypatch, tmp_path):
     report = data.build_catalogue()
     shipped = json.loads((REPORTS / "data_audit.json").read_text())
     assert report["combined_rows"] == shipped["combined_rows"] == len(load_catalogue())
-    assert report["synthetic_observations"] == 0 and report["authenticity_labels"] == 0
-    for name in SOURCES:
-        rebuilt = {k: v for k, v in report["sources"][name].items()}
-        assert rebuilt["sha256"] == shipped["sources"][name]["sha256"]
-        assert rebuilt["clean_rows"] == shipped["sources"][name]["clean_rows"]
-        assert rebuilt["exclusions"] == shipped["sources"][name]["exclusions"]
+    assert (report["synthetic_observations"], report["authenticity_labels"]) == (0, 0)
+    fields = ["sha256", "clean_rows", "exclusions"]
+    assert {name: [report["sources"][name][f] for f in fields] for name in SOURCES} == {
+        name: [shipped["sources"][name][f] for f in fields] for name in SOURCES}
     rebuilt = pd.read_csv(tmp_path / "processed" / "catalogue.csv", dtype={"product_id": str})
     assert rebuilt.key.tolist() == load_catalogue().key.tolist()
     assert json.loads((tmp_path / "reports" / "data_audit.json").read_text()) == report

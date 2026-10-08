@@ -137,11 +137,10 @@ def test_live_fetch_requests_filters_and_saves(cache_root, monkeypatch):
     monkeypatch.setattr(price_api, "get_json", fake)
     result = price_api.fetch_observations(CODE)
     assert calls == [(price_api.URL, {"product_code": CODE, "size": 100, "order_by": "-date"})]
-    assert result["mode"] == "live"
-    assert result["notice"] == "Live retrieval of dated observations, not a live retailer quote."
-    assert result["source"] == "https://prices.openfoodfacts.org/api/v1/prices"
-    assert result["license"] == "ODbL-1.0"
-    assert result["total_at_source"] == 2
+    fields = ["mode", "notice", "source", "license", "total_at_source"]
+    assert {key: result[key] for key in fields} == {
+        "mode": "live", "notice": "Live retrieval of dated observations, not a live retailer quote.",
+        "source": "https://prices.openfoodfacts.org/api/v1/prices", "license": "ODbL-1.0", "total_at_source": 2}
     assert result["complete_query"] is True
     assert [o["id"] for o in result["observations"]] == [7]
     assert datetime.fromisoformat(result["fetched_at"]).tzinfo is not None

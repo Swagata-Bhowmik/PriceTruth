@@ -169,21 +169,32 @@ def test_pdf_export_is_generated_in_memory():
     assert payload.startswith(b"%PDF-") and len(payload) > 1000
 
 
+def labelled(elements, label):
+    """The widget with this visible label."""
+    return next(e for e in elements if e.label == label)
+
+
+def add_manual_observation(app):
+    """Fill and submit the manual observation form."""
+    for field, value in [("product_id", "00123"), ("name", "Test food"), ("variant", "plain"), ("store", "shop")]:
+        app.text_input(key=f"manual_{field}").set_value(value)
+    labelled(app.text_input, "HTTPS source / evidence link").set_value("https://example.com/receipt")
+    labelled(app.number_input, "Total price paid").set_value(10.)
+    labelled(app.number_input, "Total quantity purchased").set_value(100.)
+    labelled(app.button, "Add to my session observations").click().run()
+
+
 def test_manual_observation_validation_and_clear():
     """Manual evidence persists within the session, and explicit deletion removes it."""
     app = observations_app().run()
-    for field, value in [("product_id", "00123"), ("name", "Test food"), ("variant", "plain"), ("store", "shop")]:
-        app.text_input(key=f"manual_{field}").set_value(value)
-    next(i for i in app.text_input if i.label == "HTTPS source / evidence link").set_value("https://example.com/receipt")
-    next(i for i in app.number_input if i.label == "Total price paid").set_value(10.)
-    next(i for i in app.number_input if i.label == "Total quantity purchased").set_value(100.)
-    next(i for i in app.button if i.label == "Add to my session observations").click().run()
+    add_manual_observation(app)
     assert not app.exception
     assert app.session_state["observations"].iloc[0].product_id == "00123"
     assert not app.json  # results are explained in words and tables, never raw JSON
     assert any("Not enough history yet" in str(h.proto.body) for h in app.get("html"))
-    next(i for i in app.button if i.label == "Clear session observations").click().run()
-    assert not app.exception and any("Upload real" in i.value for i in app.info)
+    labelled(app.button, "Clear session observations").click().run()
+    assert not app.exception
+    assert any("Upload real" in i.value for i in app.info)
 
 
 def test_pack_changes_rejects_ambiguous_same_day_evidence():

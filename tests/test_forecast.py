@@ -45,20 +45,17 @@ def test_errors_are_one_step_absolute_and_expanding():
 def test_trend_is_selected_and_reported():
     """A clean trend selects the local trend, beats the baseline and forecasts tomorrow."""
     result = forecast_next_day(daily(np.arange(60.) + 100), END)
-    assert result["status"] == "evaluated"
-    assert result["reason"] == "One-step historical backtest; not a guaranteed buying recommendation."
-    assert result["selected_on_validation"] == "local_trend"
-    assert result["validation_mae"]["last_price"] == pytest.approx(1)
-    assert result["validation_mae"]["rolling_median"] == pytest.approx(4)
-    assert result["validation_mae"]["local_trend"] == pytest.approx(0, abs=1e-9)
-    assert result["test_mae"] == pytest.approx(0, abs=1e-9)
-    assert result["baseline_test_mae"] == pytest.approx(1)
-    assert result["test_predictions"] == 10
+    labels = ["status", "reason", "selected_on_validation", "test_predictions", "forecast_date", "observed_days",
+              "age_days"]
+    assert {key: result[key] for key in labels} == {
+        "status": "evaluated", "reason": "One-step historical backtest; not a guaranteed buying recommendation.",
+        "selected_on_validation": "local_trend", "test_predictions": 10, "forecast_date": "2026-03-02",
+        "observed_days": 60, "age_days": 0}
     assert result["beats_baseline_on_test"] is True
-    assert result["forecast_date"] == "2026-03-02"
-    assert result["next_day_estimate"] == pytest.approx(160)
-    assert result["observed_days"] == 60
-    assert result["age_days"] == 0
+    numbers = {**result["validation_mae"], "test": result["test_mae"], "baseline": result["baseline_test_mae"],
+               "estimate": result["next_day_estimate"]}
+    assert numbers == pytest.approx({"last_price": 1, "rolling_median": 4, "local_trend": 0, "test": 0,
+                                     "baseline": 1, "estimate": 160}, rel=1e-6, abs=1e-9)
 
 
 def test_validation_and_test_windows_are_the_last_twenty_days():

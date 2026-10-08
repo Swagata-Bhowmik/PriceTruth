@@ -28,6 +28,7 @@ def slim(row: dict) -> dict:
     return {k: row.get(k) for k in LISTING_FIELDS}
 
 
+@st.cache_data(max_entries=256, show_spinner=False)
 def history_chart(history: pd.DataFrame, quote: float) -> go.Figure:
     """Last 180 days of price and shown MRP, sale periods shaded, with the user's quote."""
     recent = history.tail(180)

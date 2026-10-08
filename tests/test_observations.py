@@ -58,14 +58,12 @@ def test_valid_import_is_normalized_sorted_and_labelled():
                       row(), row())
     assert result.columns.tolist() == COLUMNS + ["provenance"]
     assert result.index.tolist() == [0, 1]
-    assert result.date.tolist() == ["2026-01-01", "2026-02-01"]
-    assert result.currency.tolist() == ["INR", "INR"]
-    assert result.unit.tolist() == ["g", "g"]
-    assert result.store.tolist() == ["shop", "shop"]
-    assert result.price.tolist() == [10.0, 12.5]
-    assert result.quantity.tolist() == [100.0, 100.0]
-    assert result.source_url.tolist() == ["https://example.com/1", "https://example.com/2"]
-    assert result.provenance.eq("user_supplied_unverified").all()
+    shown = ["date", "currency", "unit", "store", "price", "quantity", "source_url", "provenance"]
+    assert result[shown].to_dict("list") == {
+        "date": ["2026-01-01", "2026-02-01"], "currency": ["INR", "INR"], "unit": ["g", "g"],
+        "store": ["shop", "shop"], "price": [10.0, 12.5], "quantity": [100.0, 100.0],
+        "source_url": ["https://example.com/1", "https://example.com/2"],
+        "provenance": ["user_supplied_unverified"] * 2}
 
 
 def test_sort_uses_identity_before_date():
@@ -271,20 +269,13 @@ def test_pack_change_converts_units_and_reports_sources():
                    row(date="2026-03-01", quantity=800, unit="g", price=120,
                        source_url="https://example.com/3"))
     result = pack_changes(data, True)
-    assert len(result) == 2
-    first, second = result.iloc[0], result.iloc[1]
-    assert (first.from_date, first.to_date) == ("2026-01-01", "2026-02-01")
-    assert (second.from_date, second.to_date) == ("2026-02-01", "2026-03-01")
-    assert first.quantity_reduction_pct == pytest.approx(20)
-    assert first.unit_price_increase_pct == pytest.approx(25)
-    assert second.quantity_reduction_pct == pytest.approx(0)
-    assert second.unit_price_increase_pct == pytest.approx(20)
-    assert first.new_unit_price == pytest.approx(12.5)
-    assert second.new_unit_price == pytest.approx(15)
-    assert first.before_source == "https://example.com/1"
-    assert first.after_source == "https://example.com/2"
-    assert first.evidence == ("User-supplied; continuity confirmed by uploader, "
-                              "not independently verified")
+    assert result[["from_date", "to_date"]].values.tolist() == [["2026-01-01", "2026-02-01"],
+                                                                 ["2026-02-01", "2026-03-01"]]
+    numbers = result[["quantity_reduction_pct", "unit_price_increase_pct", "new_unit_price"]].to_numpy()
+    assert numbers.tolist() == [pytest.approx([20, 25, 12.5]), pytest.approx([0, 20, 15])]
+    assert result.iloc[0][["before_source", "after_source", "evidence"]].tolist() == [
+        "https://example.com/1", "https://example.com/2",
+        "User-supplied; continuity confirmed by uploader, not independently verified"]
 
 
 def test_pack_change_converts_the_later_pack_too():
