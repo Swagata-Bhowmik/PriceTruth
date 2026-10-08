@@ -51,7 +51,7 @@ Final evidence: the CI review of commit `0d4ca0e` on Linux (8 October 2026), imp
 
 | # | Item | Owner |
 |---|---|---|
-| 1 | ~~Deploy on Streamlit Community Cloud~~ Live at https://pricetruth.streamlit.app (8 Oct). Still to do: set the repository variable `HEALTH_URL` = `https://pricetruth.streamlit.app/~/+/_stcore/health` | Swagata (GitHub settings) |
+| 1 | ~~Deploy on Streamlit Community Cloud~~ Live at https://pricetruth.streamlit.app (8 Oct); `HEALTH_URL` set and the uptime probe green (run #4, 8 Oct) | Done |
 | 2 | ~~Hosted checks~~ Done 8 Oct: Chrome + WebKit flows, 10/25-user load test | Done |
 | 3 | ~~Regenerate `reports/current/` on the final code~~ Done 8 Oct (commit `0d4ca0e`) | Done |
 | 4 | Self-assessment (rubric) emailed to Prof. Naik | Done 8 Oct |
