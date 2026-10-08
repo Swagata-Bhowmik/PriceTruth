@@ -401,7 +401,7 @@ def contribution_chart(effects: list[dict], title: str, height: int | None = Non
         customdata=["raises risk" if e["value"] >= 0 else "lowers risk" for e in ordered],
         hovertemplate="%{y}: %{customdata}<extra></extra>"))
     figure.update_xaxes(zeroline=True, zerolinecolor="#CFC8BC", showticklabels=False,
-                        title_text="← lowers risk          raises risk →")
+                        title_text="← lowers · raises →")
     figure.update_yaxes(automargin=True)
     figure.update_layout(title=title, bargap=.35)
     label_margin(figure, [e["label"] for e in effects])
