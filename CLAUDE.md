@@ -34,6 +34,7 @@ Full background, requirements, personas (Priya, Rajesh, Aarav), rubric and decis
    - Code review: 10 findings fixed with regression tests; illustrated **user guide** (`docs/USER-GUIDE.html`, also at `/user-guide` in the app).
    - Automation: daily Open Prices collection, uptime probe, Docker build in CI.
    - Moved to this repository (7 Oct) as one import commit.
+4. **8 Oct — Claude (Windows clone).** Repository cleanup (one tracker, `docs/history/`, LF line endings, Windows UTF-8 fixes); **single-page product dashboard** replacing Home/Price check/Unit price/Shrinkflation (dropdown selector, six hover-explained headline cards, sticky section menu, quote-aware offers); structured JSON logging; Bandit SAST in the review; `docs/ARCHITECTURE.md` (framework trade-offs, NFRs); `requirements.lock`; tabs replaced by scrolling sections on detail pages; user guide rebuilt by `scripts/build_user_guide.py`.
 
 ## Current measured state (7 Oct 2026, `reports/current/`)
 
@@ -74,13 +75,15 @@ The `.venv` has an editable install pointing at **this** folder's `src/`. If `pr
 ## Code map
 
 ```text
-app.py                 navigation (st.navigation), theme, warm-up
-views/*.py             one file per page: home, product, compare, food, shrink, observations, catalogue, methods, user-guide
+app.py                 top navigation (st.navigation), theme, logging, warm-up
+views/*.py             one line per page: dashboard (home), food, observations, catalogue, methods, user-guide
 src/price_truth/
-  ui.py                Price check, Unit price, Shrinkflation, Catalogue, Methods page bodies
-  market_ui.py         Price-check tabs: Discount check, Price history & timing, Where to buy
+  dashboard.py         the product dashboard: dropdown selector, headline cards, scrolling sections
+  ui.py                unit-result and shrinkflation helpers, Catalogue and Methods page bodies
+  market_ui.py         listing price histories (cached) and the history chart
   workspace.py         Food & packs, My observations
-  theme.py / present.py   visual components / plain-language verdicts and SHAP grouping (pure, tested)
+  theme.py / present.py   design system (CSS, cards, tooltips, section menu) / verdicts, headline cards, SHAP (pure)
+  logs.py              structured JSON logging (configured in app.py)
   resources.py         cached catalogue, models, reports; background warm-up
   data.py              raw CSV → datasets/processed/catalogue.csv (recovered fields, categories, variants)
   model.py             price model training, assess() with Tree SHAP

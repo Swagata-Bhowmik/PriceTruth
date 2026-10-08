@@ -53,7 +53,7 @@ The discount model sees only listing information. The history-based rule is the 
 ## Changes in v1.1
 
 - **Category groups fixed:** "Other" went from 4,901 listings to 60. The price model was retrained: overall R² 0.962 → 0.959 (MAE +₹3), while the categories that were negative improved (Flipkart Electronics −0.54 → 0.01, Personal care −0.63 → 0.54).
-- **Inflation-adjusted anchors:** synthetic histories, offers and labels now start from May 2025 price levels instead of 2015–16 or 2023 prices. The Price check starts from today's price for the listing.
+- **Inflation-adjusted anchors:** synthetic histories, offers and labels now start from May 2025 price levels instead of 2015–16 or 2023 prices. The dashboard (then called Price check) starts from today's price for the listing.
 
 ## Limitations
 

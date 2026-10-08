@@ -18,11 +18,11 @@ Say: "We're testing the app, not you. Please think aloud. I can't help during th
 
 | Task | Instruction to read | Success means |
 |---|---|---|
-| T1 | "You see a charging cable listed at ₹1,099, now ₹399. Find out whether ₹399 is a good price." | Reaches a verdict on Price check |
+| T1 | "You see a charging cable listed at ₹1,099, now ₹399. Find out whether ₹399 is a good price." | Chooses a cable on the dashboard, enters the prices and reads the price verdict |
 | T2 | "Explain in your own words why the app gave that answer." | Mentions listed price or category as a reason, from the explanation chart |
-| T3 | "A 400 g pack costs ₹45 and a 1 kg pack costs ₹105. Which is better value?" | Correct answer from Unit price |
-| T4 | "Find out whether any snack packs have got smaller at the same price." | Opens Shrinkflation and states one case |
-| T5 | "Save a copy of your price check result." | Downloads the PDF |
+| T3 | "A 400 g pack costs ₹45 and a 1 kg pack costs ₹105. Which is better value?" | Correct answer from the dashboard's Pack value section |
+| T4 | "Find out whether any snack packs have got smaller at the same price." | Reaches the Shrinkflation section and states one case |
+| T5 | "Save a copy of your result." | Downloads the PDF |
 
 For each task record: completed (yes / with difficulty / no), time in seconds, errors and quotes.
 
