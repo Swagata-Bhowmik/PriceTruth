@@ -97,6 +97,25 @@ def test_offers_rank_by_total_cost_and_include_own_platform():
     assert offers.link.str.startswith("https://").all()
 
 
+def test_offers_with_quote_use_the_shoppers_price_on_its_own_platform():
+    """The own-platform row carries the quoted price, its delivery fee follows the free-delivery threshold,
+    the other platforms are unchanged and the ranking is recomputed."""
+    day = date(2026, 6, 1)
+    base = synthetic.offers_for(LISTING, day)
+    cheap = synthetic.offers_with_quote(LISTING, 120., day)
+    own = cheap[cheap.platform == "Flipkart"].iloc[0]
+    threshold = synthetic.assumptions()["platforms"]["Flipkart"]["free_delivery_threshold"]
+    assert own.price == 120. and own.provenance == "user_quote" and own.delivery_fee > 0 and 120. < threshold
+    assert own.total == 120. + own.delivery_fee + own.platform_fee
+    dear = synthetic.offers_with_quote(LISTING, threshold + 1., day)
+    assert dear[dear.platform == "Flipkart"].iloc[0].delivery_fee == 0
+    others = cheap[cheap.platform != "Flipkart"].set_index("platform").sort_index()
+    assert others.price.equals(base[base.platform != "Flipkart"].set_index("platform").sort_index().price)
+    assert cheap[cheap.available].total.is_monotonic_increasing
+    assert synthetic.offers_with_quote({**LISTING, "platform": "nowhere"}, 50., day).equals(
+        synthetic.offers_for({**LISTING, "platform": "nowhere"}, day))
+
+
 def test_food_history_is_anchored_and_shaped_like_open_prices():
     """Simulated shop prices use the Open Prices schema and stay near the real anchor price."""
     frame = synthetic.food_history("8901234567890", "Test food", 50., 900001, date(2025, 12, 31))

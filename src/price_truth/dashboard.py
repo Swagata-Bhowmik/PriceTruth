@@ -108,7 +108,7 @@ def analyse(row: dict, selling: float, listed: float, discount_bundle: dict | No
     in_sale = bool(history.event.iloc[-1])
     risk = assess_discount(discount_bundle, slim(row), selling, listed, in_sale) if discount_bundle else None
     return {"result": result, "history": history, "check": check, "risk": risk, "in_sale": in_sale,
-            "offers": synthetic.offers_for(slim(row))}
+            "offers": synthetic.offers_with_quote(slim(row), selling)}
 
 
 def product_heading(row: dict) -> None:

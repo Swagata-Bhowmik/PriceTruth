@@ -207,6 +207,19 @@ def offers_for(listing: dict, on: date | None = None) -> pd.DataFrame:
     return frame
 
 
+def offers_with_quote(listing: dict, price: float, on: date | None = None) -> pd.DataFrame:
+    """Offers where the listing's own platform charges the shopper's quoted price (fees recomputed)."""
+    offers = offers_for(listing, on)
+    own = offers.platform.str.lower() == listing["platform"]
+    if not own.any():
+        return offers
+    platform = assumptions()["platforms"][offers.loc[own, "platform"].iloc[0]]
+    delivery = 0.0 if price >= platform["free_delivery_threshold"] else float(platform["delivery_fee"])
+    offers.loc[own, ["price", "delivery_fee", "provenance"]] = [float(price), delivery, "user_quote"]
+    offers["total"] = offers.price + offers.delivery_fee + offers.platform_fee
+    return offers.sort_values(["available", "total"], ascending=[False, True]).reset_index(drop=True)
+
+
 def food_history(code: str, name: str, anchor_price: float, store: int, end: date | None = None) -> pd.DataFrame:
     """Daily simulated shop prices for a real barcode, anchored at a real observed INR price."""
     params, dynamics = category_params("Grocery"), assumptions()["dynamics"]
