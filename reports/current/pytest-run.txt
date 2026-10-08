@@ -1,18 +1,18 @@
 ============================= test session starts ==============================
-platform linux -- Python 3.12.15, pytest-9.0.3, pluggy-1.6.0
+platform linux -- Python 3.12.14, pytest-9.0.3, pluggy-1.6.0
 rootdir: /home/runner/work/PriceTruth/PriceTruth
 configfile: pyproject.toml
 testpaths: tests
 plugins: platformdirs-4.12.4, cov-7.1.0, anyio-4.15.1
-collected 416 items
+collected 419 items
 
-tests/test_app.py ..................                                     [  4%]
+tests/test_app.py .....................                                  [  5%]
 tests/test_calculations.py ............................................. [ 15%]
-......                                                                   [ 16%]
-tests/test_data.py ......................                                [ 21%]
+......                                                                   [ 17%]
+tests/test_data.py ......................                                [ 22%]
 tests/test_evidence_store.py ..............                              [ 25%]
 tests/test_forecast.py ..........................                        [ 31%]
-tests/test_logs.py ..                                                    [ 31%]
+tests/test_logs.py ..                                                    [ 32%]
 tests/test_model.py ......                                               [ 33%]
 tests/test_observations.py ............................................. [ 44%]
 .......................................                                  [ 53%]
@@ -20,7 +20,7 @@ tests/test_offers.py ................                                    [ 57%]
 tests/test_present.py ...............                                    [ 61%]
 tests/test_price_api.py ........................................         [ 70%]
 tests/test_review_fixes.py ......                                        [ 72%]
-tests/test_review_fixes_domain.py ................                       [ 75%]
+tests/test_review_fixes_domain.py ................                       [ 76%]
 tests/test_search.py ............                                        [ 78%]
 tests/test_services.py ................................................. [ 90%]
                                                                          [ 90%]
@@ -29,7 +29,7 @@ tests/test_workspace_evidence.py ........................                [100%]
 
 - generated xml file: /home/runner/work/PriceTruth/PriceTruth/reports/current/pytest.xml -
 ================================ tests coverage ================================
-_______________ coverage: platform linux, python 3.12.15-final-0 _______________
+_______________ coverage: platform linux, python 3.12.14-final-0 _______________
 
 Coverage JSON written to file /home/runner/work/PriceTruth/PriceTruth/reports/current/coverage.json
-============================= 416 passed in 22.91s =============================
+============================= 419 passed in 41.46s =============================

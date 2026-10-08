@@ -1,6 +1,6 @@
 # Price Truth — current engineering review
 
-Generated: 2026-10-08T05:30:44.259270+00:00
+Generated: 2026-10-08T06:51:54.214613+00:00
 
 Historical submission reports are preserved separately; these results apply to this source manifest.
 
@@ -16,17 +16,17 @@ Historical submission reports are preserved separately; these results apply to t
 | errors | 0 |
 | failures | 0 |
 | skipped | 0 |
-| tests | 416 |
-| time | 22.852 |
-| timestamp | 2026-10-08T05:29:31.929884+00:00 |
-| hostname | runnervmmprz5 |
+| tests | 419 |
+| time | 41.461 |
+| timestamp | 2026-10-08T06:49:36.185653+00:00 |
+| hostname | runnervm8df0l |
 
 ## Coverage
 
 | Measure | Count | Percentage |
 | --- | --- | --- |
-| Statements | 1907/2011 | 94.83% |
-| Branches | 371/426 | 87.09% |
+| Statements | 1997/2101 | 95.05% |
+| Branches | 382/438 | 87.21% |
 
 Coverage scope: price_truth package; scripts and app.py are outside this denominator.
 
@@ -56,7 +56,7 @@ Surviving mutants are justified individually in docs/MUTATION-SURVIVORS.md.
 | Medium | 0 |
 | Low | 0 |
 
-Scanned 4,016 lines in src, app.py, views, scripts; 2 lines carry a justified `# nosec` comment (fixed-argument tool subprocesses, text escaping).
+Scanned 4,396 lines in src, app.py, views, scripts; 2 lines carry a justified `# nosec` comment (fixed-argument tool subprocesses, text escaping).
 
 No findings.
 
@@ -143,26 +143,42 @@ No findings.
 | src/price_truth/resources.py | start_warmup | 1 | A |
 | src/price_truth/offers.py | compare_observed_offers | 7 | B |
 | src/price_truth/offers.py | require_same_pack | 5 | A |
-| src/price_truth/dashboard.py | packs_section | 9 | B |
+| src/price_truth/landing.py | proof | 3 | A |
+| src/price_truth/landing.py | cta | 3 | A |
+| src/price_truth/landing.py | hero | 2 | A |
+| src/price_truth/landing.py | open_dashboard | 2 | A |
+| src/price_truth/landing.py | stats | 2 | A |
+| src/price_truth/landing.py | features | 2 | A |
+| src/price_truth/landing.py | how_it_works | 2 | A |
+| src/price_truth/landing.py | landing_page | 2 | A |
+| src/price_truth/landing.py | svg | 1 | A |
+| src/price_truth/landing.py | icon | 1 | A |
+| src/price_truth/landing.py | stat_html | 1 | A |
+| src/price_truth/landing.py | problem | 1 | A |
+| src/price_truth/dashboard.py | packs_card | 9 | B |
 | src/price_truth/dashboard.py | selector | 6 | B |
 | src/price_truth/dashboard.py | product_heading | 6 | B |
-| src/price_truth/dashboard.py | shrink_section | 6 | B |
+| src/price_truth/dashboard.py | shrink_card | 6 | B |
 | src/price_truth/dashboard.py | narrow | 5 | A |
 | src/price_truth/dashboard.py | dashboard_page | 5 | A |
 | src/price_truth/dashboard.py | rule_verdict | 4 | A |
-| src/price_truth/dashboard.py | history_section | 4 | A |
-| src/price_truth/dashboard.py | discount_section | 3 | A |
+| src/price_truth/dashboard.py | timing_card | 4 | A |
 | src/price_truth/dashboard.py | product_label | 2 | A |
 | src/price_truth/dashboard.py | analyse | 2 | A |
-| src/price_truth/dashboard.py | verdict_section | 2 | A |
-| src/price_truth/dashboard.py | timing_card | 2 | A |
+| src/price_truth/dashboard.py | verdict_card | 2 | A |
+| src/price_truth/dashboard.py | discount_card | 2 | A |
 | src/price_truth/dashboard.py | offers_chart | 2 | A |
-| src/price_truth/dashboard.py | buy_section | 2 | A |
-| src/price_truth/dashboard.py | export_section | 2 | A |
+| src/price_truth/dashboard.py | buy_card | 2 | A |
+| src/price_truth/dashboard.py | timing_verdict | 2 | A |
+| src/price_truth/dashboard.py | export_card | 2 | A |
+| src/price_truth/dashboard.py | choose | 2 | A |
 | src/price_truth/dashboard.py | options_by_count | 1 | A |
 | src/price_truth/dashboard.py | price_inputs | 1 | A |
 | src/price_truth/dashboard.py | run_assessment | 1 | A |
+| src/price_truth/dashboard.py | history_card | 1 | A |
 | src/price_truth/dashboard.py | pack_row | 1 | A |
+| src/price_truth/dashboard.py | card | 1 | A |
+| src/price_truth/dashboard.py | grid | 1 | A |
 | src/price_truth/calculations.py | compare_packs | 8 | B |
 | src/price_truth/calculations.py | unit_price | 6 | B |
 | src/price_truth/calculations.py | positive | 3 | A |
@@ -183,26 +199,28 @@ No findings.
 | src/price_truth/model.py | _preprocessing | 1 | A |
 | src/price_truth/model.py | metrics | 1 | A |
 | src/price_truth/model.py | load_model | 1 | A |
-| src/price_truth/theme.py | contribution_chart | 7 | B |
-| src/price_truth/theme.py | effects_chart | 5 | A |
+| src/price_truth/theme.py | contribution_chart | 9 | B |
+| src/price_truth/theme.py | effects_chart | 7 | B |
 | src/price_truth/theme.py | product_header | 4 | A |
 | src/price_truth/theme.py | kpis | 3 | A |
 | src/price_truth/theme.py | product_card | 3 | A |
 | src/price_truth/theme.py | intro | 2 | A |
 | src/price_truth/theme.py | section_nav | 2 | A |
 | src/price_truth/theme.py | source_badge | 2 | A |
+| src/price_truth/theme.py | style_figure | 2 | A |
+| src/price_truth/theme.py | label_margin | 2 | A |
 | src/price_truth/theme.py | range_chart | 2 | A |
 | src/price_truth/theme.py | gauge | 2 | A |
 | src/price_truth/theme.py | apply | 1 | A |
 | src/price_truth/theme.py | hero | 1 | A |
 | src/price_truth/theme.py | page_header | 1 | A |
 | src/price_truth/theme.py | section | 1 | A |
+| src/price_truth/theme.py | card_head | 1 | A |
 | src/price_truth/theme.py | footer | 1 | A |
 | src/price_truth/theme.py | verdict | 1 | A |
 | src/price_truth/theme.py | empty_state | 1 | A |
 | src/price_truth/theme.py | stat | 1 | A |
 | src/price_truth/theme.py | chart_template | 1 | A |
-| src/price_truth/theme.py | style_figure | 1 | A |
 | src/price_truth/authenticity.py | train | 6 | B |
 | src/price_truth/authenticity.py | assess_discount | 3 | A |
 | src/price_truth/authenticity.py | features | 1 | A |
@@ -293,6 +311,7 @@ No findings.
 | scripts/browser_current.py | check_viewports | 2 | A |
 | scripts/browser_current.py | run_flows | 2 | A |
 | scripts/browser_current.py | visit | 1 | A |
+| scripts/browser_current.py | check_landing | 1 | A |
 | scripts/browser_current.py | check_food | 1 | A |
 | scripts/concurrency_check.py | main | 9 | B |
 | scripts/build_user_guide.py | capture | 4 | A |
@@ -555,6 +574,7 @@ No findings.
 | tests/test_calculations.py | test_reject_mixed_or_missing_currency | 1 | A |
 | tests/test_calculations.py | test_reject_mixed_dimensions_and_single_pack | 1 | A |
 | tests/test_calculations.py | test_shrink_rejects_invalid_values | 1 | A |
+| tests/test_app.py | test_landing_page_shows_real_figures_and_opens_the_dashboard | 8 | B |
 | tests/test_app.py | test_dashboard_shows_real_coverage_and_every_section | 6 | B |
 | tests/test_app.py | test_unit_comparison_flow | 6 | B |
 | tests/test_app.py | test_dropdowns_narrow_the_product_list | 5 | A |
@@ -570,6 +590,7 @@ No findings.
 | tests/test_app.py | application | 2 | A |
 | tests/test_app.py | html | 2 | A |
 | tests/test_app.py | test_pages_render | 2 | A |
+| tests/test_app.py | test_landing_call_to_action_opens_the_dashboard | 2 | A |
 | tests/test_app.py | test_unit_comparison_requires_inputs | 2 | A |
 
 ## Radon MI
@@ -589,11 +610,12 @@ MI is an index, not percent maintainability.
 | src/price_truth/present.py | 41.28 | A |
 | src/price_truth/resources.py | 70.78 | A |
 | src/price_truth/offers.py | 59.56 | A |
-| src/price_truth/dashboard.py | 18.5 | B |
+| src/price_truth/landing.py | 53.83 | A |
+| src/price_truth/dashboard.py | 18.11 | B |
 | src/price_truth/calculations.py | 42.83 | A |
 | src/price_truth/evidence_store.py | 44.04 | A |
 | src/price_truth/model.py | 40.8 | A |
-| src/price_truth/theme.py | 39.5 | A |
+| src/price_truth/theme.py | 40.4 | A |
 | src/price_truth/authenticity.py | 49.74 | A |
 | src/price_truth/logs.py | 71.03 | A |
 | src/price_truth/__init__.py | 100.0 | A |
@@ -604,6 +626,7 @@ MI is an index, not percent maintainability.
 | src/price_truth/data.py | 38.17 | A |
 | src/price_truth/cache.py | 66.39 | A |
 | app.py | 61.66 | A |
+| views/home.py | 79.74 | A |
 | views/methods.py | 76.61 | A |
 | views/catalogue.py | 100.0 | A |
 | views/dashboard.py | 100.0 | A |
@@ -616,9 +639,9 @@ MI is an index, not percent maintainability.
 | scripts/uptime_report.py | 77.68 | A |
 | scripts/model_development.py | 42.2 | A |
 | scripts/review.py | 81.86 | A |
-| scripts/browser_current.py | 47.85 | A |
+| scripts/browser_current.py | 46.71 | A |
 | scripts/concurrency_check.py | 54.66 | A |
-| scripts/build_user_guide.py | 51.43 | A |
+| scripts/build_user_guide.py | 50.91 | A |
 | scripts/load_test.py | 60.58 | A |
 | scripts/data_feasibility.py | 47.58 | A |
 | scripts/fetch_real_data.py | 47.48 | A |
@@ -638,7 +661,7 @@ MI is an index, not percent maintainability.
 | tests/test_review_fixes_domain.py | 36.82 | A |
 | tests/test_synthetic.py | 33.41 | A |
 | tests/test_calculations.py | 34.25 | A |
-| tests/test_app.py | 35.7 | A |
+| tests/test_app.py | 31.59 | A |
 
 ## Radon raw
 
@@ -655,11 +678,12 @@ MI is an index, not percent maintainability.
 | src/price_truth/present.py | 228 | 165 | 1 |
 | src/price_truth/resources.py | 69 | 40 | 2 |
 | src/price_truth/offers.py | 43 | 34 | 1 |
-| src/price_truth/dashboard.py | 396 | 331 | 0 |
+| src/price_truth/landing.py | 281 | 239 | 2 |
+| src/price_truth/dashboard.py | 402 | 325 | 0 |
 | src/price_truth/calculations.py | 59 | 41 | 0 |
 | src/price_truth/evidence_store.py | 70 | 57 | 0 |
 | src/price_truth/model.py | 216 | 167 | 0 |
-| src/price_truth/theme.py | 302 | 236 | 2 |
+| src/price_truth/theme.py | 423 | 339 | 6 |
 | src/price_truth/authenticity.py | 153 | 119 | 1 |
 | src/price_truth/logs.py | 32 | 22 | 1 |
 | src/price_truth/__init__.py | 2 | 0 | 0 |
@@ -669,7 +693,8 @@ MI is an index, not percent maintainability.
 | src/price_truth/synthetic.py | 255 | 188 | 1 |
 | src/price_truth/data.py | 252 | 199 | 6 |
 | src/price_truth/cache.py | 39 | 29 | 1 |
-| app.py | 34 | 28 | 0 |
+| app.py | 35 | 29 | 0 |
+| views/home.py | 7 | 5 | 0 |
 | views/methods.py | 7 | 5 | 0 |
 | views/catalogue.py | 5 | 3 | 0 |
 | views/dashboard.py | 5 | 3 | 0 |
@@ -682,9 +707,9 @@ MI is an index, not percent maintainability.
 | scripts/uptime_report.py | 25 | 18 | 2 |
 | scripts/model_development.py | 98 | 84 | 0 |
 | scripts/review.py | 5 | 3 | 0 |
-| scripts/browser_current.py | 152 | 111 | 3 |
+| scripts/browser_current.py | 163 | 119 | 3 |
 | scripts/concurrency_check.py | 68 | 57 | 2 |
-| scripts/build_user_guide.py | 286 | 254 | 0 |
+| scripts/build_user_guide.py | 294 | 262 | 0 |
 | scripts/load_test.py | 79 | 61 | 1 |
 | scripts/data_feasibility.py | 52 | 44 | 0 |
 | scripts/fetch_real_data.py | 64 | 54 | 0 |
@@ -704,7 +729,7 @@ MI is an index, not percent maintainability.
 | tests/test_review_fixes_domain.py | 173 | 118 | 2 |
 | tests/test_synthetic.py | 170 | 117 | 1 |
 | tests/test_calculations.py | 180 | 117 | 0 |
-| tests/test_app.py | 146 | 95 | 1 |
+| tests/test_app.py | 168 | 111 | 1 |
 
 ## Halstead
 
@@ -721,11 +746,12 @@ MI is an index, not percent maintainability.
 | src/price_truth/present.py | 600.41 | 4162.86 |
 | src/price_truth/resources.py | 4.75 | 2.38 |
 | src/price_truth/offers.py | 147.4 | 620.64 |
-| src/price_truth/dashboard.py | 994.33 | 8930.55 |
+| src/price_truth/landing.py | 15.51 | 15.51 |
+| src/price_truth/dashboard.py | 1043.09 | 8575.13 |
 | src/price_truth/calculations.py | 510.04 | 3559.89 |
 | src/price_truth/evidence_store.py | 155.11 | 465.34 |
 | src/price_truth/model.py | 561.86 | 4098.3 |
-| src/price_truth/theme.py | 361.89 | 1727.21 |
+| src/price_truth/theme.py | 462.8 | 2380.09 |
 | src/price_truth/authenticity.py | 289.35 | 1302.07 |
 | src/price_truth/logs.py | 24.0 | 36.0 |
 | src/price_truth/__init__.py | 0 | 0 |
@@ -736,6 +762,7 @@ MI is an index, not percent maintainability.
 | src/price_truth/data.py | 815.53 | 7998.45 |
 | src/price_truth/cache.py | 33.22 | 66.44 |
 | app.py | 18.0 | 18.0 |
+| views/home.py | 4.75 | 2.38 |
 | views/methods.py | 13.93 | 6.97 |
 | views/catalogue.py | 0 | 0 |
 | views/dashboard.py | 0 | 0 |
@@ -770,15 +797,15 @@ MI is an index, not percent maintainability.
 | tests/test_review_fixes_domain.py | 1164.13 | 4593.74 |
 | tests/test_synthetic.py | 2043.88 | 21072.71 |
 | tests/test_calculations.py | 340.49 | 680.99 |
-| tests/test_app.py | 826.81 | 4063.34 |
+| tests/test_app.py | 1202.61 | 6048.43 |
 
 ## Local timing
 
 | Measure | Value |
 | --- | --- |
-| first_assessment_seconds | 0.2217877900000076 |
+| first_assessment_seconds | 0.34159645299999397 |
 | warm_calls | 29 |
-| warm_p95_seconds | 0.027509026199999197 |
+| warm_p95_seconds | 0.0551196960000027 |
 | scope | Sequential local assessment including SHAP; not 100-user load or browser latency |
 
 ## Requirements still requiring external evidence

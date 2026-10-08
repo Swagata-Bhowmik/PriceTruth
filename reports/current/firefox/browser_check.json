@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-08T05:30:45.737958+00:00",
+  "generated_at": "2026-10-08T06:50:23.627668+00:00",
   "url": "http://127.0.0.1:8501",
   "browser": "155.0",
   "engine": "firefox",
-  "initial_analysed_dashboard_seconds": 1.2265920719999883,
+  "initial_analysed_dashboard_seconds": 1.164355437999987,
   "javascript_errors": [],
   "benign_browser_notices": [],
   "viewports": [
@@ -25,6 +25,7 @@
   ],
   "accessibility_serious_or_critical": null,
   "flows": [
+    "landing page search into the dashboard",
     "dashboard with real model, section navigation and PDF download",
     "unit comparison on the dashboard",
     "shrinkflation case",

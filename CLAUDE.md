@@ -18,7 +18,7 @@ Full background, requirements, personas (Priya, Rajesh, Aarav), rubric and decis
 | Source of truth | **This repository only.** No other repository or folder is used |
 | Local clone (Windows) | `C:\Users\mrkri\Documents\GitHub\PriceTruth`; venv at `.venv\Scripts\python.exe` (Python 3.12) |
 | First commit | `f78958e` (7 Oct 2026, Swagata Bhowmik) — single import commit: *“Import Price Truth application, dataset, models and tests (AI-assisted development)”* |
-| CI | GitHub Actions **Application checks** (review, container, browsers) — green on `59f9a8d` |
+| CI | GitHub Actions **Application checks** (review, container, browsers) — green on `0d4ca0e` |
 | Status tracker | `PROJECT-COMPLETION.md` — measured state, decisions in force, open items |
 | Online deployment | Not yet. Planned on Streamlit Community Cloud from this repo (README → Deployment) |
 
@@ -36,18 +36,18 @@ Full background, requirements, personas (Priya, Rajesh, Aarav), rubric and decis
    - Moved to this repository (7 Oct) as one import commit.
 4. **8 Oct — Claude (Windows clone).** Repository cleanup (one tracker, `docs/history/`, LF line endings, Windows UTF-8 fixes); **single-page product dashboard** replacing Home/Price check/Unit price/Shrinkflation (dropdown selector, six hover-explained headline cards, sticky section menu, quote-aware offers); structured JSON logging; Bandit SAST in the review; `docs/ARCHITECTURE.md` (framework trade-offs, NFRs); `requirements.lock`; tabs replaced by scrolling sections on detail pages; user guide rebuilt by `scripts/build_user_guide.py`.
 
-## Current measured state (8 Oct 2026, CI evidence for `59f9a8d` in `reports/current/`)
+## Current measured state (8 Oct 2026, CI evidence for `0d4ca0e` in `reports/current/`)
 
 | Check | Result |
 |---|---|
-| Tests | **416 passing**, no warnings (`pytest -q`) |
-| Coverage (package) | 94.83% statements, 87.09% branches |
+| Tests | **419 passing**, no warnings (`pytest -q`) |
+| Coverage (package) | 95.05% statements, 87.21% branches |
 | Mutation (8 domain modules) | 1,556 / 1,582 killed (**98.36%**); 26 equivalent survivors documented in `docs/MUTATION-SURVIVORS.md` |
 | Lint / complexity / security | Ruff clean; every block Radon A or B (tests included); Bandit 0 findings |
 | Price model (real data only) | 4,269 held-out listings: **R² 0.959, MAE ₹357, median error 20.8%**; verdict for 99.6% of listings |
 | Discount model (synthetic labels) | Logistic regression, ROC AUC **0.88** (secondary check in the UI) |
-| Browsers (CI) | Chromium, Firefox, WebKit flows + PDF download pass; no overflow at 390/768/1440 px |
-| Speed | warm render 0.24 s server-side; CI-runner load test 25 users median 19.9 s (client-bound) |
+| Browsers (CI) | Chromium, Firefox, WebKit: landing search, dashboard, PDF download, unit compare, food flows pass; no overflow at 390/768/1440 px |
+| Speed | warm render ~0.25 s server-side; CI-runner load test 25/25 users, median 24.6 s (client-bound) |
 | Dataset audit | 59 / 59 integrity checks pass |
 
 Windows note: `scripts/review.py` needs Linux (mutmut). Final evidence comes from the CI artifacts `engineering-evidence` and `browser-evidence`, imported after checking `review_manifest.json` source hashes against the working tree.
