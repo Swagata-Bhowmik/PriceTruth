@@ -17,6 +17,15 @@ from price_truth.paths import REPORTS
 OUT = REPORTS / "current"
 AXE = "https://cdn.jsdelivr.net/npm/axe-core@4.10.3/axe.min.js"
 DASHBOARD = "Is this a fair price?"
+# Browser notices that are not application errors; recorded separately, never dropped.
+BENIGN = ("ResizeObserver loop completed with undelivered notifications",  # layout notice (Plotly/Streamlit)
+          "due to access control checks")  # WebKit's wording when navigation cancels a pending media fetch
+
+
+def split_messages(messages: list[str]) -> tuple[list[str], list[str]]:
+    """Separate application errors from known benign browser notices."""
+    benign = [m for m in messages if any(b in m for b in BENIGN)]
+    return [m for m in messages if m not in benign], benign
 
 
 def visit(page, base: str, path: str, heading: str) -> None:
@@ -108,7 +117,9 @@ def run_flows(page, base: str, out: Path, engine: str) -> dict:
     check_unit(page)
     check_food(page, base)
     violations = accessibility(page, base) if engine == "chrome" else None
+    errors, benign = split_messages(errors)
     return {"initial_analysed_dashboard_seconds": load_seconds, "javascript_errors": errors,
+            "benign_browser_notices": benign,
             "viewports": check_viewports(page, base, out), "accessibility_serious_or_critical": violations}
 
 

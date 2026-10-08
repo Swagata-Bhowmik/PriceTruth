@@ -41,3 +41,40 @@ jobs:
       - name: Retain container diagnostics
         if: always()
         run: docker logs price-truth-check
+  browsers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install the app and Playwright browsers
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install -r requirements.lock
+          .venv/bin/python -m pip install -r requirements-dev.txt
+          .venv/bin/python -m playwright install --with-deps chromium firefox webkit
+      - name: Start the app
+        run: |
+          nohup .venv/bin/python -m streamlit run app.py --server.port 8501 > streamlit.log 2>&1 &
+          curl --fail --retry 40 --retry-all-errors --retry-delay 3 http://127.0.0.1:8501/_stcore/health
+      - name: Browser flows in Chromium, Firefox and WebKit
+        run: for engine in chrome firefox webkit; do .venv/bin/python scripts/browser_current.py --browser "$engine"; done
+      - name: Concurrent real-browser load on the CI runner
+        run: .venv/bin/python scripts/load_test.py --users 10 25
+      - name: Retain server log
+        if: always()
+        run: cp streamlit.log reports/current/ci-streamlit.log || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: |
+            reports/current/browser_check.json
+            reports/current/browser-assessment.pdf
+            reports/current/workspace-*.png
+            reports/current/firefox/
+            reports/current/webkit/
+            reports/current/load_test_local.json
+            reports/current/ci-streamlit.log

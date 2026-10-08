@@ -69,9 +69,10 @@ async def main() -> None:
     hosted = not base.startswith(("http://127.0.0.1", "http://localhost"))
     result = {"generated_at": datetime.now(UTC).isoformat(), "url": base, "waves": waves,
               "scope": "Simultaneous headless browser sessions from one client machine; client CPU and network "
-                       "also limit results. Each user loads the page and completes one model+SHAP price check."}
+                       "also limit results. Each user opens the dashboard and waits for the analysed default "
+                       "product (model, SHAP, discount check and offers)."}
     name = "load_test_hosted.json" if hosted else "load_test_local.json"
-    (REPORTS / "current" / name).write_text(json.dumps(result, indent=2))
+    (REPORTS / "current" / name).write_text(json.dumps(result, indent=2), encoding="utf-8")
 
 
 if __name__ == "__main__":
