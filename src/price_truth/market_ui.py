@@ -29,7 +29,7 @@ def slim(row: dict) -> dict:
 
 
 @st.cache_data(max_entries=256, show_spinner=False)
-def history_chart(history: pd.DataFrame, quote: float) -> go.Figure:
+def history_chart(history: pd.DataFrame, quote: float, height: int = 360) -> go.Figure:
     """Last 180 days of price and shown MRP, sale periods shaded, with the user's quote."""
     recent = history.tail(180)
     figure = go.Figure()
@@ -49,7 +49,7 @@ def history_chart(history: pd.DataFrame, quote: float) -> go.Figure:
     figure.update_layout(title="Price over the last 180 days", legend=dict(orientation="h", y=-0.2),
                          hovermode="x unified")
     figure.update_xaxes(range=[recent.date.min(), recent.date.max()])
-    return theme.style_figure(figure, 360)
+    return theme.style_figure(figure, height)
 
 
 def quote_history(history: pd.DataFrame, selling: float, listed: float) -> pd.DataFrame:

@@ -15,7 +15,8 @@ theme.apply()
 st.logo(str(ROOT / "assets/logo.svg"), size="large", icon_image=str(ROOT / "assets/icon.svg"))
 
 PAGES = [
-    st.Page("views/dashboard.py", title="Dashboard", icon=":material/space_dashboard:", default=True),
+    st.Page("views/home.py", title="Home", icon=":material/home:", default=True),
+    st.Page("views/dashboard.py", title="Dashboard", icon=":material/space_dashboard:"),
     st.Page("views/food.py", title="Food & packs", icon=":material/barcode_scanner:"),
     st.Page("views/observations.py", title="My observations", icon=":material/edit_note:"),
     st.Page("views/catalogue.py", title="Catalogue", icon=":material/storefront:"),

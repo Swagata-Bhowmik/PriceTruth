@@ -29,7 +29,7 @@ def show_unit_result(result: list[dict], currency: str) -> None:
                               text=[present.money(r["value"], currency) for r in result], textposition="outside",
                               cliponaxis=False))
     figure.update_layout(title=f"Price per {best['basis']} (lower is better)")
-    st.plotly_chart(theme.style_figure(figure, 300), width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(theme.style_figure(figure, 300), width="stretch", config={"displayModeBar": False}, theme=None)
     table = pd.DataFrame([{"Rank": i, "Option": r["name"], f"Per {r['basis']}": round(r["value"], 2),
                            "Pack price": r["price"], "Quantity": f"{r['packs']} × {r['quantity']:g} {r['unit']}"}
                           for i, r in enumerate(result, 1)])

@@ -1,18 +1,19 @@
 [theme]
 base = "light"
-primaryColor = "#6C4FD8"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F5F2FE"
-textColor = "#1F1B2E"
-linkColor = "#5A3EC8"
-borderColor = "#E4DEF7"
+primaryColor = "#7B68C8"
+backgroundColor = "#FFFBF5"
+secondaryBackgroundColor = "#F6F1EA"
+textColor = "#3B3A48"
+linkColor = "#5A46B0"
+borderColor = "#ECE6DD"
 showWidgetBorder = true
-baseRadius = "0.7rem"
-font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-headingFontWeights = [700, 700, 600, 600, 600, 600]
+baseRadius = "0.9rem"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+codeFont = "IBM Plex Mono:https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+headingFontWeights = [800, 700, 650, 600, 600, 600]
 
 [theme.sidebar]
-backgroundColor = "#F5F2FE"
+backgroundColor = "#F8F3FC"
 secondaryBackgroundColor = "#FFFFFF"
 
 [client]

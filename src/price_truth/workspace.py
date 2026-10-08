@@ -117,7 +117,7 @@ def history_panel(frame: pd.DataFrame, code: str) -> None:
     if series.empty:
         theme.empty_state("No usable observations", "All rows for this store were duplicates, unproven or future-dated.")
     else:
-        st.plotly_chart(price_chart(series, currency, basis), width="stretch", config={"displayModeBar": False})
+        st.plotly_chart(price_chart(series, currency, basis), width="stretch", config={"displayModeBar": False}, theme=None)
     evidence = eligible[(eligible.location_id == store) & (eligible.currency == currency)
                         & (eligible.price_per == basis)]
     with st.expander(f"Source observations ({len(evidence)})"):
@@ -313,7 +313,7 @@ def history_example() -> None:
     basis = product[product.location_id == location].price_per.fillna("UNKNOWN").iloc[0]
     code, currency = product.iloc[0]["product_code"], product.iloc[0]["currency"]
     series = series_for(frame, code, location, currency, basis)
-    st.plotly_chart(price_chart(series, currency, basis), width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(price_chart(series, currency, basis), width="stretch", config={"displayModeBar": False}, theme=None)
     columns = st.columns([2, 1], vertical_alignment="bottom")
     quote = columns[0].number_input(f"Try a quote ({currency})", min_value=.01, value=None, key="example_quote")
     if columns[1].button("Compare", key="example_compare", width="stretch") and quote is not None:
@@ -391,7 +391,7 @@ def observation_history(selected: pd.DataFrame) -> None:
     series = daily_series(selected[(selected.quantity == size[0]) & (selected.unit == size[1])])
     currency = selected.currency.iloc[0]
     st.plotly_chart(price_chart(series, currency, f"{size[0]:g} {size[1]} pack"), width="stretch",
-                    config={"displayModeBar": False})
+                    config={"displayModeBar": False}, theme=None)
     result = forecast_next_day(series)
     st.subheader("Next-day forecast")
     show_forecast(result)
@@ -425,7 +425,7 @@ def pack_change_panel(selected: pd.DataFrame) -> None:
                                marker_color=theme.CORAL)])
     figure.update_layout(title="Pack changes", barmode="group")
     figure.update_yaxes(ticksuffix="%")
-    st.plotly_chart(theme.style_figure(figure, 300), width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(theme.style_figure(figure, 300), width="stretch", config={"displayModeBar": False}, theme=None)
     st.download_button("Export pack changes", export_csv(changes), file_name="pack_changes.csv", mime="text/csv")
 
 

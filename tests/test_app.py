@@ -4,7 +4,7 @@ from streamlit.testing.v1 import AppTest
 
 from price_truth.paths import ROOT
 
-PAGES = ["views/dashboard.py", "views/food.py", "views/observations.py", "views/catalogue.py", "views/methods.py",
+PAGES = ["views/home.py", "views/dashboard.py", "views/food.py", "views/observations.py", "views/catalogue.py", "views/methods.py",
          "views/user-guide.py"]
 KPI_LABELS = ["Price verdict", "Fair price estimate", "Advertised discount", "Real saving", "Inflation risk",
               "Best place to buy"]
@@ -15,7 +15,7 @@ def application(page="views/dashboard.py"):
     app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=60)
     app.session_state["food_offline"] = True  # tests never call live APIs or rewrite saved responses
     app.run()
-    if page != "views/dashboard.py":
+    if page != "views/home.py":
         app.switch_page(page).run()
     return app
 
@@ -35,6 +35,28 @@ def test_pages_render(page):
     """Every navigation destination loads without a Python exception."""
     app = application(page)
     assert not app.exception
+
+
+def test_landing_page_shows_real_figures_and_opens_the_dashboard():
+    """The landing page counts real figures (no invented marketing numbers) and its search opens the dashboard."""
+    app = application("views/home.py")
+    assert not app.exception
+    body = html(app)
+    assert 'data-count="21267"' in body and "R² on 4,269 unseen listings" in body
+    assert 'data-count="10"' in body and "cited shrinkflation cases" in body
+    assert all(f'href="dashboard#{anchor}"' in body for anchor in ["verdict", "discount", "history", "buy"])
+    app.text_input[0].set_value("boAt")
+    button(app, "Check price").click().run()
+    assert not app.exception
+    assert app.session_state["dash_filter"] == "boAt" and app.session_state["dash_platform"] == "All"
+    assert "boat" in next(str(h.proto.body) for h in app.get("html") if "Selected product" in str(h.proto.body)).lower()
+
+
+def test_landing_call_to_action_opens_the_dashboard():
+    """The closing button opens the dashboard with its default product analysed."""
+    app = application("views/home.py")
+    button(app, "Open the dashboard").click().run()
+    assert not app.exception and "Fair price estimate" in html(app)
 
 
 def test_dashboard_shows_real_coverage_and_every_section():
@@ -110,7 +132,7 @@ def test_shrinkflation_case_shows_hidden_increase():
     """The default cited case shows the pack reduction and its source."""
     app = application()
     assert "real price per" in html(app)
-    assert any(b.proto.label == "Read the original report" for b in app.get("link_button"))
+    assert any(b.proto.label == "Read the report" for b in app.get("link_button"))
 
 
 def test_offline_food_lookup_flow():
