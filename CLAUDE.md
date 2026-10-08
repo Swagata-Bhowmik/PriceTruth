@@ -78,13 +78,14 @@ The `.venv` has an editable install pointing at **this** folder's `src/`. If `pr
 
 ```text
 app.py                 top navigation (st.navigation), theme, logging, warm-up
-views/*.py             one line per page: dashboard (home), food, observations, catalogue, methods, user-guide
+views/*.py             one line per page: home (landing), dashboard, food, observations, catalogue, methods, user-guide
 src/price_truth/
-  dashboard.py         the product dashboard: dropdown selector, headline cards, scrolling sections
+  landing.py           home/landing page (hero search, counters, feature cards, CTA)
+  dashboard.py         the product dashboard: dropdown selector, headline cards, full-width card grid
   ui.py                unit-result and shrinkflation helpers, Catalogue and Methods page bodies
   market_ui.py         listing price histories (cached) and the history chart
   workspace.py         Food & packs, My observations
-  theme.py / present.py   design system (CSS, cards, tooltips, section menu) / verdicts, headline cards, SHAP (pure)
+  theme.py / present.py   design system (pastel tokens, CSS, JS motion: cursor, progress, reveal, counters) / verdicts, headline cards, SHAP (pure)
   logs.py              structured JSON logging (configured in app.py)
   resources.py         cached catalogue, models, reports; background warm-up
   data.py              raw CSV → datasets/processed/catalogue.csv (recovered fields, categories, variants)

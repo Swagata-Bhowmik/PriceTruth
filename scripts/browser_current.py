@@ -17,6 +17,7 @@ from price_truth.paths import REPORTS
 OUT = REPORTS / "current"
 AXE = "https://cdn.jsdelivr.net/npm/axe-core@4.10.3/axe.min.js"
 DASHBOARD = "Is this a fair price?"
+LANDING = "Is your discount actually real?"
 # Browser notices that are not application errors; recorded separately, never dropped.
 BENIGN = ("ResizeObserver loop completed with undelivered notifications",  # layout notice (Plotly/Streamlit)
           "due to access control checks")  # WebKit's wording when navigation cancels a pending media fetch
@@ -34,13 +35,22 @@ def visit(page, base: str, path: str, heading: str) -> None:
     page.get_by_role("heading", name=heading).first.wait_for(timeout=90_000)
 
 
+def check_landing(page, base: str) -> None:
+    """The landing page loads and its search opens the dashboard filtered to the query."""
+    visit(page, base, "", LANDING)
+    page.get_by_placeholder("Try").fill("cable")
+    page.get_by_role("button", name="Check price").click()
+    page.get_by_role("heading", name=DASHBOARD).wait_for(timeout=90_000)
+    page.get_by_text("Fair price estimate").first.wait_for(timeout=90_000)
+
+
 def check_dashboard(page, base: str, out: Path) -> None:
     """Default product analysed with the real model: headline cards, explanation and a real PDF download."""
-    visit(page, base, "", DASHBOARD)
+    visit(page, base, "dashboard", DASHBOARD)
     page.get_by_text("Fair price estimate").first.wait_for(timeout=90_000)
     page.get_by_text("What moved the estimate").first.wait_for(timeout=60_000)
     page.get_by_role("link", name="Where to buy").click()
-    page.get_by_text("Which platform is cheapest today?").wait_for()
+    page.get_by_text("Cheapest platform today").wait_for()
     page.screenshot(path=str(out / "workspace-desktop.png"), full_page=True)
     with page.expect_download() as pending:
         page.get_by_role("button", name="Download PDF report", exact=True).click()
@@ -71,13 +81,13 @@ def check_food(page, base: str) -> None:
 def accessibility(page, base: str) -> list:
     """Run axe-core on each page; report serious and critical WCAG A/AA violations."""
     found = []
-    for path, heading in [("", DASHBOARD), ("food", "Look up a food pack"),
+    for path, heading in [("", LANDING), ("dashboard", DASHBOARD), ("food", "Look up a food pack"),
                           ("methods", "Methods, data and limits")]:
         visit(page, base, path, heading)
         page.wait_for_timeout(1500)
         page.add_script_tag(url=AXE)
         report = page.evaluate("axe.run(document, {runOnly: ['wcag2a', 'wcag2aa']})")
-        found += [{"page": path or "dashboard", "rule": v["id"], "impact": v["impact"], "nodes": len(v["nodes"])}
+        found += [{"page": path or "home", "rule": v["id"], "impact": v["impact"], "nodes": len(v["nodes"])}
                   for v in report["violations"] if v["impact"] in ("serious", "critical")]
     return found
 
@@ -85,7 +95,7 @@ def accessibility(page, base: str) -> list:
 def check_viewports(page, base: str, out: Path) -> list:
     """Measure horizontal overflow at three viewports; emulation is not a physical-device test."""
     results = []
-    visit(page, base, "", DASHBOARD)
+    visit(page, base, "dashboard", DASHBOARD)
     page.get_by_text("Fair price estimate").first.wait_for(timeout=90_000)
     for width, height in [(1440, 1000), (768, 1024), (390, 844)]:
         page.set_viewport_size({"width": width, "height": height})
@@ -110,9 +120,10 @@ def run_flows(page, base: str, out: Path, engine: str) -> dict:
     errors = []
     page.on("pageerror", lambda error: errors.append(str(error)))
     start = time.perf_counter()
-    visit(page, base, "", DASHBOARD)
+    visit(page, base, "dashboard", DASHBOARD)
     page.get_by_text("Fair price estimate").first.wait_for(timeout=90_000)
     load_seconds = time.perf_counter() - start
+    check_landing(page, base)
     check_dashboard(page, base, out)
     check_unit(page)
     check_food(page, base)
@@ -137,7 +148,7 @@ def main() -> None:
         page = browser.new_page(viewport={"width": 1440, "height": 1000}, accept_downloads=True)
         result = {"generated_at": datetime.now(UTC).isoformat(), "url": base, "browser": browser.version,
                   "engine": args.browser, **run_flows(page, base, out, args.browser),
-                  "flows": ["dashboard with real model, section navigation and PDF download",
+                  "flows": ["landing page search into the dashboard", "dashboard with real model, section navigation and PDF download",
                             "unit comparison on the dashboard", "shrinkflation case", "offline food lookup"],
                   "scope": f"{'Hosted' if hosted else 'Local'} {args.browser}; three viewport emulations. "
                            "WebKit is not branded Safari; emulation is not a physical device."}

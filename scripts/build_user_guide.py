@@ -40,6 +40,10 @@ def capture(base: str) -> dict[str, str]:
         browser = playwright.chromium.launch(headless=True)
         page = browser.new_page(viewport={"width": 1440, "height": 900}, device_scale_factor=1)
         page.goto(f"{base}/")
+        page.get_by_role("heading", name="Is your discount actually real?").wait_for(timeout=90_000)
+        page.wait_for_timeout(2500)
+        images["landing"] = shot(page)
+        page.goto(f"{base}/dashboard")
         page.get_by_role("heading", name=DASHBOARD).wait_for(timeout=90_000)
         page.get_by_text("Fair price estimate").first.wait_for(timeout=90_000)
         page.wait_for_timeout(2500)
@@ -69,7 +73,7 @@ def capture(base: str) -> dict[str, str]:
             page.wait_for_timeout(2500)
             images[key] = shot(page)
         mobile = browser.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=2)
-        mobile.goto(f"{base}/")
+        mobile.goto(f"{base}/dashboard")
         mobile.get_by_text("Fair price estimate").first.wait_for(timeout=90_000)
         mobile.wait_for_timeout(2000)
         images["mobile"] = shot(mobile)
@@ -88,8 +92,10 @@ def figure(src: str, caption: str, phone: bool = False) -> str:
 
 SECTIONS = [
     ("start", "Getting started", """
-<p class="lead">Price Truth answers one question: <b>is the price in front of you fair?</b> Everything happens on one
-dashboard. Choose a product, type the price you see, then scroll.</p>
+<p class="lead">Price Truth answers one question: <b>is the price in front of you fair?</b> The home page explains what
+it does; type a product into its search box, or press <b>Open the dashboard</b>.</p>
+{landing}
+<p>Everything else happens on one dashboard that fills the screen:</p>
 <ol class="steps">
 <li><b>Choose the product</b> with the dropdowns: Platform → Category → Subcategory → Product. The product list shows
 the most-rated listings first; type in <i>Filter by name</i> to narrow it (for example <code>cable</code> or
@@ -119,20 +125,21 @@ Omnibus rule).</td><td><span class="pill good">5% or more</span></td></tr>
 <td>Shows how much you would save</td></tr>
 </table></div>"""),
     ("fair", "Fair price", """
-<p>The left panel places your price (diamond) on the model's expected range (box) with its estimate (line). The right
-panel shows <b>why</b> the estimate is what it is: starting from a typical listing, each factor moved the estimate up
-(purple) or down (coral) by the percentage shown. These are SHAP values from the trained model.</p>
+<p>The Fair price card places your price (diamond) on the model's expected range (box) with its estimate (line).
+Below it, <b>why</b> the estimate is what it is: starting from a typical listing, each factor moved the estimate up
+(blue) or down (coral) by the percentage shown. These are SHAP values from the trained model.</p>
 {verdict}
 <div class="callout warn"><b>Listed MRP matters</b>The model uses the MRP as an input, so an inflated MRP raises the
 estimate. That is why the discount check below exists.</div>"""),
     ("discount", "Discount check", """
-<p>Two independent checks. <b>Left:</b> the price history rule: a discount is flagged when it is advertised as at
-least 5 points bigger than usual while the price is less than 5% below its 30-day low. <b>Right:</b> the classifier's
-risk dial with the flag threshold marked, and the factors that raised or lowered the risk.</p>
+<p>Two checks in one card. <b>Primary:</b> the price-history rule: a discount is flagged when it is advertised as at
+least 5 points bigger than usual while the price is less than 5% below its 30-day low. <b>Secondary:</b> a classifier's
+risk dial with the flag threshold marked, and the factors that raised or lowered the risk. The classifier sees only the
+listing, so when the two disagree, trust the rule.</p>
 {discount}"""),
     ("history", "Price history and timing", """
 <p>Daily prices for 180 days with sale events shaded; your price is the dashed line. Hover over the chart to read any
-day. Below it: how your price compares with the last 90 days, whether a sale is on or coming, and tomorrow's price.
+day. Beside it: how your price compares with the last 90 days, whether a sale is on or coming, and tomorrow's price.
 The forecast is shown only when it beat "same as today" on held-out days; otherwise the app says so.</p>
 {history}"""),
     ("buy", "Where to buy", """
@@ -149,7 +156,7 @@ compared fairly. The example compares 400 g for ₹45 with 1 kg for ₹105.</p>
 Cited cases link to the original news report; simulated timelines use generic names.</p>
 {shrink}"""),
     ("export", "Saving your result", """
-<p>At the end of the dashboard: <b>Download PDF report</b> (verdict, range, explanation and limits),
+<p>The Export bar at the end of the dashboard: <b>Download PDF report</b> (verdict, range, explanation and limits),
 <b>Download data (JSON)</b>, <b>Download offers (CSV)</b>, and a link to the original listing.</p>"""),
     ("food", "Food & packs", """
 <p>Search a food product by name or barcode. You get its pack details from Open Food Facts, dated shop prices from
@@ -166,7 +173,7 @@ download them to keep them.</p>
 licence, and what the app cannot tell you.</p>
 {methods}"""),
     ("mobile", "On a phone", """
-<p>The dashboard stacks into one column; the top menu moves behind the menu button.</p>
+<p>The dashboard stacks its cards into one column; the top menu moves behind the menu button.</p>
 <div class="phones">{mobile}{mobile_verdict}</div>"""),
     ("glossary", "Words used in the app", """
 <dl class="gloss">
@@ -185,6 +192,7 @@ not observed. Daily histories, offers and discount labels are simulated; listing
 def build(images: dict[str, str]) -> str:
     """Assemble the guide from its sections and captured screens."""
     shots = {
+        "landing": figure(images["landing"], "The home page: search a product or open the dashboard"),
         "overview": figure(images["overview"], "The dashboard: dropdowns, prices and the six headline cards"),
         "tooltip": figure(images["tooltip"], "Hovering a card explains how its figure is produced"),
         "verdict": figure(images["verdict"], "Fair price: verdict, expected range and what moved the estimate"),

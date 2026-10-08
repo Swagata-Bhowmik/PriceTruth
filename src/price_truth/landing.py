@@ -51,7 +51,7 @@ CSS = """
 .lp-stat b { display:block; font-size: clamp(1.7rem, 3vw, 2.3rem); color:#3B3A48; letter-spacing:-.02em; }
 .lp-stat span { color:#5F5D6B; font-size:.88rem; }
 .lp-sec { text-align:center; margin: 4.2rem auto 1.6rem; max-width: 46rem; }
-.lp-sec .k { font-family:"IBM Plex Mono",monospace; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#7B68C8; }
+.lp-sec .k { font-family:"IBM Plex Mono",monospace; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#6450B5; }
 .lp-sec h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin:.4rem 0 .5rem; letter-spacing:-.03em; }
 .lp-sec p { color:#5F5D6B; margin:0; font-size:1.04rem; }
 .lp-two { display:grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
@@ -84,7 +84,7 @@ a.pt-feature:hover .lp-icon { transform: rotate(-8deg) scale(1.08); }
 .lp-icon { transition: transform .45s cubic-bezier(.16,1,.3,1); }
 a.pt-feature h4 { margin:.9rem 0 .3rem; font-size:1.08rem; color:#3B3A48; }
 a.pt-feature p { margin:0; color:#5F5D6B; font-size:.93rem; line-height:1.55; }
-a.pt-feature .go { display:inline-block; margin-top:.8rem; font-size:.84rem; font-weight:600; color:#7B68C8; }
+a.pt-feature .go { display:inline-block; margin-top:.8rem; font-size:.84rem; font-weight:600; color:#6450B5; }
 a.pt-feature:hover .go { color:#E06B58; }
 .lp-tag { display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:.66rem; letter-spacing:.1em; padding:.2rem .55rem;
   border-radius: 6px; margin-left:.5rem; vertical-align: middle; }

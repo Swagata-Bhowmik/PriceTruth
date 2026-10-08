@@ -68,7 +68,7 @@ button[kind="secondary"]:hover, [data-testid="stLinkButton"] a:hover { transform
 [data-testid="stNumberInputStepUp"], [data-testid="stNumberInputStepDown"] { display:none; }
 
 .pt-eyebrow { text-transform:uppercase; letter-spacing:.12em; font-size:.7rem; font-weight:600;
-  color: var(--pt-violet); font-family: "IBM Plex Mono", ui-monospace, monospace; margin-bottom:.15rem; }
+  color: #6450B5; font-family: "IBM Plex Mono", ui-monospace, monospace; margin-bottom:.15rem; }
 .pt-intro { display:flex; justify-content:space-between; align-items:flex-end; gap:1.5rem; flex-wrap:wrap; margin:.1rem 0 .9rem; }
 .pt-intro h1 { font-size: clamp(1.5rem, 2.4vw, 2rem); margin:0; padding:0; line-height:1.15; }
 .pt-intro p { margin:.3rem 0 0; color: var(--pt-muted); max-width: 46rem; }

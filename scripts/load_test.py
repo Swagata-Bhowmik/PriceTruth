@@ -23,7 +23,7 @@ async def user(browser, base: str, start: asyncio.Event) -> dict:
     await start.wait()
     began = time.perf_counter()
     try:
-        await page.goto(f"{base}/", timeout=120_000)
+        await page.goto(f"{base}/dashboard", timeout=120_000)
         await page.get_by_role("heading", name="Is this a fair price?").wait_for(timeout=120_000)
         loaded = time.perf_counter() - began
         await page.get_by_text("Fair price estimate").first.wait_for(timeout=120_000)

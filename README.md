@@ -56,7 +56,8 @@ The raw files `datasets/amazon/amazon.csv` and `datasets/flipkart/flipkart_com-e
 
 | Page | What it does |
 |---|---|
-| **Dashboard** (home) | You choose Platform → Category → Subcategory → Product and enter the listed MRP and the price you see. Six headline cards show the price verdict, fair price estimate, advertised discount, real saving, inflation risk and best place to buy; hovering a card explains how its figure is produced. A sticky section menu scrolls to: **Fair price** (model range and SHAP explanation), **Discount check** (30-day reference-price rule and classifier risk dial), **Price history** (180-day chart with sale events, buy-timing signal, sale calendar, gated forecast), **Where to buy** (8 platforms, delivery and fees), **Pack value** (unit-price comparison), **Shrinkflation** (10 cited Indian cases and 5 simulated timelines) and **Export** (PDF, JSON, CSV) |
+| **Home** | Landing page: what Price Truth does, real coverage figures (animated counters), the two problems it exposes, a feature card per dashboard section, and a product search that opens the dashboard |
+| **Dashboard** | You choose Platform → Category → Subcategory → Product and enter the listed MRP and the price you see. Six headline cards show the price verdict, fair price estimate, advertised discount, real saving, inflation risk and best place to buy; hovering a card explains how its figure is produced. The cards below fill the screen width, and a sticky section menu scrolls to: **Fair price** (model range and SHAP explanation), **Discount check** (30-day reference-price rule and classifier risk dial), **Price history** (180-day chart with sale events, buy-timing signal, sale calendar, gated forecast), **Where to buy** (8 platforms, delivery and fees), **Pack value** (unit-price comparison), **Shrinkflation** (10 cited Indian cases and 5 simulated timelines) and **Export** (PDF, JSON, CSV) |
 | Food & packs | Barcode or name lookup in Open Food Facts (live, with a saved fallback), dated Open Prices shop history and a long real history example; sends a pack size to the dashboard's Pack value section |
 | My observations | Prices you record by hand or import from CSV (session only): price history, gated forecast, store comparison, pack-size changes, CSV export |
 | Catalogue | Search and export both historical catalogues |
@@ -68,11 +69,12 @@ The raw files `datasets/amazon/amazon.csv` and `datasets/flipkart/flipkart_com-e
 ## Architecture
 
 ```text
-app.py (st.navigation, top menu, JSON logging) → views/*.py (one line per page)
+app.py (st.navigation, top menu, JSON logging, motion layer) → views/*.py (one line per page)
+   ├─ landing.py     the home page
    ├─ dashboard.py   the product dashboard (layout only)
    ├─ ui.py, workspace.py, market_ui.py   detail pages and shared panels
    ├─ present.py     plain-language verdicts, headline cards, SHAP % effects (pure, tested)
-   ├─ theme.py       design system: CSS, cards, tooltips, section menu, chart styling
+   ├─ theme.py       design system: pastel tokens, CSS, cursor/scroll motion, cards, tooltips, chart template
    └─ resources.py   cached catalogue and models, background warm-up
 domain:      model.py · authenticity.py · synthetic.py · calculations.py · catalogue.py · history.py
              forecast.py · observations.py · offers.py
@@ -129,7 +131,7 @@ Storage is ephemeral: session observations are lost on restart unless downloaded
 
 ## Demo route
 
-1. **Dashboard:** keep the default (Amazon › Electronics, the most-rated HDMI cable) or choose another product from the dropdowns. Change *Price you see* and watch every card update; hover a card for its explanation.
+1. **Home → Dashboard:** search "cable" on the home page, or open the dashboard and keep the default (Amazon › Electronics, the most-rated HDMI cable). Change *Price you see* and watch every card update; hover a card for its explanation.
 2. **Fair price:** the verdict, where your price sits in the expected range, and the SHAP factors behind the estimate.
 3. **Discount check:** the 30-day rule against the classifier's risk dial.
 4. **Price history:** hover over the 180-day chart; the sale calendar; why the forecast declines.
