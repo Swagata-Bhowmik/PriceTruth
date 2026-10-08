@@ -12,12 +12,12 @@ TONES = {  # tone: (accent, background, icon). Icons and titles repeat the meani
     "bad": ("#B93A35", "#FCEDEC", "!"),
     "muted": (MUTED, "#F3F2F6", "i"),
 }
-SOURCE_BADGES = {  # Where a number came from, shown next to the result.
-    "historical": ("Historical catalogue", "violet"),
-    "live": ("Live response", "green"),
-    "cached": ("Saved response", "orange"),
-    "user": ("Your entry", "blue"),
-    "reported": ("Published report", "gray"),
+SOURCE_BADGES = {  # Where a number came from, shown next to the result (colours meet WCAG AA contrast).
+    "historical": ("Historical catalogue", "#4A2FB8", "#F1EDFD"),
+    "live": ("Live response", "#0F6B3E", "#EAF6EF"),
+    "cached": ("Saved response", "#6B4A08", "#FDF4E3"),
+    "user": ("Your entry", "#1F5A99", "#EAF2FB"),
+    "reported": ("Published report", "#3F3B52", "#F0EFF4"),
 }
 
 CSS = """
@@ -86,6 +86,7 @@ div[data-testid="stVerticalBlockBorderWrapper"][class*="border"] { box-shadow: v
   font-weight:700; display:flex; align-items:center; justify-content:center; font-size:1rem; }
 .pt-verdict h3 { margin:0 0 .15rem; font-size:1.05rem; color: var(--pt-ink); padding:0; }
 .pt-verdict p { margin:0; color: var(--pt-ink); font-size:.94rem; }
+.pt-badge { display:inline-block; font-size:.8rem; font-weight:600; padding:.15rem .6rem; border-radius:6px; }
 .pt-card-title { font-weight:600; font-size:1.05rem; color:var(--pt-ink); margin:0 0 .2rem; line-height:1.35; }
 .pt-meta { color: var(--pt-muted); font-size:.88rem; margin:0; }
 .pt-empty { border:1.5px dashed var(--pt-line); border-radius:12px; padding:1.1rem 1.2rem; background:#FCFBFF; }
@@ -100,6 +101,8 @@ div[data-testid="stVerticalBlockBorderWrapper"][class*="border"] { box-shadow: v
 [data-testid="stMetric"] { background: var(--pt-card); border:1px solid var(--pt-line); border-radius: 12px;
   padding: .7rem .9rem; }
 [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p { color: #5A566C !important; opacity: 1 !important; }
+/* Charts fit their container; no inner scroll region that keyboard users could not reach. */
+[data-testid="stElementContainer"]:has([data-testid="stPlotlyChart"]) { overflow: visible !important; }
 [data-testid="stPlotlyChart"] { background: var(--pt-card); border:1px solid var(--pt-line); border-radius: 14px;
   padding: .35rem .5rem; box-shadow: var(--pt-shadow); }
 a:focus-visible, button:focus-visible, [role="tab"]:focus-visible { outline: 3px solid #8E6CF2 !important;
@@ -191,8 +194,9 @@ def empty_state(title: str, text: str) -> None:
 
 def source_badge(kind: str, detail: str = "") -> None:
     """Show where a result came from beside the result itself."""
-    label, color = SOURCE_BADGES[kind]
-    st.badge(label + (f" · {detail}" if detail else ""), color=color)
+    label, color, background = SOURCE_BADGES[kind]
+    st.html(f'<span class="pt-badge" style="color:{color};background:{background}">'
+            f'{escape(label + (f" · {detail}" if detail else ""))}</span>')
 
 
 def product_card(title: str, facts: list[tuple[str, str]], source: str, source_detail: str = "") -> None:

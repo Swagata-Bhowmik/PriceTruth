@@ -119,7 +119,7 @@ def test_offline_food_lookup_flow():
     assert not app.exception
     first = app.selectbox(key="food_product").value
     assert first["product_name"] and "India" in first["countries"]
-    assert any("Saved response" in str(m.value) for m in app.markdown)
+    assert "Saved response" in html(app)
 
 
 def test_pack_transfer_prefills_unit_comparison():

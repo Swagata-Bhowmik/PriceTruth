@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-07T08:33:57.361563+00:00",
-  "url": "http://127.0.0.1:8501",
-  "browser": "154.0.8037.98",
+  "generated_at": "2026-10-08T05:02:05.503452+00:00",
+  "url": "http://127.0.0.1:8502",
+  "browser": "153.0.8010.12",
   "engine": "chrome",
-  "initial_visible_load_seconds": 1.979918583005201,
+  "initial_analysed_dashboard_seconds": 0.7181782000698149,
   "javascript_errors": [],
   "viewports": [
     {
@@ -24,84 +24,29 @@
   ],
   "accessibility_serious_or_critical": [
     {
-      "page": "home",
-      "rule": "aria-allowed-attr",
-      "impact": "critical",
-      "nodes": 1
+      "page": "dashboard",
+      "rule": "scrollable-region-focusable",
+      "impact": "serious",
+      "nodes": 5
     },
     {
-      "page": "home",
-      "rule": "list",
+      "page": "food",
+      "rule": "color-contrast",
       "impact": "serious",
       "nodes": 1
     },
     {
-      "page": "home",
-      "rule": "listitem",
-      "impact": "serious",
-      "nodes": 7
-    },
-    {
-      "page": "product",
-      "rule": "aria-allowed-attr",
-      "impact": "critical",
-      "nodes": 2
-    },
-    {
-      "page": "product",
-      "rule": "list",
+      "page": "food",
+      "rule": "scrollable-region-focusable",
       "impact": "serious",
       "nodes": 1
-    },
-    {
-      "page": "product",
-      "rule": "listitem",
-      "impact": "serious",
-      "nodes": 7
-    },
-    {
-      "page": "compare",
-      "rule": "aria-allowed-attr",
-      "impact": "critical",
-      "nodes": 1
-    },
-    {
-      "page": "compare",
-      "rule": "list",
-      "impact": "serious",
-      "nodes": 1
-    },
-    {
-      "page": "compare",
-      "rule": "listitem",
-      "impact": "serious",
-      "nodes": 7
-    },
-    {
-      "page": "methods",
-      "rule": "aria-allowed-attr",
-      "impact": "critical",
-      "nodes": 2
-    },
-    {
-      "page": "methods",
-      "rule": "list",
-      "impact": "serious",
-      "nodes": 1
-    },
-    {
-      "page": "methods",
-      "rule": "listitem",
-      "impact": "serious",
-      "nodes": 7
     }
   ],
   "flows": [
-    "home",
-    "price check with real model and PDF download",
-    "unit comparison",
-    "offline food lookup",
-    "shrinkflation case"
+    "dashboard with real model, section navigation and PDF download",
+    "unit comparison on the dashboard",
+    "shrinkflation case",
+    "offline food lookup"
   ],
   "scope": "Local chrome; three viewport emulations. WebKit is not branded Safari; emulation is not a physical device."
 }
