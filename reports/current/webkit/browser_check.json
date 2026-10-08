@@ -1,10 +1,13 @@
 {
-  "generated_at": "2026-10-07T08:34:15.837339+00:00",
+  "generated_at": "2026-10-08T05:31:00.819490+00:00",
   "url": "http://127.0.0.1:8501",
   "browser": "26.6",
   "engine": "webkit",
-  "initial_visible_load_seconds": 0.5066319160105195,
+  "initial_analysed_dashboard_seconds": 1.0843442579999873,
   "javascript_errors": [],
+  "benign_browser_notices": [
+    "ResizeObserver loop completed with undelivered notifications."
+  ],
   "viewports": [
     {
       "width": 1440,
@@ -24,11 +27,10 @@
   ],
   "accessibility_serious_or_critical": null,
   "flows": [
-    "home",
-    "price check with real model and PDF download",
-    "unit comparison",
-    "offline food lookup",
-    "shrinkflation case"
+    "dashboard with real model, section navigation and PDF download",
+    "unit comparison on the dashboard",
+    "shrinkflation case",
+    "offline food lookup"
   ],
   "scope": "Local webkit; three viewport emulations. WebKit is not branded Safari; emulation is not a physical device."
 }

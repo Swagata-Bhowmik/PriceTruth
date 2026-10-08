@@ -1,39 +1,39 @@
 {
-  "generated_at": "2026-10-07T08:34:26.926024+00:00",
+  "generated_at": "2026-10-08T05:31:46.695112+00:00",
   "url": "http://127.0.0.1:8501",
   "waves": [
     {
-      "users": 1,
-      "successful": 1,
-      "wall_seconds": 1.5887255419802386,
+      "users": 10,
+      "successful": 10,
+      "wall_seconds": 11.207665730999992,
       "errors": [],
       "page_ready_s": {
-        "median": 0.9209187920205295,
-        "p95": 0.9209187920205295,
-        "max": 0.9209187920205295
+        "median": 8.886242011500002,
+        "p95": 10.6462698558,
+        "max": 10.794654699000006
       },
       "verdict_s": {
-        "median": 1.5841438330244273,
-        "p95": 1.5841438330244273,
-        "max": 1.5841438330244273
+        "median": 10.321284471499993,
+        "p95": 11.116515092000022,
+        "max": 11.200943183000021
       }
     },
     {
-      "users": 10,
-      "successful": 10,
-      "wall_seconds": 6.8527475419978146,
+      "users": 25,
+      "successful": 25,
+      "wall_seconds": 20.06328344399998,
       "errors": [],
       "page_ready_s": {
-        "median": 3.7992585835017962,
-        "p95": 4.327197406401683,
-        "max": 4.345227874990087
+        "median": 19.53108246900001,
+        "p95": 19.95741120539999,
+        "max": 20.004596970999984
       },
       "verdict_s": {
-        "median": 6.364531292012543,
-        "p95": 6.763344166598108,
-        "max": 6.849509416002547
+        "median": 19.864547630999994,
+        "p95": 20.035153128399987,
+        "max": 20.053435344999997
       }
     }
   ],
-  "scope": "Simultaneous headless browser sessions from one client machine; client CPU and network also limit results. Each user loads the page and completes one model+SHAP price check."
+  "scope": "Simultaneous headless browser sessions from one client machine; client CPU and network also limit results. Each user opens the dashboard and waits for the analysed default product (model, SHAP, discount check and offers)."
 }

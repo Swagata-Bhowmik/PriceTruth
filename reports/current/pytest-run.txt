@@ -1,35 +1,35 @@
 ============================= test session starts ==============================
-platform darwin -- Python 3.12.0, pytest-9.0.3, pluggy-1.6.0
-rootdir: /Users/krishsoni/Documents/price-truth
+platform linux -- Python 3.12.15, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/runner/work/PriceTruth/PriceTruth
 configfile: pyproject.toml
 testpaths: tests
-plugins: cov-7.1.0, anyio-4.12.1, asyncio-1.4.0
-asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collected 407 items
+plugins: platformdirs-4.12.4, cov-7.1.0, anyio-4.15.1
+collected 416 items
 
 tests/test_app.py ..................                                     [  4%]
 tests/test_calculations.py ............................................. [ 15%]
 ......                                                                   [ 16%]
-tests/test_data.py ......................                                [ 22%]
+tests/test_data.py ......................                                [ 21%]
 tests/test_evidence_store.py ..............                              [ 25%]
-tests/test_forecast.py ..........................                        [ 32%]
-tests/test_model.py .....                                                [ 33%]
+tests/test_forecast.py ..........................                        [ 31%]
+tests/test_logs.py ..                                                    [ 31%]
+tests/test_model.py ......                                               [ 33%]
 tests/test_observations.py ............................................. [ 44%]
-.......................................                                  [ 54%]
+.......................................                                  [ 53%]
 tests/test_offers.py ................                                    [ 57%]
-tests/test_present.py ............                                       [ 60%]
+tests/test_present.py ...............                                    [ 61%]
 tests/test_price_api.py ........................................         [ 70%]
 tests/test_review_fixes.py ......                                        [ 72%]
-tests/test_review_fixes_domain.py ...............                        [ 75%]
-tests/test_search.py ...........                                         [ 78%]
+tests/test_review_fixes_domain.py ................                       [ 75%]
+tests/test_search.py ............                                        [ 78%]
 tests/test_services.py ................................................. [ 90%]
                                                                          [ 90%]
-tests/test_synthetic.py ..............                                   [ 94%]
+tests/test_synthetic.py ...............                                  [ 94%]
 tests/test_workspace_evidence.py ........................                [100%]
 
-- generated xml file: /Users/krishsoni/Documents/price-truth/reports/current/pytest.xml -
+- generated xml file: /home/runner/work/PriceTruth/PriceTruth/reports/current/pytest.xml -
 ================================ tests coverage ================================
-_______________ coverage: platform darwin, python 3.12.0-final-0 _______________
+_______________ coverage: platform linux, python 3.12.15-final-0 _______________
 
-Coverage JSON written to file /Users/krishsoni/Documents/price-truth/reports/current/coverage.json
-============================= 407 passed in 19.08s =============================
+Coverage JSON written to file /home/runner/work/PriceTruth/PriceTruth/reports/current/coverage.json
+============================= 416 passed in 22.91s =============================

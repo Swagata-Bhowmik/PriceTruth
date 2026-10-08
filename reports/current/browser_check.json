@@ -1,10 +1,11 @@
 {
-  "generated_at": "2026-10-08T05:02:05.503452+00:00",
-  "url": "http://127.0.0.1:8502",
+  "generated_at": "2026-10-08T05:30:25.167190+00:00",
+  "url": "http://127.0.0.1:8501",
   "browser": "153.0.8010.12",
   "engine": "chrome",
-  "initial_analysed_dashboard_seconds": 0.7181782000698149,
+  "initial_analysed_dashboard_seconds": 3.619876349000009,
   "javascript_errors": [],
+  "benign_browser_notices": [],
   "viewports": [
     {
       "width": 1440,
@@ -25,21 +26,15 @@
   "accessibility_serious_or_critical": [
     {
       "page": "dashboard",
-      "rule": "scrollable-region-focusable",
-      "impact": "serious",
-      "nodes": 5
-    },
-    {
-      "page": "food",
-      "rule": "color-contrast",
-      "impact": "serious",
+      "rule": "aria-allowed-attr",
+      "impact": "critical",
       "nodes": 1
     },
     {
-      "page": "food",
-      "rule": "scrollable-region-focusable",
-      "impact": "serious",
-      "nodes": 1
+      "page": "methods",
+      "rule": "aria-allowed-attr",
+      "impact": "critical",
+      "nodes": 3
     }
   ],
   "flows": [
